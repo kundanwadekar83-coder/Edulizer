@@ -224,11 +224,13 @@ footer {
 
     /* २. हॅम्बर्गर आयकॉन दाखवणे */
     #menu-btn {
-        display: block !important;
-        font-size: 1.5rem;
-        cursor: pointer;
-        color: var(--primary);
-    }
+    display: block !important;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: var(--primary);
+    position: relative; /* हे ॲड कर */
+    z-index: 1001;      /* हे साईडबारपेक्षा (१०००) जास्त असायला हवं */
+}
 
     /* ३. साईडबारला 'Drawer' मध्ये बदलणे */
     .sidebar {
