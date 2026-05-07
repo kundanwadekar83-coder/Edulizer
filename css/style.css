@@ -288,3 +288,62 @@ footer {
 
 /* डेस्कटॉपवर आयकॉन लपवण्यासाठी */
 #menu-btn { display: none; }
+
+/* नेव्हबारचे स्ट्रक्चर */
+nav {
+    display: flex;
+    justify-content: space-between; /* डावी आणि उजवी बाजू टोकाला ढकलणे */
+    align-items: center;
+    padding: 0.8rem 5%;
+    background: var(--card);
+    border-bottom: 1px solid var(--border);
+}
+
+.nav-left {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.nav-right {
+    display: flex;
+    align-items: center;
+    gap: 20px; /* नाव आणि बटणमधील अंतर */
+}
+
+/* युजर नावासाठी स्टाईल (Bold आणि सुटसुटीत) */
+.user-name {
+    font-weight: 700; /* Bold करण्यासाठी */
+    color: var(--text);
+    font-size: 0.95rem;
+}
+
+/* लॉगआउट बटण एकसारखे दिसण्यासाठी */
+.btn-logout {
+    padding: 8px 18px;
+    border-radius: 8px;
+    border: 1px solid var(--primary);
+    background: transparent;
+    color: var(--primary);
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.3s;
+    font-size: 0.85rem;
+}
+
+.btn-logout:hover {
+    background: var(--primary);
+    color: white;
+}
+
+/* मोबाईलसाठी विशेष सेटिंग */
+@media (max-width: 768px) {
+    .user-name {
+        font-size: 0.85rem;
+    }
+    .btn-logout {
+        padding: 5px 12px;
+        font-size: 0.75rem;
+    }
+    }
+    
