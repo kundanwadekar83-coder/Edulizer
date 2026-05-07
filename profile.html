@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="mr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>माझी प्रोफाइल | Edulizer</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .dashboard-layout { display: flex; min-height: 100vh; }
+        .sidebar { width: 250px; background: var(--card); border-right: 1px solid var(--border); padding: 20px; position: sticky; top: 70px; height: calc(100vh - 70px); }
+        .main-panel { flex: 1; padding: 40px; background: #f1f5f9; }
+        .nav-item { padding: 12px 15px; border-radius: 10px; color: var(--secondary); text-decoration: none; display: flex; align-items: center; gap: 12px; margin-bottom: 8px; font-weight: 500; }
+        .nav-item.active { background: var(--primary); color: white; }
+        .profile-card { background: white; padding: 30px; border-radius: 20px; max-width: 600px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <div class="logo"><i class="fas fa-bolt"></i> Edulizer</div>
+        <div class="user-info">
+            <span id="userNameDisplay" style="font-weight: 600; margin-right: 15px;">विद्यार्थी</span>
+            <button onclick="logout()" class="btn-outline" style="padding: 5px 15px; font-size: 0.8rem;">Logout</button>
+        </div>
+    </nav>
+
+    <div class="dashboard-layout">
+        <div class="sidebar">
+            <a href="dashboard.html" class="nav-item"><i class="fas fa-home"></i> रोडमॅप</a>
+            <a href="college-list.html" class="nav-item"><i class="fas fa-university"></i> कॉलेज लिस्ट</a>
+            <a href="profile.html" class="nav-item active"><i class="fas fa-user-circle"></i> प्रोफाइल</a>
+        </div>
+
+        <div class="main-panel">
+            <div class="profile-card">
+                <h2>तुमची प्रोफाइल</h2>
+                <p style="color: var(--secondary); margin-bottom: 25px;">तुमची वैयक्तिक आणि शैक्षणिक माहिती येथे बदला.</p>
+                
+                <form id="profileForm">
+                    <div class="form-group">
+                        <label>पूर्ण नाव</label>
+                        <input type="text" id="profName">
+                    </div>
+                    <div class="form-group">
+                        <label>ईमेल (बदलता येणार नाही)</label>
+                        <input type="email" id="profEmail" disabled style="background: #eee;">
+                    </div>
+                    <div class="form-group">
+                        <label>कॅटेगरी</label>
+                        <select id="profCat">
+                            <option value="Open">Open</option>
+                            <option value="OBC">OBC</option>
+                            <option value="SC/ST">SC / ST</option>
+                            <option value="VJNT">VJ / NT / EWS</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>स्टेट मेरिट रँक (SML)</label>
+                        <input type="number" id="profRank" placeholder="उदा. 12500">
+                    </div>
+                    <button type="submit" class="btn btn-primary" style="width: 100%;">माहिती अपडेट करा</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // प्रोफाइल डेटा लोड करणे
+        const user = JSON.parse(localStorage.getItem('currentUser'));
+        if(user) {
+            document.getElementById('userNameDisplay').innerText = user.name;
+            document.getElementById('profName').value = user.name;
+            document.getElementById('profEmail').value = user.email;
+            document.getElementById('profCat').value = user.category || "Open";
+            document.getElementById('profRank').value = user.rank || "";
+        }
+
+        // प्रोफाइल अपडेट लॉजिक
+        document.getElementById('profileForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            user.name = document.getElementById('profName').value;
+            user.category = document.getElementById('profCat').value;
+            user.rank = document.getElementById('profRank').value;
+
+            localStorage.setItem('currentUser', JSON.stringify(user));
+            // मूळ डेटाबेस (localstorage index) देखील अपडेट करणे
+            localStorage.setItem('user_' + user.email, JSON.stringify(user));
+            
+            alert('माहिती अपडेट झाली!');
+            location.reload();
+        });
+
+        function logout() { localStorage.removeItem('currentUser'); window.location.href = 'login.html'; }
+    </script>
+</body>
+                      </html>
+  
