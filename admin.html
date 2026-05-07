@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="mr">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin Panel | Edulizer</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body style="padding: 50px;">
+    <div style="max-width: 900px; margin: auto;">
+        <h1>Admin Control Room</h1>
+        <hr style="margin: 20px 0;">
+        
+        <div id="adminAuth">
+            <h3>Secret Access Code टाका:</h3>
+            <input type="password" id="adminPass" style="width: 200px; margin-right: 10px;">
+            <button onclick="checkAdmin()" class="btn btn-primary">प्रवेश करा</button>
+        </div>
+
+        <div id="adminContent" style="display: none;">
+            <h3>एकूण जोडलेली कॉलेजेस:</h3>
+            <div id="stats" style="padding: 20px; background: white; border-radius: 10px; margin-top: 20px;">
+                </div>
+            <button onclick="clearAllData()" class="btn-outline" style="margin-top: 20px; color: red; border-color: red;">सर्व डेटा डिलीट करा (Reset App)</button>
+        </div>
+    </div>
+
+    <script>
+        function checkAdmin() {
+            const pass = document.getElementById('adminPass').value;
+            if(pass === "Edulizer@2026") { // हा तुझा गुप्त पासवर्ड
+                document.getElementById('adminAuth').style.display = "none";
+                document.getElementById('adminContent').style.display = "block";
+                loadStats();
+            } else {
+                alert("चुकीचा पासवर्ड!");
+            }
+        }
+
+        function loadStats() {
+            const colleges = JSON.parse(localStorage.getItem('edulizer_colleges')) || [];
+            document.getElementById('stats').innerHTML = `
+                <p>एकूण कॉलेजेसची संख्या: <strong>${colleges.length}</strong></p>
+                <p>सर्वात जास्त फी असलेले कॉलेज शोधण्यासाठी डेटा प्रोसेस होत आहे...</p>
+            `;
+        }
+
+        function clearAllData() {
+            if(confirm("सावधान! सर्व युजर डेटा आणि लिस्ट डिलीट होईल. खात्री आहे?")) {
+                localStorage.clear();
+                alert("सर्व डेटा साफ झाला!");
+                location.reload();
+            }
+        }
+    </script>
+</body>
+</html>
