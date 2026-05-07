@@ -232,9 +232,61 @@ footer {
     }
 
     /* ३. डॅशबोर्ड लेआऊट (Main Change) */
+
     .dashboard-layout {
-        flex-direction: column; /* साईडबार वर येईल */
+        display: flex;
+        flex-direction: column;
     }
+
+    /* १. साईडबार: लहान आणि सुटसुटीत */
+    .sidebar {
+        width: 100% !important;
+        height: auto !important;
+        position: relative !important;
+        display: grid !important;
+        grid-template-columns: repeat(3, 1fr); /* आता ३ बॉक्सेस एका लाईनमध्ये */
+        gap: 8px;
+        padding: 12px;
+        background: #fff;
+        border-bottom: 1px solid #eee;
+        top: 0 !important;
+    }
+
+    /* २. प्रत्येक मेनू बॉक्स: लहान आणि प्रीमियम */
+    .nav-item {
+        flex-direction: column !important;
+        height: 70px !important; /* उंची कमी केली */
+        padding: 10px 5px !important;
+        border-radius: 10px !important;
+        background: #f9f9fb !important;
+        border: 1px solid #f0f0f5 !important;
+        font-size: 0.75rem !important; /* अक्षरं थोडी लहान */
+        box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+    }
+
+    /* ३. आयकॉनची साईज सेट केली */
+    .nav-item i {
+        font-size: 1.2rem !important;
+        margin-bottom: 4px !important;
+    }
+
+    /* ४. ॲक्टिव्ह बॉक्सचा रंग */
+    .nav-item.active {
+        background: var(--primary) !important;
+        color: white !important;
+        border-color: var(--primary) !important;
+    }
+
+    /* ५. मेन कंटेंटमधील कार्ड्सना थोडी जागा दिली */
+    .main-panel {
+        padding: 15px !important;
+    }
+
+    .roadmap-card {
+        padding: 20px !important;
+        border-radius: 15px !important;
+    }
+}
 
     /* ४. साईडबार आता ग्रिड बॉक्सेस मध्ये दिसेल */
        /* मोबाईलवर साईडबार पूर्णपणे वर आणण्यासाठी */
