@@ -17,15 +17,17 @@
 </head>
 <body>
 
-   <nav>
-    <div class="logo">
+ <nav>
+    <div class="nav-left">
         <i class="fas fa-bars" id="menu-btn"></i> 
-        <i class="fas fa-bolt"></i> Edulizer
+        <div class="logo">
+            <i class="fas fa-bolt"></i> Edulizer
+        </div>
     </div>
 
-    <div class="user-nav-info">
-        <span id="userNameDisplay">विद्यार्थी</span>
-        <button onclick="logout()" class="btn-outline">Logout</button>
+    <div class="nav-right">
+        <span id="userNameDisplay" class="user-name">विद्यार्थी</span>
+        <button onclick="logout()" class="btn-logout">Logout</button>
     </div>
 </nav>
 
