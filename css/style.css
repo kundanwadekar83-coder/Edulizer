@@ -363,11 +363,81 @@ nav {
 }
 
 /* मोबाईलसाठी सेटिंग */
+/* --- Navigation & Header Styling --- */
+nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 5%;
+    background: #ffffff;
+    border-bottom: 1px solid var(--border);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+.nav-left {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+#menu-btn {
+    font-size: 1.4rem;
+    color: var(--primary);
+    cursor: pointer;
+    display: none; /* डेस्कटॉपवर लपवण्यासाठी */
+}
+
+.nav-right {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.user-greet {
+    text-align: right;
+    line-height: 1.1;
+}
+
+.user-greet .hey {
+    font-size: 0.7rem;
+    color: var(--secondary);
+    display: block;
+}
+
+.user-greet .user-name {
+    font-size: 1rem;
+    font-weight: 800;
+    background: linear-gradient(45deg, #4f46e5, #9333ea);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    display: block;
+}
+
+.btn-logout-red {
+    background: #fff1f2;
+    color: #e11d48;
+    border: 1px solid #fecdd3;
+    padding: 8px 16px;
+    border-radius: 10px;
+    font-weight: 700;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.85rem;
+    transition: 0.3s;
+}
+
+.btn-logout-red:hover {
+    background: #e11d48;
+    color: white;
+}
+
+/* मोबाईलसाठी (768px) */
 @media (max-width: 768px) {
-    .user-greet {
-        display: none; /* मोबाईलवर फक्त बटन ठेवू जेणेकरून जागा वाचेल */
-    }
-    .logo {
-        font-size: 1.3rem !important;
-    }
+    #menu-btn { display: block !important; }
+    .user-greet { display: none; } /* मोबाईलवर नाव लपवून फक्त बटण ठेवले */
+    nav { padding: 10px 4% !important; }
 }
