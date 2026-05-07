@@ -83,3 +83,24 @@ function deleteCollege(id) {
         saveAndRefresh();
     }
                                                          }
+// --- मोबाईल हॅम्बर्गर मेनूसाठी लॉजिक ---
+document.addEventListener('DOMContentLoaded', () => {
+    const menuBtn = document.getElementById('menu-btn');
+    const sidebar = document.querySelector('.sidebar');
+
+    if (menuBtn && sidebar) {
+        // ३ रेघांच्या बटणावर क्लिक केल्यावर मेनू उघडण्यासाठी
+        menuBtn.addEventListener('click', (e) => {
+            sidebar.classList.toggle('active');
+            e.stopPropagation(); 
+        });
+
+        // मेनूच्या बाहेर कुठेही क्लिक केल्यास तो बंद व्हावा म्हणून
+        document.addEventListener('click', (e) => {
+            if (!sidebar.contains(e.target) && !menuBtn.contains(e.target)) {
+                sidebar.classList.remove('active');
+            }
+        });
+    }
+});
+                            
