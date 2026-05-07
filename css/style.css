@@ -288,62 +288,86 @@ footer {
 
 /* डेस्कटॉपवर आयकॉन लपवण्यासाठी */
 #menu-btn { display: none; }
-
-/* नेव्हबारचे स्ट्रक्चर */
+/* --- Header Styling --- */
 nav {
     display: flex;
-    justify-content: space-between; /* डावी आणि उजवी बाजू टोकाला ढकलणे */
+    justify-content: space-between;
     align-items: center;
-    padding: 0.8rem 5%;
-    background: var(--card);
-    border-bottom: 1px solid var(--border);
+    padding: 0.8rem 4%;
+    background: #ffffff;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05); /* हलकी सावली */
 }
 
 .nav-left {
     display: flex;
     align-items: center;
-    gap: 15px;
+    gap: 12px; /* 3 lines आणि logo मधील अंतर */
 }
 
-.nav-right {
+#menu-btn {
+    font-size: 1.4rem;
+    color: var(--primary);
+    cursor: pointer;
+    padding: 8px;
+    border-radius: 8px;
+    transition: 0.3s;
+}
+
+#menu-btn:hover {
+    background: #f0f0ff;
+}
+
+/* --- Welcome User Section --- */
+.user-greet {
+    display: flex;
+    flex-direction: column; /* Hi आणि नाव एकाखाली एक (Professional लूक) */
+    text-align: right;
+    margin-right: 15px;
+}
+
+.user-greet .hey {
+    font-size: 0.75rem;
+    color: var(--secondary);
+    font-weight: 500;
+    margin-bottom: -4px;
+}
+
+.user-greet .user-name {
+    font-size: 1rem;
+    font-weight: 800; /* एकदम Bold नाव */
+    color: var(--text);
+    background: linear-gradient(45deg, #4f46e5, #9333ea); /* Gradient कलर */
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+/* --- Red Logout Button --- */
+.btn-logout-red {
+    background: #fff1f2; /* हलका लाल बॅकग्राउंड */
+    color: #e11d48;    /* गडद लाल टेक्स्ट */
+    border: 1px solid #fecdd3;
+    padding: 8px 16px;
+    border-radius: 10px;
+    font-weight: 700;
+    cursor: pointer;
     display: flex;
     align-items: center;
-    gap: 20px; /* नाव आणि बटणमधील अंतर */
-}
-
-/* युजर नावासाठी स्टाईल (Bold आणि सुटसुटीत) */
-.user-name {
-    font-weight: 700; /* Bold करण्यासाठी */
-    color: var(--text);
-    font-size: 0.95rem;
-}
-
-/* लॉगआउट बटण एकसारखे दिसण्यासाठी */
-.btn-logout {
-    padding: 8px 18px;
-    border-radius: 8px;
-    border: 1px solid var(--primary);
-    background: transparent;
-    color: var(--primary);
-    font-weight: 600;
-    cursor: pointer;
+    gap: 8px;
     transition: 0.3s;
-    font-size: 0.85rem;
 }
 
-.btn-logout:hover {
-    background: var(--primary);
+.btn-logout-red:hover {
+    background: #e11d48;
     color: white;
+    box-shadow: 0 4px 12px rgba(225, 29, 72, 0.3);
 }
 
-/* मोबाईलसाठी विशेष सेटिंग */
+/* मोबाईलसाठी सेटिंग */
 @media (max-width: 768px) {
-    .user-name {
-        font-size: 0.85rem;
+    .user-greet {
+        display: none; /* मोबाईलवर फक्त बटन ठेवू जेणेकरून जागा वाचेल */
     }
-    .btn-logout {
-        padding: 5px 12px;
-        font-size: 0.75rem;
+    .logo {
+        font-size: 1.3rem !important;
     }
-    }
-    
+}
