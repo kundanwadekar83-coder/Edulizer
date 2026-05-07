@@ -27,17 +27,19 @@
 </head>
 <body>
 
-    <nav>
+   <nav>
+    <div class="nav-left">
+        <i class="fas fa-bars" id="menu-btn"></i> 
         <div class="logo">
-    <i class="fas fa-bars" id="menu-btn"></i> 
-    <i class="fas fa-bolt"></i> Edulizer
-</div>
-
-        <div class="user-info">
-            <span id="userNameDisplay" style="font-weight: 600; margin-right: 15px;">विद्यार्थी</span>
-            <button onclick="logout()" class="btn-outline" style="padding: 5px 15px; font-size: 0.8rem;">Logout</button>
+            <i class="fas fa-bolt"></i> Edulizer
         </div>
-    </nav>
+    </div>
+
+    <div class="nav-right">
+        <span id="userNameDisplay" class="user-name">विद्यार्थी</span>
+        <button onclick="logout()" class="btn-logout">Logout</button>
+    </div>
+</nav>
 
     <div class="dashboard-layout">
         <div class="sidebar">
