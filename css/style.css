@@ -221,3 +221,87 @@ footer {
     .btn { padding: 8px 16px; font-size: 0.85rem; }
       }
   
+/* --- Mobile Responsiveness (मोबाईलसाठी बदल) --- */
+
+@media (max-width: 768px) {
+    /* १. नेव्हिगेशन बार */
+    nav {
+        padding: 10px 5%;
+        flex-direction: column; /* लोगो आणि बटन्स एकाखाली एक */
+        gap: 15px;
+        text-align: center;
+    }
+
+    /* २. हिरो सेक्शन (Main Title) */
+    .hero {
+        padding: 50px 5%;
+    }
+
+    .hero h1 {
+        font-size: 2rem; /* फॉन्ट साईज कमी केली जेणेकरून कट होणार नाही */
+        line-height: 1.2;
+    }
+
+    .hero p {
+        font-size: 1rem;
+    }
+
+    .hero-btns {
+        flex-direction: column; /* बटन्स एकाखाली एक */
+        width: 100%;
+    }
+
+    .btn {
+        width: 100%; /* बटन्सची रुंदी पूर्ण केली */
+        text-align: center;
+    }
+
+    /* ३. फीचर्स सेक्शन */
+    .features {
+        grid-template-columns: 1fr; /* ३ कॉलम ऐवजी १ कॉलम */
+        padding: 30px 5%;
+    }
+
+    /* ४. डॅशबोर्ड आणि कॉलेज लिस्ट (Layout Fix) */
+    .dashboard-layout {
+        flex-direction: column; /* साईडबार वर आणि कंटेंट खाली */
+    }
+
+    .sidebar {
+        width: 100%;
+        height: auto;
+        position: relative;
+        top: 0;
+        display: flex;
+        overflow-x: auto; /* मेनू आडवा स्क्रोल होईल */
+        padding: 10px;
+        gap: 10px;
+    }
+
+    .nav-item {
+        white-space: nowrap; /* मेनूचं नाव तुटणार नाही */
+        padding: 8px 15px;
+    }
+
+    .main-panel {
+        padding: 20px 5%;
+    }
+
+    /* ५. टेबल फिक्स (मोबाईलवर टेबल वाचता येण्यासाठी) */
+    .college-table {
+        display: block;
+        overflow-x: auto; /* टेबल आडवा स्क्रोल होईल, स्क्रीनच्या बाहेर जाणार नाही */
+    }
+
+    .grid-3 {
+        grid-template-columns: 1fr; /* फॉर्मचे ३ बॉक्स एकाखाली एक येतील */
+    }
+
+    /* ६. ऑथ कंटेनर (Login/Register) */
+    .auth-container {
+        margin: 40px 5%;
+        padding: 25px;
+        width: auto;
+    }
+    }
+        
