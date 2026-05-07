@@ -69,5 +69,20 @@
             }
         }
     </script>
+    <script>
+    // १. सर्वात आधी ही सुरक्षा ओळ टाका (Uncomment करून)
+    if (document.referrer.indexOf("admin-login.html") === -1) {
+        alert("कृपया आधी लॉगिन करा!");
+        window.location.href = "admin-login.html";
+    }
+
+    // २. यानंतर तुझे बाकीचे फंक्शन्स (checkAdmin, loadStats इ.) असतील
+    function loadStats() {
+        // ... तुझा जुना कोड
+    }
+    
+    // ... बाकीचा सर्व कोड
+    </script>
+    
 </body>
 </html>
