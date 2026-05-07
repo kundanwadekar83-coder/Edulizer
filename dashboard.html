@@ -6,112 +6,126 @@
     <title>Dashboard | Edulizer</title>
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        /* डॅशबोर्डसाठी काही खास एक्स्ट्रा स्टाईल्स */
-        .dashboard-layout { display: flex; min-height: 100vh; }
-        .sidebar { width: 250px; background: var(--card); border-right: 1px solid var(--border); padding: 20px; position: sticky; top: 70px; height: calc(100vh - 70px); }
-        .main-panel { flex: 1; padding: 40px; background: #f1f5f9; }
-        .nav-item { padding: 12px 15px; border-radius: 10px; color: var(--secondary); text-decoration: none; display: flex; align-items: center; gap: 12px; margin-bottom: 8px; font-weight: 500; }
-        .nav-item.active { background: var(--primary); color: white; }
-        .nav-item:hover:not(.active) { background: #f1f5f9; color: var(--primary); }
-        
-        /* Timeline Styles */
-        .roadmap-card { background: white; padding: 30px; border-radius: 20px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); }
-        .step { position: relative; padding-left: 45px; margin-bottom: 30px; }
-        .step::before { content: ""; position: absolute; left: 15px; top: 0; bottom: -30px; width: 2px; background: var(--border); }
-        .step:last-child::before { display: none; }
-        .step-icon { position: absolute; left: 0; top: 0; width: 32px; height: 32px; background: white; border: 2px solid var(--border); border-radius: 50%; display: flex; align-items: center; justify-content: center; z-index: 1; font-size: 14px; }
-        .step.done .step-icon { background: var(--success); border-color: var(--success); color: white; }
-        .step.done::before { background: var(--success); }
-    </style>
 </head>
 <body>
 
-   <nav>
-    <div class="nav-left">
-        <i class="fas fa-bars" id="menu-btn"></i> 
-        <div class="logo">
-            <i class="fas fa-bolt"></i> Edulizer
+    <nav>
+        <div class="nav-left">
+            <i class="fas fa-bars" id="menu-btn"></i>
+            <div class="logo"><i class="fas fa-bolt"></i> Edulizer</div>
         </div>
-    </div>
-
-    <div class="nav-right">
-        <div class="user-greet">
-            <span class="hey">Hi,</span>
-            <span id="userNameDisplay" class="user-name">लोड होत आहे...</span>
+        <div class="nav-right">
+            <span id="navUserName" style="margin-right: 15px; font-weight: 600;">विद्यार्थी</span>
+            <button onclick="logout()" class="btn-logout-red">Logout</button>
         </div>
-        <button onclick="logout()" class="btn-logout-red">
-            <i class="fas fa-sign-out-alt"></i> Logout
-        </button>
-    </div>
-</nav>
+    </nav>
 
     <div class="dashboard-layout">
         <div class="sidebar">
-            <a href="dashboard.html" class="nav-item active"><i class="fas fa-home"></i> रोडमॅप</a>
+            <a href="dashboard.html" class="nav-item active"><i class="fas fa-home"></i> होम</a>
             <a href="college-list.html" class="nav-item"><i class="fas fa-university"></i> कॉलेज लिस्ट</a>
-            <a href="profile.html" class="nav-item"><i class="fas fa-user-circle"></i> प्रोफाइल</a>
+            <a href="profile.html" class="nav-item"><i class="fas fa-user"></i> माझे प्रोफाइल</a>
+            <a href="#" class="nav-item"><i class="fas fa-file-invoice"></i> डॉक्युमेंट्स</a>
         </div>
 
         <div class="main-panel">
-            <div class="roadmap-card">
-                <h2 style="margin-bottom: 10px;">ॲडमिशन रोडमॅप २०२६</h2>
-                <p style="color: var(--secondary); margin-bottom: 30px;">प्रक्रिया पूर्ण झाल्यावर टिक करा.</p>
+            
+            <div class="welcome-banner" style="background: linear-gradient(135deg, #4f46e5, #9333ea); color: white; padding: 30px; border-radius: 20px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px;">
+                <div>
+                    <h1 style="font-size: 1.8rem; margin-bottom: 8px;">नमस्कार, <span id="displayUserName">विद्यार्थी</span>! 👋</h1>
+                    <p style="opacity: 0.9;">तुमच्या इंजिनिअरिंग प्रवेशाचा प्रवास इथून सुरू होतो.</p>
+                </div>
+                <i class="fas fa-graduation-cap" style="font-size: 3.5rem; opacity: 0.3;"></i>
+            </div>
 
-                <div id="roadmapContainer">
-                    <div class="step" id="s1">
-                        <div class="step-icon">1</div>
-                        <h4>ऑनलाईन रजिस्ट्रेशन</h4>
-                        <p style="font-size: 0.85rem; color: var(--secondary);">CET सेलच्या पोर्टलवर फॉर्म भरणे.</p>
-                        <input type="checkbox" onchange="toggleStep('s1')" style="width: auto; margin-top: 5px;"> Done
-                    </div>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin-bottom: 30px;">
+                <div class="card" style="border-left: 5px solid #4f46e5;">
+                    <p style="color: var(--secondary); font-size: 0.9rem;">निवडलेली कॉलेजेस</p>
+                    <h2 id="colCount" style="font-size: 2rem; margin: 5px 0;">0</h2>
+                    <a href="college-list.html" style="color: var(--primary); text-decoration: none; font-size: 0.8rem; font-weight: 600;">लिस्ट मॅनेज करा →</a>
+                </div>
+                <div class="card" style="border-left: 5px solid #10b981;">
+                    <p style="color: var(--secondary); font-size: 0.9rem;">प्रोफाईल स्टेटस</p>
+                    <h2 style="font-size: 2rem; margin: 5px 0;">७५%</h2>
+                    <a href="profile.html" style="color: #10b981; text-decoration: none; font-size: 0.8rem; font-weight: 600;">माहिती पूर्ण करा →</a>
+                </div>
+            </div>
 
-                    <div class="step" id="s2">
-                        <div class="step-icon">2</div>
-                        <h4>डॉक्युमेंट व्हेरिफिकेशन</h4>
-                        <p style="font-size: 0.85rem; color: var(--secondary);">E-Scrutiny किंवा Physical Center ला जाऊन कागदपत्रे तपासा.</p>
-                        <input type="checkbox" onchange="toggleStep('s2')" style="width: auto; margin-top: 5px;"> Done
-                    </div>
-
-                    <div class="step" id="s3">
-                        <div class="step-icon">3</div>
-                        <h4>मेरिट लिस्ट (Final)</h4>
-                        <p style="font-size: 0.85rem; color: var(--secondary);">तुमचा महाराष्ट्र रँक तपासा.</p>
-                        <input type="checkbox" onchange="toggleStep('s3')" style="width: auto; margin-top: 5px;"> Done
-                    </div>
-
-                    <div class="step" id="s4">
-                        <div class="step-icon">4</div>
-                        <h4>ऑप्शन फॉर्म भरणे</h4>
-                        <p style="font-size: 0.85rem; color: var(--secondary);">कॉलेजचे पसंतीक्रम पोर्टलवर सबमिट करा.</p>
-                        <input type="checkbox" onchange="toggleStep('s4')" style="width: auto; margin-top: 5px;"> Done
+            <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 20px;">
+                
+                <div class="card">
+                    <h3 style="margin-bottom: 15px;"><i class="fas fa-bullhorn" style="color: #f59e0b;"></i> ताज्या अपडेट्स (News)</h3>
+                    <hr style="border: 0; border-top: 1px solid #eee; margin-bottom: 15px;">
+                    <div id="newsFeed">
+                        <div style="padding: 10px; background: #fffbeb; border-radius: 10px; border-left: 4px solid #f59e0b;">
+                            <p style="font-size: 0.9rem; color: #92400e;"><b>नवीन:</b> प्रवेश प्रक्रियेचे अधिकृत वेळापत्रक लवकरच जाहीर होईल. अपडेट राहा!</p>
+                        </div>
                     </div>
                 </div>
+
+                <div>
+                    <div class="card" style="margin-bottom: 20px;">
+                        <h3 style="margin-bottom: 12px; font-size: 1rem;"><i class="fas fa-file-pdf" style="color: #ef4444;"></i> महत्त्वाच्या PDF</h3>
+                        <div id="pdfSection">
+                            <a href="#" class="resource-link"><i class="fas fa-download"></i> कट-ऑफ लिस्ट २०२३</a>
+                            <a href="#" class="resource-link"><i class="fas fa-download"></i> डॉक्युमेंट चेकलिस्ट</a>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <h3 style="margin-bottom: 12px; font-size: 1rem;"><i class="fas fa-link" style="color: #3b82f6;"></i> उपयुक्त लिंक्स</h3>
+                        <a href="https://cetcell.mahacet.org/" target="_blank" class="quick-link">MahaCET Portal</a>
+                        <a href="#" class="quick-link">DTE Maharashtra</a>
+                    </div>
+                </div>
+
             </div>
         </div>
     </div>
 
-    <script>
-        // युजरचे नाव दाखवण्यासाठी
-        const user = JSON.parse(localStorage.getItem('currentUser'));
-        if(user) {
-            document.getElementById('userNameDisplay').innerText = "स्वागत आहे, " + user.name;
-        } else {
-            window.location.href = 'login.html';
-        }
+    <style>
+        .card { background: white; padding: 20px; border-radius: 15px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
+        .resource-link { display: flex; align-items: center; gap: 10px; text-decoration: none; color: var(--text); font-size: 0.85rem; margin-bottom: 10px; padding: 8px; border-radius: 8px; background: #fef2f2; transition: 0.3s; }
+        .resource-link:hover { background: #fee2e2; }
+        .quick-link { display: block; text-decoration: none; background: #f1f5f9; color: var(--primary); padding: 8px; border-radius: 8px; text-align: center; font-size: 0.85rem; margin-bottom: 8px; font-weight: 600; }
+        .quick-link:hover { background: #e2e8f0; }
+    </style>
 
-        // स्टेप पूर्ण झाली की हिरवं करण्यासाठी
-        function toggleStep(id) {
-            document.getElementById(id).classList.toggle('done');
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // १. युजरचं नाव सेट करणे
+            const user = JSON.parse(localStorage.getItem('currentUser')) || { name: "विद्यार्थी" };
+            document.getElementById('displayUserName').innerText = user.name;
+            document.getElementById('navUserName').innerText = user.name;
+
+            // २. कॉलेज संख्या दाखवणे
+            const selected = JSON.parse(localStorage.getItem('selectedColleges')) || [];
+            document.getElementById('colCount').innerText = selected.length;
+
+            // ३. Admin कडून येणाऱ्या बातम्या लोड करणे
+            loadAdminUpdates();
+        });
+
+        function loadAdminUpdates() {
+            const updates = JSON.parse(localStorage.getItem('admin_updates')) || [];
+            const newsFeed = document.getElementById('newsFeed');
+            
+            if(updates.length > 0) {
+                // जुनी डमी न्यूज काढून ऍडमिनची न्यूज दाखवणे
+                newsFeed.innerHTML = ""; 
+                updates.forEach(item => {
+                    const newsDiv = document.createElement('div');
+                    newsDiv.style = "padding: 10px; background: #f0fdf4; border-radius: 10px; border-left: 4px solid #22c55e; margin-bottom: 10px;";
+                    newsDiv.innerHTML = `<p style="font-size: 0.9rem; color: #166534;">${item.text}</p><small style="font-size: 0.7rem; color: #15803d;">${item.date}</small>`;
+                    newsFeed.prepend(newsDiv);
+                });
+            }
         }
 
         function logout() {
             localStorage.removeItem('currentUser');
-            window.location.href = 'login.html';
+            window.location.href = 'index.html';
         }
     </script>
-    <script src="js/college.js"></script> 
-    
 </body>
-  </html>
-                          
+</html>
