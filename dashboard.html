@@ -92,8 +92,28 @@
     </style>
 
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            // १. युजरचं नाव सेट करणे
+       document.addEventListener('DOMContentLoaded', () => {
+    // ... तुझा जुना कोड (नाव, कॉलेज काउंट इ.) ...
+
+    // --- थ्री लाईन मेनू लॉजिक ---
+    const menuBtn = document.getElementById('menu-btn');
+    const sidebar = document.querySelector('.sidebar');
+
+    if (menuBtn && sidebar) {
+        menuBtn.addEventListener('click', () => {
+            sidebar.classList.toggle('active');
+            
+            // बटनचा आयकॉन बदलण्यासाठी (Optional)
+            const icon = menuBtn.querySelector('i') || menuBtn;
+            if (sidebar.classList.contains('active')) {
+                icon.classList.replace('fa-bars', 'fa-times');
+            } else {
+                icon.classList.replace('fa-times', 'fa-bars');
+            }
+        });
+    }
+});
+     // १. युजरचं नाव सेट करणे
             const user = JSON.parse(localStorage.getItem('currentUser')) || { name: "विद्यार्थी" };
             document.getElementById('displayUserName').innerText = user.name;
             document.getElementById('navUserName').innerText = user.name;
