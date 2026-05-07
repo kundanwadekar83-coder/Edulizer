@@ -17,7 +17,7 @@
 </head>
 <body>
 
- <nav>
+<nav>
     <div class="nav-left">
         <i class="fas fa-bars" id="menu-btn"></i> 
         <div class="logo">
@@ -26,8 +26,13 @@
     </div>
 
     <div class="nav-right">
-        <span id="userNameDisplay" class="user-name">विद्यार्थी</span>
-        <button onclick="logout()" class="btn-logout">Logout</button>
+        <div class="user-greet">
+            <span class="hey">Hi,</span>
+            <span id="userNameDisplay" class="user-name">लोड होत आहे...</span>
+        </div>
+        <button onclick="logout()" class="btn-logout-red">
+            <i class="fas fa-sign-out-alt"></i> Logout
+        </button>
     </div>
 </nav>
 
