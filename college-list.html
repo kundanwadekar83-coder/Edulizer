@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="mr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>College List | Edulizer</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .dashboard-layout { display: flex; min-height: 100vh; }
+        .sidebar { width: 250px; background: var(--card); border-right: 1px solid var(--border); padding: 20px; position: sticky; top: 70px; height: calc(100vh - 70px); }
+        .main-panel { flex: 1; padding: 40px; background: #f1f5f9; }
+        .nav-item { padding: 12px 15px; border-radius: 10px; color: var(--secondary); text-decoration: none; display: flex; align-items: center; gap: 12px; margin-bottom: 8px; font-weight: 500; }
+        .nav-item.active { background: var(--primary); color: white; }
+        
+        .form-card { background: white; padding: 25px; border-radius: 15px; margin-bottom: 30px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
+        .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; }
+        
+        .college-table { width: 100%; border-collapse: collapse; background: white; border-radius: 15px; overflow: hidden; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
+        .college-table th { background: #f8fafc; padding: 15px; text-align: left; font-size: 0.8rem; color: var(--secondary); }
+        .college-table td { padding: 15px; border-top: 1px solid var(--border); }
+        
+        .action-btns { display: flex; gap: 10px; }
+        .btn-sm { padding: 5px 10px; font-size: 0.8rem; border-radius: 5px; }
+        .status-tag { padding: 4px 8px; border-radius: 5px; font-size: 0.75rem; font-weight: bold; }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <div class="logo"><i class="fas fa-bolt"></i> Edulizer</div>
+        <div class="user-info">
+            <span id="userNameDisplay" style="font-weight: 600; margin-right: 15px;">विद्यार्थी</span>
+            <button onclick="logout()" class="btn-outline" style="padding: 5px 15px; font-size: 0.8rem;">Logout</button>
+        </div>
+    </nav>
+
+    <div class="dashboard-layout">
+        <div class="sidebar">
+            <a href="dashboard.html" class="nav-item"><i class="fas fa-home"></i> रोडमॅप</a>
+            <a href="college-list.html" class="nav-item active"><i class="fas fa-university"></i> कॉलेज लिस्ट</a>
+            <a href="profile.html" class="nav-item"><i class="fas fa-user-circle"></i> प्रोफाइल</a>
+        </div>
+
+        <div class="main-panel">
+            <h2>माझी कॉलेज लिस्ट</h2>
+            <p style="color: var(--secondary); margin-bottom: 20px;">तुमची पसंतीची कॉलेजेस खालील फॉर्ममधून जोडा.</p>
+
+            <div class="form-card">
+                <form id="collegeForm">
+                    <div class="grid-3">
+                        <div class="form-group">
+                            <label>कॉलेजचे नाव</label>
+                            <input type="text" id="colName" placeholder="उदा. COEP, Pune" required>
+                        </div>
+                        <div class="form-group">
+                            <label>ब्रांच</label>
+                            <input type="text" id="colBranch" placeholder="उदा. Computer Science" required>
+                        </div>
+                        <div class="form-group">
+                            <label>चॉइस कोड</label>
+                            <input type="text" id="colCode" placeholder="9 अंकी कोड" required>
+                        </div>
+                    </div>
+                    <div class="grid-3" style="margin-top: 10px;">
+                        <div class="form-group">
+                            <label>अंदाजे फी (₹)</label>
+                            <input type="number" id="colFee" placeholder="उदा. 120000">
+                        </div>
+                        <div class="form-group">
+                            <label>डॉक्युमेंट अपलोड</label>
+                            <input type="file" id="colFile" style="padding: 8px;">
+                        </div>
+                        <div class="form-group" style="display: flex; align-items: flex-end;">
+                            <button type="submit" class="btn btn-primary" style="width: 100%;">कॉलेज जोडा</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <table class="college-table">
+                <thead>
+                    <tr>
+                        <th>Choice Code</th>
+                        <th>College Name & Branch</th>
+                        <th>Fee</th>
+                        <th>Docs</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="collegeTableBody">
+                    </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script src="js/college.js"></script>
+    <script>
+        // Name display logic
+        const user = JSON.parse(localStorage.getItem('currentUser'));
+        if(user) document.getElementById('userNameDisplay').innerText = user.name;
+        function logout() { localStorage.removeItem('currentUser'); window.location.href = 'login.html'; }
+    </script>
+</body>
+  </html>
+  
