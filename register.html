@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="mr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>नोंदणी | Edulizer</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body style="background: var(--bg);">
+
+    <div class="auth-container">
+        <div class="logo" style="justify-content: center; margin-bottom: 30px;">
+            <i class="fas fa-bolt"></i> Edulizer
+        </div>
+        
+        <h2 style="text-align: center; margin-bottom: 10px; font-weight: 800;">सुरू करूया!</h2>
+        <p style="text-align: center; color: var(--secondary); margin-bottom: 30px; font-size: 0.9rem;">तुमची माहिती भरून खाते तयार करा.</p>
+
+        <form id="registerForm">
+            <div class="form-group">
+                <label><i class="fas fa-user"></i> पूर्ण नाव</label>
+                <input type="text" id="regName" placeholder="उदा. समीर पाटील" required>
+            </div>
+
+            <div class="form-group">
+                <label><i class="fas fa-envelope"></i> ईमेल</label>
+                <input type="email" id="regEmail" placeholder="example@mail.com" required>
+            </div>
+
+            <div class="form-group">
+                <label><i class="fas fa-users"></i> कॅटेगरी</label>
+                <select id="regCat">
+                    <option value="Open">Open</option>
+                    <option value="OBC">OBC</option>
+                    <option value="SC/ST">SC / ST</option>
+                    <option value="VJNT">VJ / NT / EWS</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label><i class="fas fa-lock"></i> पासवर्ड</label>
+                <input type="password" id="regPass" placeholder="किमान ६ अक्षरे" required>
+            </div>
+
+            <button type="submit" class="btn btn-primary" style="width: 100%; padding: 15px; font-size: 1rem; margin-top: 10px;">
+                खाते तयार करा
+            </button>
+        </form>
+
+        <p style="text-align: center; margin-top: 25px; font-size: 0.9rem; color: var(--secondary);">
+            आधीच खाते आहे? <a href="login.html" style="color: var(--primary); font-weight: 600; text-decoration: none;">लॉगिन करा</a>
+        </p>
+    </div>
+
+    <script src="js/auth.js"></script>
+</body>
+  </html>
+      
