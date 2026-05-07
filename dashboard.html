@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="mr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard | Edulizer</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* डॅशबोर्डसाठी काही खास एक्स्ट्रा स्टाईल्स */
+        .dashboard-layout { display: flex; min-height: 100vh; }
+        .sidebar { width: 250px; background: var(--card); border-right: 1px solid var(--border); padding: 20px; position: sticky; top: 70px; height: calc(100vh - 70px); }
+        .main-panel { flex: 1; padding: 40px; background: #f1f5f9; }
+        .nav-item { padding: 12px 15px; border-radius: 10px; color: var(--secondary); text-decoration: none; display: flex; align-items: center; gap: 12px; margin-bottom: 8px; font-weight: 500; }
+        .nav-item.active { background: var(--primary); color: white; }
+        .nav-item:hover:not(.active) { background: #f1f5f9; color: var(--primary); }
+        
+        /* Timeline Styles */
+        .roadmap-card { background: white; padding: 30px; border-radius: 20px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); }
+        .step { position: relative; padding-left: 45px; margin-bottom: 30px; }
+        .step::before { content: ""; position: absolute; left: 15px; top: 0; bottom: -30px; width: 2px; background: var(--border); }
+        .step:last-child::before { display: none; }
+        .step-icon { position: absolute; left: 0; top: 0; width: 32px; height: 32px; background: white; border: 2px solid var(--border); border-radius: 50%; display: flex; align-items: center; justify-content: center; z-index: 1; font-size: 14px; }
+        .step.done .step-icon { background: var(--success); border-color: var(--success); color: white; }
+        .step.done::before { background: var(--success); }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <div class="logo"><i class="fas fa-bolt"></i> Edulizer</div>
+        <div class="user-info">
+            <span id="userNameDisplay" style="font-weight: 600; margin-right: 15px;">विद्यार्थी</span>
+            <button onclick="logout()" class="btn-outline" style="padding: 5px 15px; font-size: 0.8rem;">Logout</button>
+        </div>
+    </nav>
+
+    <div class="dashboard-layout">
+        <div class="sidebar">
+            <a href="dashboard.html" class="nav-item active"><i class="fas fa-home"></i> रोडमॅप</a>
+            <a href="college-list.html" class="nav-item"><i class="fas fa-university"></i> कॉलेज लिस्ट</a>
+            <a href="profile.html" class="nav-item"><i class="fas fa-user-circle"></i> प्रोफाइल</a>
+        </div>
+
+        <div class="main-panel">
+            <div class="roadmap-card">
+                <h2 style="margin-bottom: 10px;">ॲडमिशन रोडमॅप २०२६</h2>
+                <p style="color: var(--secondary); margin-bottom: 30px;">प्रक्रिया पूर्ण झाल्यावर टिक करा.</p>
+
+                <div id="roadmapContainer">
+                    <div class="step" id="s1">
+                        <div class="step-icon">1</div>
+                        <h4>ऑनलाईन रजिस्ट्रेशन</h4>
+                        <p style="font-size: 0.85rem; color: var(--secondary);">CET सेलच्या पोर्टलवर फॉर्म भरणे.</p>
+                        <input type="checkbox" onchange="toggleStep('s1')" style="width: auto; margin-top: 5px;"> Done
+                    </div>
+
+                    <div class="step" id="s2">
+                        <div class="step-icon">2</div>
+                        <h4>डॉक्युमेंट व्हेरिफिकेशन</h4>
+                        <p style="font-size: 0.85rem; color: var(--secondary);">E-Scrutiny किंवा Physical Center ला जाऊन कागदपत्रे तपासा.</p>
+                        <input type="checkbox" onchange="toggleStep('s2')" style="width: auto; margin-top: 5px;"> Done
+                    </div>
+
+                    <div class="step" id="s3">
+                        <div class="step-icon">3</div>
+                        <h4>मेरिट लिस्ट (Final)</h4>
+                        <p style="font-size: 0.85rem; color: var(--secondary);">तुमचा महाराष्ट्र रँक तपासा.</p>
+                        <input type="checkbox" onchange="toggleStep('s3')" style="width: auto; margin-top: 5px;"> Done
+                    </div>
+
+                    <div class="step" id="s4">
+                        <div class="step-icon">4</div>
+                        <h4>ऑप्शन फॉर्म भरणे</h4>
+                        <p style="font-size: 0.85rem; color: var(--secondary);">कॉलेजचे पसंतीक्रम पोर्टलवर सबमिट करा.</p>
+                        <input type="checkbox" onchange="toggleStep('s4')" style="width: auto; margin-top: 5px;"> Done
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // युजरचे नाव दाखवण्यासाठी
+        const user = JSON.parse(localStorage.getItem('currentUser'));
+        if(user) {
+            document.getElementById('userNameDisplay').innerText = "स्वागत आहे, " + user.name;
+        } else {
+            window.location.href = 'login.html';
+        }
+
+        // स्टेप पूर्ण झाली की हिरवं करण्यासाठी
+        function toggleStep(id) {
+            document.getElementById(id).classList.toggle('done');
+        }
+
+        function logout() {
+            localStorage.removeItem('currentUser');
+            window.location.href = 'login.html';
+        }
+    </script>
+</body>
+  </html>
+                          
