@@ -237,18 +237,21 @@ footer {
     }
 
     /* ४. साईडबार आता ग्रिड बॉक्सेस मध्ये दिसेल */
+       /* मोबाईलवर साईडबार पूर्णपणे वर आणण्यासाठी */
     .sidebar {
-        width: 100%;
-        height: auto;
-        position: relative;
-        top: 0;
-        display: grid;
-        grid-template-columns: 1fr 1fr; /* एका ओळीत २ बॉक्स */
+        width: 100% !important;
+        height: auto !important;
+        position: relative !important; /* हे सर्वात महत्त्वाचे आहे, 'sticky' काढून टाकते */
+        top: 0 !important;
+        left: 0 !important;
+        display: grid !important;
+        grid-template-columns: 1fr 1fr; 
         gap: 10px;
         padding: 15px;
-        background: #fff;
-        border-right: none;
-        border-bottom: 2px solid var(--border);
+        background: white;
+        border-right: none !important; /* डावीकडची बॉर्डर काढून टाकली */
+        border-bottom: 2px solid #e2e8f0;
+        z-index: 10;
     }
 
     /* ५. मेनू आयटम्स (Boxes) */
