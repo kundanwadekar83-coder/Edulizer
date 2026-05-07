@@ -91,61 +91,62 @@
         .quick-link:hover { background: #e2e8f0; }
     </style>
 
-    <script>
-       document.addEventListener('DOMContentLoaded', () => {
-    // ... तुझा जुना कोड (नाव, कॉलेज काउंट इ.) ...
+ <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        // --- १. थ्री लाईन मेनू लॉजिक ---
+        const menuBtn = document.getElementById('menu-btn');
+        const sidebar = document.querySelector('.sidebar');
 
-    // --- थ्री लाईन मेनू लॉजिक ---
-    const menuBtn = document.getElementById('menu-btn');
-    const sidebar = document.querySelector('.sidebar');
-
-    if (menuBtn && sidebar) {
-        menuBtn.addEventListener('click', () => {
-            sidebar.classList.toggle('active');
-            
-            // बटनचा आयकॉन बदलण्यासाठी (Optional)
-            const icon = menuBtn.querySelector('i') || menuBtn;
-            if (sidebar.classList.contains('active')) {
-                icon.classList.replace('fa-bars', 'fa-times');
-            } else {
-                icon.classList.replace('fa-times', 'fa-bars');
-            }
-        });
-    }
-});
-     // १. युजरचं नाव सेट करणे
-            const user = JSON.parse(localStorage.getItem('currentUser')) || { name: "विद्यार्थी" };
-            document.getElementById('displayUserName').innerText = user.name;
-            document.getElementById('navUserName').innerText = user.name;
-
-            // २. कॉलेज संख्या दाखवणे
-            const selected = JSON.parse(localStorage.getItem('selectedColleges')) || [];
-            document.getElementById('colCount').innerText = selected.length;
-
-            // ३. Admin कडून येणाऱ्या बातम्या लोड करणे
-            loadAdminUpdates();
-        });
-
-        function loadAdminUpdates() {
-            const updates = JSON.parse(localStorage.getItem('admin_updates')) || [];
-            const newsFeed = document.getElementById('newsFeed');
-            
-            if(updates.length > 0) {
-                // जुनी डमी न्यूज काढून ऍडमिनची न्यूज दाखवणे
-                newsFeed.innerHTML = ""; 
-                updates.forEach(item => {
-                    const newsDiv = document.createElement('div');
-                    newsDiv.style = "padding: 10px; background: #f0fdf4; border-radius: 10px; border-left: 4px solid #22c55e; margin-bottom: 10px;";
-                    newsDiv.innerHTML = `<p style="font-size: 0.9rem; color: #166534;">${item.text}</p><small style="font-size: 0.7rem; color: #15803d;">${item.date}</small>`;
-                    newsFeed.prepend(newsDiv);
-                });
-            }
+        if (menuBtn && sidebar) {
+            menuBtn.addEventListener('click', () => {
+                sidebar.classList.toggle('active');
+                
+                // बटनचा आयकॉन बदलण्यासाठी
+                const icon = menuBtn.querySelector('i') || menuBtn;
+                if (sidebar.classList.contains('active')) {
+                    icon.classList.replace('fa-bars', 'fa-times');
+                } else {
+                    icon.classList.replace('fa-times', 'fa-bars');
+                }
+            });
         }
 
-        function logout() {
+        // --- २. युजरचं नाव सेट करणे ---
+        const user = JSON.parse(localStorage.getItem('currentUser')) || { name: "विद्यार्थी" };
+        document.getElementById('displayUserName').innerText = user.name;
+        document.getElementById('navUserName').innerText = user.name;
+
+        // --- ३. कॉलेज संख्या दाखवणे ---
+        const selected = JSON.parse(localStorage.getItem('selectedColleges')) || [];
+        document.getElementById('colCount').innerText = selected.length;
+
+        // --- ४. Admin कडून येणाऱ्या बातम्या लोड करणे ---
+        loadAdminUpdates();
+    });
+
+    // --- ५. अपडेट्स लोड करण्याचे फंक्शन ---
+    function loadAdminUpdates() {
+        const updates = JSON.parse(localStorage.getItem('admin_updates')) || [];
+        const newsFeed = document.getElementById('newsFeed');
+        
+        if(updates.length > 0) {
+            newsFeed.innerHTML = ""; // जुनी डमी न्यूज काढणे
+            updates.forEach(item => {
+                const newsDiv = document.createElement('div');
+                newsDiv.style = "padding: 10px; background: #f0fdf4; border-radius: 10px; border-left: 4px solid #22c55e; margin-bottom: 10px;";
+                newsDiv.innerHTML = `<p style="font-size: 0.9rem; color: #166534;">${item.text}</p><small style="font-size: 0.7rem; color: #15803d;">${item.date}</small>`;
+                newsFeed.prepend(newsDiv);
+            });
+        }
+    }
+
+    // --- ६. लॉगआउट फंक्शन ---
+    function logout() {
+        if(confirm("तुम्हाला लॉगआउट करायचे आहे का?")) {
             localStorage.removeItem('currentUser');
             window.location.href = 'index.html';
         }
-    </script>
+    }
+</script>
 </body>
 </html>
