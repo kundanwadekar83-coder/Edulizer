@@ -8,22 +8,6 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         /* Admin Page Specific Styling */
-        .admin-lock-screen {
-            height: 80vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-direction: column;
-            text-align: center;
-        }
-        .admin-card {
-            background: white;
-            padding: 40px;
-            border-radius: 24px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-            max-width: 400px;
-            width: 90%;
-        }
         .stats-box {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -49,28 +33,18 @@
             </div>
         </div>
         <div class="nav-right">
-            <a href="dashboard.html" class="btn-outline" style="text-decoration: none; font-size: 0.8rem;">Student Mode</a>
+            <a href="index.html" class="btn-outline" style="text-decoration: none; font-size: 0.8rem;">Home Page</a>
         </div>
     </nav>
 
     <div class="dashboard-layout">
         <div class="sidebar">
-            <a href="#" class="nav-item active"><i class="fas fa-lock"></i> सुरक्षा</a>
+            <a href="#" class="nav-item active"><i class="fas fa-chart-line"></i> ओव्हरव्ह्यू</a>
             <a href="dashboard.html" class="nav-item"><i class="fas fa-home"></i> डॅशबोर्ड</a>
         </div>
 
         <div class="main-panel">
-            <div id="adminAuth" class="admin-lock-screen">
-                <div class="admin-card">
-                    <i class="fas fa-shield-halved" style="font-size: 3rem; color: var(--primary); margin-bottom: 20px;"></i>
-                    <h2 style="margin-bottom: 10px;">Control Room</h2>
-                    <p style="color: var(--secondary); margin-bottom: 25px;">कृपया तुमचा गुप्त ॲक्सेस कोड टाका.</p>
-                    <input type="password" id="adminPass" placeholder="Secret Code" style="margin-bottom: 20px; text-align: center;">
-                    <button onclick="checkAdmin()" class="btn btn-primary" style="width: 100%;">प्रवेश करा</button>
-                </div>
-            </div>
-
-            <div id="adminContent" style="display: none;">
+            <div id="adminContent">
                 <h2 style="margin-bottom: 10px;">ॲप्लिकेशन डेटा ओव्हरव्ह्यू</h2>
                 <p style="color: var(--secondary);">सिस्टीममधील सर्व डेटा येथे मॅनेज करा.</p>
 
@@ -97,22 +71,21 @@
     </div>
 
     <script>
-        function checkAdmin() {
-            const pass = document.getElementById('adminPass').value;
-            if(pass === "Edulizer@2026") {
-                document.getElementById('adminAuth').style.display = "none";
-                document.getElementById('adminContent').style.display = "block";
-                loadStats();
-            } else {
-                alert("❌ चुकीचा पासवर्ड! पुन्हा प्रयत्न करा.");
-            }
+        // १. सुरक्षा तपासणी: युजर admin-login.html वरून आला आहे का?
+        if (document.referrer.indexOf("admin-login.html") === -1) {
+            alert("कृपया आधी अधिकृत लॉगिन करा!");
+            window.location.href = "admin-login.html";
         }
+
+        // २. पेज लोड झाल्यावर स्टॅट्स मोजणे
+        document.addEventListener('DOMContentLoaded', () => {
+            loadStats();
+        });
 
         function loadStats() {
             const colleges = JSON.parse(localStorage.getItem('edulizer_colleges')) || [];
             document.getElementById('colCount').innerText = colleges.length;
 
-            // युजर्स मोजण्यासाठी
             let userCount = 0;
             for (let i = 0; i < localStorage.length; i++) {
                 if (localStorage.key(i).startsWith('user_')) userCount++;
@@ -128,5 +101,6 @@
             }
         }
     </script>
-    <script src="js/college.js"></script> </body>
+    <script src="js/college.js"></script> 
+</body>
 </html>
