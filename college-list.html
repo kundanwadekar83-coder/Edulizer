@@ -3,90 +3,222 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>College List | Edulizer</title>
+    <title>माझी कॉलेज डायरी | Edulizer</title>
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        .dashboard-layout { display: flex; min-height: 100vh; }
-        .sidebar { width: 250px; background: var(--card); border-right: 1px solid var(--border); padding: 20px; position: sticky; top: 70px; height: calc(100vh - 70px); }
-        .main-panel { flex: 1; padding: 40px; background: #f1f5f9; }
-        .nav-item { padding: 12px 15px; border-radius: 10px; color: var(--secondary); text-decoration: none; display: flex; align-items: center; gap: 12px; margin-bottom: 8px; font-weight: 500; }
-        .nav-item.active { background: var(--primary); color: white; }
+        :root { --step-color: #4f46e5; }
+        .main-panel { background: #f8fafc; padding: 20px; }
         
-        .form-card { background: white; padding: 25px; border-radius: 15px; margin-bottom: 30px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
-        .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; }
+        /* Wizard Steps Styling */
+        .step-container { display: none; animation: fadeIn 0.4s ease; }
+        .step-container.active { display: block; }
         
-        .college-table { width: 100%; border-collapse: collapse; background: white; border-radius: 15px; overflow: hidden; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
-        .college-table th { background: #f8fafc; padding: 15px; text-align: left; font-size: 0.8rem; color: var(--secondary); }
-        .college-table td { padding: 15px; border-top: 1px solid var(--border); }
+        .wizard-progress { display: flex; justify-content: space-between; margin-bottom: 30px; position: relative; }
+        .wizard-progress::before { content: ''; position: absolute; top: 50%; left: 0; width: 100%; height: 2px; background: #e2e8f0; z-index: 1; transform: translateY(-50%); }
+        .step-dot { width: 35px; height: 35px; background: white; border: 2px solid #e2e8f0; border-radius: 50%; z-index: 2; display: flex; align-items: center; justify-content: center; font-weight: bold; transition: 0.3s; }
+        .step-dot.active { border-color: var(--step-color); color: var(--step-color); box-shadow: 0 0 10px rgba(79, 70, 229, 0.2); }
+
+        .form-card { background: white; padding: 30px; border-radius: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.05); }
+        .grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; }
+        .upload-box { border: 2px dashed #cbd5e1; padding: 20px; border-radius: 12px; text-align: center; cursor: pointer; transition: 0.3s; margin-top: 10px; }
+        .upload-box:hover { border-color: var(--step-color); background: #f5f3ff; }
         
-        .action-btns { display: flex; gap: 10px; }
-        .btn-sm { padding: 5px 10px; font-size: 0.8rem; border-radius: 5px; }
-        .status-tag { padding: 4px 8px; border-radius: 5px; font-size: 0.75rem; font-weight: bold; }
+        .btn-group { display: flex; justify-content: space-between; margin-top: 30px; }
+        .btn-nav { padding: 12px 25px; border-radius: 10px; font-weight: 700; cursor: pointer; border: none; transition: 0.3s; }
+        .btn-next { background: var(--step-color); color: white; }
+        .btn-back { background: #e2e8f0; color: #475569; }
+
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
 <body>
 
-<nav>
-    <div class="nav-left">
-        <i class="fas fa-bars" id="menu-btn"></i> 
-        <div class="logo">
-            <i class="fas fa-bolt"></i> Edulizer
+    <nav>
+        <div class="nav-left">
+            <i class="fas fa-bars" id="menu-btn"></i>
+            <div class="logo"><i class="fas fa-bolt"></i> Edulizer</div>
         </div>
-    </div>
-
-    <div class="nav-right">
-        <div class="user-greet">
-            <span class="hey">Hi,</span>
-            <span id="userNameDisplay" class="user-name">लोड होत आहे...</span>
+        <div class="nav-right">
+            <div class="user-info-nav"><small>Researcher</small> <span id="navUserName">User</span></div>
+            <button onclick="logout()" class="btn-logout-red">Logout</button>
         </div>
-        <button onclick="logout()" class="btn-logout-red">
-            <i class="fas fa-sign-out-alt"></i> Logout
-        </button>
-    </div>
-</nav>
+    </nav>
 
     <div class="dashboard-layout">
         <div class="sidebar">
-            <a href="dashboard.html" class="nav-item"><i class="fas fa-home"></i> रोडमॅप</a>
-            <a href="college-list.html" class="nav-item active"><i class="fas fa-university"></i> कॉलेज लिस्ट</a>
+            <a href="dashboard.html" class="nav-item"><i class="fas fa-home"></i> होम</a>
+            <a href="college-list.html" class="nav-item active"><i class="fas fa-university"></i> माझी डायरी</a>
             <a href="profile.html" class="nav-item"><i class="fas fa-user-circle"></i> प्रोफाइल</a>
         </div>
 
         <div class="main-panel">
-            <h2>माझी कॉलेज लिस्ट</h2>
-            <p style="color: var(--secondary); margin-bottom: 20px;">तुमची पसंतीची कॉलेजेस खालील फॉर्ममधून जोडा.</p>
+            <div style="max-width: 1000px; margin: 0 auto;">
+                
+                <h2 style="margin-bottom: 20px;"><i class="fas fa-edit"></i> नवीन कॉलेज डेटा एन्ट्री</h2>
+                
+                <div class="wizard-progress">
+                    <div class="step-dot active" id="dot1">1</div>
+                    <div class="step-dot" id="dot2">2</div>
+                    <div class="step-dot" id="dot3">3</div>
+                    <div class="step-dot" id="dot4">4</div>
+                    <div class="step-dot" id="dot5">5</div>
+                    <div class="step-dot" id="dot6">6</div>
+                </div>
 
-            <div class="form-card">
-                <form id="collegeForm">
-                    <div class="grid-3">
-                        <div class="form-group">
-                            <label>कॉलेजचे नाव</label>
-                            <input type="text" id="colName" placeholder="उदा. COEP, Pune" required>
+                <form id="collegeForm" class="form-card">
+                    
+                    <div class="step-container active" id="step1">
+                        <h3 style="margin-bottom: 20px; color: var(--step-color);">१. बेसिक आयडेंटिटी आणि फोटो</h3>
+                        <div class="grid-3">
+                            <div class="form-group"><label>कॉलेजचे नाव</label><input type="text" id="cName" required></div>
+                            <div class="form-group"><label>DTE कोड</label><input type="text" id="cCode"></div>
+                            <div class="form-group">
+                                <label>ऑटोनॉमी</label>
+                                <select id="cAuto"><option>Autonomous</option><option>Non-Autonomous</option></select>
+                            </div>
                         </div>
-                        <div class="form-group">
-                            <label>ब्रांच</label>
-                            <input type="text" id="colBranch" placeholder="उदा. Computer Science" required>
-                        </div>
-                        <div class="form-group">
-                            <label>चॉइस कोड</label>
-                            <input type="text" id="colCode" placeholder="9 अंकी कोड" required>
-                        </div>
-                    </div>
-                    <div class="grid-3" style="margin-top: 10px;">
-                        <div class="form-group">
-                            <label>अंदाजे फी (₹)</label>
-                            <input type="number" id="colFee" placeholder="उदा. 120000">
-                        </div>
-                        <div class="form-group">
-                            <label>डॉक्युमेंट अपलोड</label>
-                            <input type="file" id="colFile" style="padding: 8px;">
-                        </div>
-                        <div class="form-group" style="display: flex; align-items: flex-end;">
-                            <button type="submit" class="btn btn-primary" style="width: 100%;">कॉलेज जोडा</button>
+                        <div class="upload-box" onclick="document.getElementById('cPhotos').click()">
+                            <i class="fas fa-camera fa-2x"></i>
+                            <p>कॉलेजचे फोटो अपलोड करा (Images)</p>
+                            <input type="file" id="cPhotos" multiple hidden accept="image/*">
                         </div>
                     </div>
+
+                    <div class="step-container" id="step2">
+                        <h3 style="margin-bottom: 20px; color: #10b981;">२. सविस्तर कट-ऑफ (Last Year)</h3>
+                        <div class="grid-3">
+                            <div class="form-group"><label>General (Rank/%)</label><input type="text" id="cutOpen"></div>
+                            <div class="form-group"><label>OBC (Rank/%)</label><input type="text" id="cutOBC"></div>
+                            <div class="form-group"><label>SC/ST</label><input type="text" id="cutSCST"></div>
+                            <div class="form-group"><label>TFWS</label><input type="text" id="cutTFWS"></div>
+                        </div>
+                    </div>
+
+                    <div class="step-container" id="step3">
+                        <h3 style="margin-bottom: 20px; color: #f59e0b;">३. प्लेसमेंट आणि रेकॉर्ड्स</h3>
+                        <div class="grid-3">
+                            <div class="form-group"><label>Highest Package (LPA)</label><input type="number" id="pHigh"></div>
+                            <div class="form-group"><label>Average Package (LPA)</label><input type="number" id="pAvg"></div>
+                        </div>
+                        <div class="upload-box" onclick="document.getElementById('pDocs').click()">
+                            <i class="fas fa-file-pdf fa-2x"></i>
+                            <p>प्लेसमेंट ब्रोशर किंवा फोटो अपलोड करा</p>
+                            <input type="file" id="pDocs" hidden accept="image/*,application/pdf">
+                        </div>
+                    </div>
+
+                    <div class="step-container" id="step4">
+                        <h3 style="margin-bottom: 20px; color: #ef4444;">४. फी स्ट्रक्चर (Financials)</h3>
+                        <div class="grid-3">
+                            <div class="form-group"><label>Open Fee</label><input type="number" id="fOpen"></div>
+                            <div class="form-group"><label>OBC/EBC Fee</label><input type="number" id="fOBC"></div>
+                            <div class="form-group"><label>VJ/NT Fee</label><input type="number" id="fVJNT"></div>
+                        </div>
+                        <div class="upload-box" onclick="document.getElementById('fDocs').click()">
+                            <i class="fas fa-file-invoice-dollar fa-2x"></i>
+                            <p>फी नोटीस किंवा PDF अपलोड करा</p>
+                            <input type="file" id="fDocs" hidden accept="image/*,application/pdf">
+                        </div>
+                    </div>
+
+                    <div class="step-container" id="step5">
+                        <h3 style="margin-bottom: 20px; color: #3b82f6;">५. संपर्क आणि पत्ता</h3>
+                        <div class="form-group"><label>Official Website</label><input type="url" id="cWeb"></div>
+                        <div class="form-group"><label>Google Map Link</label><input type="url" id="cMap"></div>
+                        <div class="form-group"><label>पूर्ण पत्ता</label><textarea id="cAddr" rows="3"></textarea></div>
+                    </div>
+
+                    <div class="step-container" id="step6">
+                        <h3 style="margin-bottom: 20px; color: #8b5cf6;">६. कस्टम व्हॉल्ट (इतर फाईल्स)</h3>
+                        <div class="form-group"><label>फाईलचे नाव सांगा (उदा. Canteen Menu)</label><input type="text" id="customLabel"></div>
+                        <div class="upload-box" onclick="document.getElementById('customFile').click()">
+                            <i class="fas fa-cloud-upload-alt fa-2x"></i>
+                            <p>PDF, Image किंवा Video निवडा</p>
+                            <input type="file" id="customFile" hidden>
+                        </div>
+                        <div style="margin-top: 20px; padding: 15px; background: #f1f5f9; border-radius: 10px; font-size: 0.85rem;">
+                            ⚠️ <b>टीप:</b> हा सर्व डेटा फक्त तुमच्या लॉगिनमध्ये सुरक्षित राहील.
+                        </div>
+                    </div>
+
+                    <div class="btn-group">
+                        <button type="button" class="btn-nav btn-back" id="backBtn" onclick="changeStep(-1)" style="visibility: hidden;">मागे</button>
+                        <button type="button" class="btn-nav btn-next" id="nextBtn" onclick="changeStep(1)">पुढची स्टेप</button>
+                    </div>
+
                 </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentStep = 1;
+        const totalSteps = 6;
+
+        function changeStep(n) {
+            const steps = document.querySelectorAll('.step-container');
+            const dots = document.querySelectorAll('.step-dot');
+            
+            // सध्याची स्टेप लपवा
+            steps[currentStep - 1].classList.remove('active');
+            dots[currentStep - 1].classList.remove('active');
+
+            currentStep += n;
+
+            // बटन मॅनेजमेंट
+            document.getElementById('backBtn').style.visibility = (currentStep === 1) ? 'hidden' : 'visible';
+            
+            if (currentStep > totalSteps) {
+                saveCollegeData();
+                return;
+            }
+
+            if (currentStep === totalSteps) {
+                document.getElementById('nextBtn').innerText = "डेटा जतन करा (Save)";
+                document.getElementById('nextBtn').style.background = "#22c55e";
+            } else {
+                document.getElementById('nextBtn').innerText = "पुढची स्टेप";
+                document.getElementById('nextBtn').style.background = "#4f46e5";
+            }
+
+            // नवीन स्टेप दाखवा
+            steps[currentStep - 1].classList.add('active');
+            dots[currentStep - 1].classList.add('active');
+        }
+
+        async function saveCollegeData() {
+            const user = JSON.parse(localStorage.getItem('currentUser'));
+            if(!user) return alert("कृपया आधी लॉगिन करा!");
+
+            const collegeData = {
+                id: Date.now(),
+                name: document.getElementById('cName').value,
+                code: document.getElementById('cCode').value,
+                autonomy: document.getElementById('cAuto').value,
+                cutoff: { open: document.getElementById('cutOpen').value, obc: document.getElementById('cutOBC').value },
+                placement: { high: document.getElementById('pHigh').value, avg: document.getElementById('pAvg').value },
+                fees: { open: document.getElementById('fOpen').value, obc: document.getElementById('fOBC').value },
+                links: { web: document.getElementById('cWeb').value, map: document.getElementById('cMap').value }
+            };
+
+            // लोकल स्टोरेजमध्ये सेव्ह (User-Specific)
+            let myColleges = JSON.parse(localStorage.getItem('colleges_' + user.email)) || [];
+            myColleges.push(collegeData);
+            localStorage.setItem('colleges_' + user.email, JSON.stringify(myColleges));
+
+            alert("✅ कॉलेज माहिती यशस्वीरित्या सेव्ह झाली!");
+            window.location.href = 'dashboard.html';
+        }
+
+        // युजर नाव लोड करणे
+        document.addEventListener('DOMContentLoaded', () => {
+            const user = JSON.parse(localStorage.getItem('currentUser'));
+            if(user) document.getElementById('navUserName').innerText = user.name;
+        });
+    </script>
+</body>
+</html>
             </div>
 
             <table class="college-table">
