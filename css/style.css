@@ -390,3 +390,15 @@ tant;
     .user-greet { display: none; } /* मोबाईलवर नाव लपवले */
                                 }
     
+/* साईडबारमधील विशेष लाल लॉगआउट बटन */
+.nav-item.logout-item {
+    margin-top: auto; /* याने बटन आपोआप सर्वात खाली जाईल */
+    color: #ef4444;   /* Red Color */
+    border: 1px solid transparent;
+}
+
+.nav-item.logout-item:hover {
+    background: #fef2f2; /* हलका लाल बॅकग्राउंड */
+    color: #b91c1c;
+    border: 1px solid #fee2e2;
+    }
