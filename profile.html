@@ -6,87 +6,136 @@
     <title>माझी प्रोफाइल | Edulizer</title>
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        .dashboard-layout { display: flex; min-height: 100vh; }
-        .sidebar { width: 250px; background: var(--card); border-right: 1px solid var(--border); padding: 20px; position: sticky; top: 70px; height: calc(100vh - 70px); }
-        .main-panel { flex: 1; padding: 40px; background: #f1f5f9; }
-        .nav-item { padding: 12px 15px; border-radius: 10px; color: var(--secondary); text-decoration: none; display: flex; align-items: center; gap: 12px; margin-bottom: 8px; font-weight: 500; }
-        .nav-item.active { background: var(--primary); color: white; }
-        .profile-card { background: white; padding: 30px; border-radius: 20px; max-width: 600px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
-    </style>
 </head>
 <body>
 
-<nav>
-    <div class="nav-left">
-        <i class="fas fa-bars" id="menu-btn"></i> 
-        <div class="logo">
-            <i class="fas fa-bolt"></i> Edulizer
+    <nav>
+        <div class="nav-left">
+            <i class="fas fa-bars" id="menu-btn"></i>
+            <div class="logo"><i class="fas fa-bolt"></i> Edulizer</div>
         </div>
-    </div>
-
-    <div class="nav-right">
-        <div class="user-greet">
-            <span class="hey">Hi,</span>
-            <span id="userNameDisplay" class="user-name">लोड होत आहे...</span>
+        <div class="nav-right">
+            <div class="user-info-nav" style="margin-right: 15px; text-align: right;">
+                <small style="display: block; font-size: 0.7rem; color: var(--secondary);">Logged in as</small>
+                <span id="navUserName" style="font-weight: 700; color: var(--primary);">विद्यार्थी</span>
+            </div>
+            <button onclick="logout()" class="btn-logout-red">
+                <i class="fas fa-sign-out-alt"></i> Logout
+            </button>
         </div>
-        <button onclick="logout()" class="btn-logout-red">
-            <i class="fas fa-sign-out-alt"></i> Logout
-        </button>
-    </div>
-</nav>
+    </nav>
 
     <div class="dashboard-layout">
         <div class="sidebar">
-            <a href="dashboard.html" class="nav-item"><i class="fas fa-home"></i> रोडमॅप</a>
+            <a href="dashboard.html" class="nav-item"><i class="fas fa-home"></i> होम (Dashboard)</a>
             <a href="college-list.html" class="nav-item"><i class="fas fa-university"></i> कॉलेज लिस्ट</a>
-            <a href="profile.html" class="nav-item active"><i class="fas fa-user-circle"></i> प्रोफाइल</a>
+            <a href="profile.html" class="nav-item active"><i class="fas fa-user-circle"></i> माझे प्रोफाइल</a>
+            <a href="#" class="nav-item"><i class="fas fa-file-invoice"></i> डॉक्युमेंट्स</a>
+            <a href="#" class="nav-item"><i class="fas fa-circle-info"></i> मदत केंद्र</a>
         </div>
 
         <div class="main-panel">
-            <div class="profile-card">
-                <h2>तुमची प्रोफाइल</h2>
-                <p style="color: var(--secondary); margin-bottom: 25px;">तुमची वैयक्तिक आणि शैक्षणिक माहिती येथे बदला.</p>
-                
+            
+            <div class="welcome-banner" style="background: linear-gradient(135deg, #10b981, #3b82f6); color: white; padding: 30px; border-radius: 20px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; box-shadow: 0 10px 20px rgba(16, 185, 129, 0.2);">
+                <div>
+                    <h1 style="font-size: 1.8rem; margin-bottom: 8px;">तुमची प्रोफाइल</h1>
+                    <p style="opacity: 0.9;">तुमची वैयक्तिक आणि शैक्षणिक माहिती येथे अपडेट ठेवा.</p>
+                </div>
+                <i class="fas fa-id-card" style="font-size: 4rem; opacity: 0.2;"></i>
+            </div>
+
+            <div class="card" style="max-width: 650px; background: white; padding: 30px; border-radius: 18px; box-shadow: 0 4px 15px rgba(0,0,0,0.05);">
                 <form id="profileForm">
-                    <div class="form-group">
-                        <label>पूर्ण नाव</label>
-                        <input type="text" id="profName">
+                    <div class="form-group" style="margin-bottom: 20px;">
+                        <label style="display: block; margin-bottom: 8px; font-weight: 600; color: #475569;">पूर्ण नाव</label>
+                        <input type="text" id="profName" style="width: 100%; padding: 12px; border-radius: 10px; border: 1px solid #ddd; font-size: 1rem;">
                     </div>
-                    <div class="form-group">
-                        <label>ईमेल (बदलता येणार नाही)</label>
-                        <input type="email" id="profEmail" disabled style="background: #eee;">
+
+                    <div class="form-group" style="margin-bottom: 20px;">
+                        <label style="display: block; margin-bottom: 8px; font-weight: 600; color: #475569;">ईमेल (बदलता येणार नाही)</label>
+                        <input type="email" id="profEmail" disabled style="width: 100%; padding: 12px; border-radius: 10px; border: 1px solid #eee; background: #f8fafc; color: #94a3b8;">
                     </div>
-                    <div class="form-group">
-                        <label>कॅटेगरी</label>
-                        <select id="profCat">
-                            <option value="Open">Open</option>
-                            <option value="OBC">OBC</option>
-                            <option value="SC/ST">SC / ST</option>
-                            <option value="VJNT">VJ / NT / EWS</option>
-                        </select>
+
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 25px;">
+                        <div class="form-group">
+                            <label style="display: block; margin-bottom: 8px; font-weight: 600; color: #475569;">कॅटेगरी</label>
+                            <select id="profCat" style="width: 100%; padding: 12px; border-radius: 10px; border: 1px solid #ddd; background: white;">
+                                <option value="Open">Open</option>
+                                <option value="OBC">OBC</option>
+                                <option value="SC/ST">SC / ST</option>
+                                <option value="VJNT">VJ / NT / EWS</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label style="display: block; margin-bottom: 8px; font-weight: 600; color: #475569;">स्टेट रँक (SML)</label>
+                            <input type="number" id="profRank" placeholder="उदा. 15000" style="width: 100%; padding: 12px; border-radius: 10px; border: 1px solid #ddd;">
+                        </div>
                     </div>
-                    <div class="form-group">
-                        <label>स्टेट मेरिट रँक (SML)</label>
-                        <input type="number" id="profRank" placeholder="उदा. 12500">
-                    </div>
-                    <button type="submit" class="btn btn-primary" style="width: 100%;">माहिती अपडेट करा</button>
+
+                    <button type="submit" class="btn btn-primary" style="width: 100%; padding: 15px; border-radius: 12px; font-size: 1rem; display: flex; align-items: center; justify-content: center; gap: 10px;">
+                        <i class="fas fa-check-circle"></i> माहिती अपडेट करा
+                    </button>
                 </form>
             </div>
         </div>
     </div>
 
     <script>
-        // प्रोफाइल डेटा लोड करणे
-        const user = JSON.parse(localStorage.getItem('currentUser'));
-        if(user) {
-            document.getElementById('userNameDisplay').innerText = user.name;
-            document.getElementById('profName').value = user.name;
-            document.getElementById('profEmail').value = user.email;
-            document.getElementById('profCat').value = user.category || "Open";
-            document.getElementById('profRank').value = user.rank || "";
-        }
+        document.addEventListener('DOMContentLoaded', () => {
+            // १. थ्री-लाईन मेनू लॉजिक (फक्त मोबाईलवर)
+            const menuBtn = document.getElementById('menu-btn');
+            const sidebar = document.querySelector('.sidebar');
 
+            if (menuBtn && sidebar) {
+                menuBtn.addEventListener('click', () => {
+                    sidebar.classList.toggle('active');
+                    const icon = menuBtn.querySelector('i') || menuBtn;
+                    if (sidebar.classList.contains('active')) {
+                        icon.classList.replace('fa-bars', 'fa-times');
+                    } else {
+                        icon.classList.replace('fa-times', 'fa-bars');
+                    }
+                });
+            }
+
+            // २. सध्याच्या युजरचा डेटा फॉर्ममध्ये भरणे
+            const user = JSON.parse(localStorage.getItem('currentUser'));
+            if(user) {
+                document.getElementById('navUserName').innerText = user.name;
+                document.getElementById('profName').value = user.name;
+                document.getElementById('profEmail').value = user.email;
+                document.getElementById('profCat').value = user.category || "Open";
+                document.getElementById('profRank').value = user.rank || "";
+            }
+        });
+
+        // ३. फॉर्म सबमिट केल्यावर डेटा अपडेट करणे
+        document.getElementById('profileForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const user = JSON.parse(localStorage.getItem('currentUser'));
+            
+            // नवीन व्हॅल्यूज घेभावा
+            user.name = document.getElementById('profName').value;
+            user.category = document.getElementById('profCat').value;
+            user.rank = document.getElementById('profRank').value;
+
+            // स्थानिक मेमरी अपडेट करा
+            localStorage.setItem('currentUser', JSON.stringify(user));
+            localStorage.setItem('user_' + user.email, JSON.stringify(user));
+            
+            alert('✅ तुमची प्रोफाइल यशस्वीरित्या अपडेट झाली आहे!');
+            location.reload(); // पेज रिफ्रेश करून बदल दाखवा
+        });
+
+        function logout() {
+            if(confirm("तुम्हाला लॉगआउट करायचे आहे का?")) {
+                localStorage.removeItem('currentUser');
+                window.location.href = 'index.html';
+            }
+        }
+    </script>
+</body>
+</html>
         // प्रोफाइल अपडेट लॉजिक
         document.getElementById('profileForm').addEventListener('submit', function(e) {
             e.preventDefault();
