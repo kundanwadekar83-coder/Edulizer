@@ -402,3 +402,13 @@ tant;
     color: #b91c1c;
     border: 1px solid #fee2e2;
     }
+/* style.css मध्ये ॲड करा */
+.action-card {
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.action-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 15px rgba(0,0,0,0.1);
+        }
