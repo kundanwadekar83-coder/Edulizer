@@ -3,9 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>प्रोफाइल अपडेट | Edulizer</title>
+    <title>माझा पोर्टफोलिओ | Edulizer</title>
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Profile Specific Modern CSS */
+        .profile-wrapper { display: grid; grid-template-columns: 300px 1fr; gap: 25px; align-items: start; }
+        .profile-sidebar { background: white; padding: 30px; border-radius: 20px; text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.05); }
+        .avatar-circle { width: 100px; height: 100px; background: var(--primary); color: white; font-size: 2.5rem; display: flex; align-items: center; justify-content: center; border-radius: 50%; margin: 0 auto 15px; border: 4px solid #eef2ff; }
+        .info-card { background: white; padding: 25px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); margin-bottom: 25px; }
+        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+        .stat-box { background: #f8fafc; padding: 15px; border-radius: 12px; border: 1px solid #e2e8f0; }
+        .stat-box label { font-size: 0.75rem; color: #64748b; text-transform: uppercase; letter-spacing: 0.5px; }
+        .stat-box p { font-size: 1.1rem; font-weight: 700; color: #1e293b; margin: 0; }
+        
+        @media (max-width: 900px) { .profile-wrapper { grid-template-columns: 1fr; } }
+    </style>
 </head>
 <body>
 
@@ -15,117 +28,141 @@
             <div class="logo"><i class="fas fa-bolt"></i> Edulizer</div>
         </div>
         <div class="nav-right">
-            <div class="user-info-nav">
-                <small>Logged in as</small>
-                <span id="navUserName">Loading...</span>
-            </div>
             <button onclick="logout()" class="btn-logout-red">Logout</button>
         </div>
     </nav>
 
-    <div class="dashboard-layout">
-        <div class="sidebar">
-            <a href="dashboard.html" class="nav-item"><i class="fas fa-home"></i> होम</a>
-            <a href="profile.html" class="nav-item active"><i class="fas fa-user-circle"></i> प्रोफाइल</a>
-            <a href="javascript:void(0)" onclick="logout()" class="nav-item logout-item"><i class="fas fa-sign-out-alt"></i> लॉगआउट</a>
-        </div>
+    <div class="main-panel" style="max-width: 1200px; margin: 0 auto; padding: 20px;">
+        
+        <a href="dashboard.html" style="text-decoration: none; color: var(--primary); font-weight: 700; margin-bottom: 20px; display: inline-flex; align-items: center; gap: 8px;">
+            <i class="fas fa-arrow-left"></i> डॅशबोर्डवर परत जा
+        </a>
 
-        <div class="main-panel">
-            
-            <div style="margin-bottom: 20px;">
-                <a href="dashboard.html" style="text-decoration: none; color: #4f46e5; font-weight: 700; display: inline-flex; align-items: center; gap: 8px; background: #eef2ff; padding: 10px 18px; border-radius: 10px; border: 1px solid #c7d2fe;">
-                    <i class="fas fa-arrow-left"></i> डॅशबोर्डवर परत जा
-                </a>
+        <div class="profile-wrapper">
+            <div class="profile-sidebar">
+                <div class="avatar-circle" id="userInitial">V</div>
+                <h2 id="displayFullname" style="margin-bottom: 5px;">विद्यार्थी नाव</h2>
+                <p id="displayEmail" style="color: #64748b; font-size: 0.9rem; margin-bottom: 20px;">email@example.com</p>
+                <hr style="border: 0; border-top: 1px solid #f1f5f9; margin-bottom: 20px;">
+                <div style="text-align: left;">
+                    <p style="font-size: 0.8rem; font-weight: 700; color: #94a3b8; margin-bottom: 10px;">QUICK STATUS</p>
+                    <div class="stat-box" style="margin-bottom: 10px;">
+                        <label>कॅटेगरी</label>
+                        <p id="statCat">Open</p>
+                    </div>
+                    <div class="stat-box">
+                        <label>SML रँक</label>
+                        <p id="statRank">Not Set</p>
+                    </div>
+                </div>
             </div>
 
-            <form id="profileForm">
-                <div class="card" style="margin-bottom: 20px; border-top: 4px solid #4f46e5;">
-                    <h3 style="margin-bottom: 20px; color: #1e293b;"><i class="fas fa-id-card"></i> वैयक्तिक माहिती</h3>
-                    
-                    <div class="form-group">
-                        <label>पूर्ण नाव</label>
-                        <input type="text" id="profName" required>
+            <div class="profile-content">
+                <form id="profileForm">
+                    <div class="info-card">
+                        <h3 style="margin-bottom: 20px;"><i class="fas fa-user-circle" style="color: var(--primary);"></i> वैयक्तिक तपशील</h3>
+                        <div class="grid-2">
+                            <div class="form-group">
+                                <label>पूर्ण नाव</label>
+                                <input type="text" id="profName" required>
+                            </div>
+                            <div class="form-group">
+                                <label>मोबाईल नंबर</label>
+                                <input type="tel" id="profPhone" placeholder="उदा. 98XXXXXXXX">
+                            </div>
+                        </div>
                     </div>
-                    
-                    <div class="form-group">
-                        <label>ईमेल (बदलता येणार नाही)</label>
-                        <input type="email" id="profEmail" disabled style="background: #f1f5f9; color: #64748b;">
-                    </div>
-                </div>
 
-                <div class="card" style="margin-bottom: 30px; border-top: 4px solid #10b981;">
-                    <h3 style="margin-bottom: 20px; color: #1e293b;"><i class="fas fa-graduation-cap"></i> शैक्षणिक माहिती</h3>
-                    
-                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px;">
+                    <div class="info-card">
+                        <h3 style="margin-bottom: 20px;"><i class="fas fa-graduation-cap" style="color: #10b981;"></i> शैक्षणिक माहिती (Academics)</h3>
+                        <div class="grid-2" style="margin-bottom: 20px;">
+                            <div class="form-group">
+                                <label>१० वी टक्केवारी (%)</label>
+                                <input type="number" step="0.01" id="prof10th" placeholder="00.00">
+                            </div>
+                            <div class="form-group">
+                                <label>१२ वी टक्केवारी (%)</label>
+                                <input type="number" step="0.01" id="prof12th" placeholder="00.00">
+                            </div>
+                        </div>
+                        <div class="grid-2">
+                            <div class="form-group">
+                                <label>MHT-CET स्कोअर (Percentile)</label>
+                                <input type="number" step="0.0001" id="profCET" placeholder="उदा. 98.4521">
+                            </div>
+                            <div class="form-group">
+                                <label>JEE Main स्कोअर</label>
+                                <input type="number" step="0.0001" id="profJEE" placeholder="उदा. 92.10">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="info-card">
+                        <h3 style="margin-bottom: 20px;"><i class="fas fa-heart" style="color: #ef4444;"></i> करिअर पसंती</h3>
                         <div class="form-group">
-                            <label>कॅटेगरी</label>
-                            <select id="profCat">
-                                <option value="Open">Open</option>
-                                <option value="OBC">OBC</option>
-                                <option value="SC/ST">SC/ST</option>
-                                <option value="VJNT">VJNT / EWS</option>
+                            <label>आवडती ब्रांच (Preferred Branch)</label>
+                            <select id="profBranch">
+                                <option value="Computer">Computer Engineering / IT</option>
+                                <option value="AI-DS">AI & Data Science</option>
+                                <option value="Electronics">Electronics & Telecommunication</option>
+                                <option value="Mechanical">Mechanical Engineering</option>
+                                <option value="Civil">Civil Engineering</option>
                             </select>
                         </div>
-                        <div class="form-group">
-                            <label>स्टेट रँक (SML)</label>
-                            <input type="number" id="profRank" placeholder="उदा. 12500">
-                        </div>
                     </div>
-                </div>
 
-                <div style="display: flex; gap: 15px; flex-wrap: wrap;">
-                    <button type="submit" class="btn-primary" style="flex: 2; min-width: 200px; padding: 15px; border-radius: 12px; font-size: 1rem;">
-                        <i class="fas fa-save"></i> माहिती अपडेट करा
+                    <button type="submit" class="btn-primary" style="width: 100%; padding: 18px; border-radius: 15px; font-size: 1.1rem; box-shadow: 0 10px 20px rgba(79, 70, 229, 0.2);">
+                        <i class="fas fa-check-circle"></i> प्रोफाइल अपडेट करा
                     </button>
-                    
-                    <a href="college-list.html" style="flex: 1; min-width: 150px; text-decoration: none; background: #ecfdf5; color: #059669; border: 1px solid #10b981; padding: 15px; border-radius: 12px; text-align: center; font-weight: 700;">
-                        कॉलेज लिस्ट <i class="fas fa-arrow-right"></i>
-                    </a>
-                </div>
-            </form>
+                </form>
+            </div>
         </div>
     </div>
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            const user = JSON.parse(localStorage.getItem('currentUser'));
-            if(user) {
-                document.getElementById('navUserName').innerText = user.name;
-                document.getElementById('profName').value = user.name || "";
-                document.getElementById('profEmail').value = user.email || "";
-                document.getElementById('profCat').value = user.category || "Open";
-                document.getElementById('profRank').value = user.rank || "";
-            }
-
-            // मोबाईल मेनू टोगल
-            const menuBtn = document.getElementById('menu-btn');
-            const sidebar = document.querySelector('.sidebar');
-            if(menuBtn) {
-                menuBtn.addEventListener('click', () => sidebar.classList.toggle('active'));
-            }
+            const user = JSON.parse(localStorage.getItem('currentUser')) || {};
+            
+            // डेटा लोड करणे
+            document.getElementById('profName').value = user.name || "";
+            document.getElementById('displayFullname').innerText = user.name || "विद्यार्थी";
+            document.getElementById('displayEmail').innerText = user.email || "";
+            document.getElementById('userInitial').innerText = user.name ? user.name.charAt(0) : "V";
+            
+            // नवीन फील्ड्स
+            document.getElementById('profPhone').value = user.phone || "";
+            document.getElementById('prof10th').value = user.ssc || "";
+            document.getElementById('prof12th').value = user.hsc || "";
+            document.getElementById('profCET').value = user.cet || "";
+            document.getElementById('profJEE').value = user.jee || "";
+            document.getElementById('profBranch').value = user.branch || "Computer";
+            
+            // स्टॅट्स अपडेट
+            document.getElementById('statCat').innerText = user.category || "Open";
+            document.getElementById('statRank').innerText = user.rank || "Not Set";
         });
 
-        // प्रोफाइल अपडेट लॉजिक
-        document.getElementById('profileForm').addEventListener('submit', function(e) {
+        document.getElementById('profileForm').addEventListener('submit', (e) => {
             e.preventDefault();
             const user = JSON.parse(localStorage.getItem('currentUser'));
             
+            // नवीन डेटा ऑब्जेक्टमध्ये सेव्ह करा
             user.name = document.getElementById('profName').value;
-            user.category = document.getElementById('profCat').value;
-            user.rank = document.getElementById('profRank').value;
+            user.phone = document.getElementById('profPhone').value;
+            user.ssc = document.getElementById('prof10th').value;
+            user.hsc = document.getElementById('prof12th').value;
+            user.cet = document.getElementById('profCET').value;
+            user.jee = document.getElementById('profJEE').value;
+            user.branch = document.getElementById('profBranch').value;
 
             localStorage.setItem('currentUser', JSON.stringify(user));
-            localStorage.setItem('user_' + user.email, JSON.stringify(user));
-            
-            alert('✅ माहिती यशस्वीरित्या अपडेट झाली!');
+            alert('🔥 प्रोफाइल अपडेट झाली!');
             location.reload();
         });
 
         function logout() {
-            if(confirm("लॉगआउट करायचे आहे का?")) {
-                localStorage.removeItem('currentUser');
-                window.location.href = 'index.html';
-            }
+            localStorage.removeItem('currentUser');
+            window.location.href = 'index.html';
         }
     </script>
 </body>
