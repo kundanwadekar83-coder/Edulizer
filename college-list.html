@@ -3,33 +3,83 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>माझी कॉलेज डायरी | Edulizer</title>
+    <title>College Entry | Edulizer</title>
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        :root { --step-color: #4f46e5; }
-        .main-panel { background: #f8fafc; padding: 20px; }
-        
-        /* Wizard Steps Styling */
-        .step-container { display: none; animation: fadeIn 0.4s ease; }
-        .step-container.active { display: block; }
-        
-        .wizard-progress { display: flex; justify-content: space-between; margin-bottom: 30px; position: relative; }
-        .wizard-progress::before { content: ''; position: absolute; top: 50%; left: 0; width: 100%; height: 2px; background: #e2e8f0; z-index: 1; transform: translateY(-50%); }
-        .step-dot { width: 35px; height: 35px; background: white; border: 2px solid #e2e8f0; border-radius: 50%; z-index: 2; display: flex; align-items: center; justify-content: center; font-weight: bold; transition: 0.3s; }
-        .step-dot.active { border-color: var(--step-color); color: var(--step-color); box-shadow: 0 0 10px rgba(79, 70, 229, 0.2); }
+        :root {
+            --primary-color: #4f46e5;
+            --bg-color: #f8fafc;
+        }
 
-        .form-card { background: white; padding: 30px; border-radius: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.05); }
-        .grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; }
-        .upload-box { border: 2px dashed #cbd5e1; padding: 20px; border-radius: 12px; text-align: center; cursor: pointer; transition: 0.3s; margin-top: 10px; }
-        .upload-box:hover { border-color: var(--step-color); background: #f5f3ff; }
-        
-        .btn-group { display: flex; justify-content: space-between; margin-top: 30px; }
-        .btn-nav { padding: 12px 25px; border-radius: 10px; font-weight: 700; cursor: pointer; border: none; transition: 0.3s; }
-        .btn-next { background: var(--step-color); color: white; }
-        .btn-back { background: #e2e8f0; color: #475569; }
+        body { background-color: var(--bg-color); font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
 
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .form-container { max-width: 1000px; margin: 30px auto; padding: 0 15px; }
+
+        .wizard-card {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+            display: grid;
+            grid-template-columns: 280px 1fr;
+            overflow: hidden;
+            min-height: 600px;
+        }
+
+        /* Sidebar Steps */
+        .wizard-sidebar { background: #1e293b; color: white; padding: 40px 30px; }
+        .step-item { display: flex; align-items: center; gap: 15px; margin-bottom: 25px; opacity: 0.4; transition: 0.3s; }
+        .step-item.active { opacity: 1; color: #818cf8; font-weight: 700; }
+        .step-num { 
+            width: 32px; height: 32px; border-radius: 50%; border: 2px solid currentColor; 
+            display: flex; align-items: center; justify-content: center; font-size: 0.9rem;
+        }
+
+        /* Content Area */
+        .wizard-content { padding: 40px; position: relative; }
+        .step-content { display: none; animation: slideIn 0.4s ease; }
+        .step-content.active { display: block; }
+
+        h2 { color: #1e293b; margin-bottom: 25px; font-size: 1.5rem; display: flex; align-items: center; gap: 10px; }
+
+        /* Form Controls */
+        .input-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px; margin-bottom: 20px; }
+        .form-group { margin-bottom: 20px; }
+        .form-group label { display: block; margin-bottom: 8px; font-weight: 600; color: #475569; font-size: 0.9rem; }
+        .form-group input, .form-group select { 
+            width: 100%; padding: 12px; border: 1px solid #e2e8f0; border-radius: 10px; font-size: 1rem; transition: 0.3s;
+        }
+        .form-group input:focus { border-color: var(--primary-color); outline: none; box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1); }
+
+        /* Photo Upload UI */
+        .upload-container {
+            border: 2px dashed #cbd5e1;
+            padding: 30px;
+            border-radius: 15px;
+            text-align: center;
+            cursor: pointer;
+            background: #fcfcfd;
+            transition: 0.3s;
+        }
+        .upload-container:hover { border-color: var(--primary-color); background: #f5f3ff; }
+        .upload-container i { font-size: 2.5rem; color: var(--primary-color); margin-bottom: 10px; }
+
+        /* Navigation Buttons */
+        .btn-footer { 
+            margin-top: 40px; padding-top: 25px; border-top: 1px solid #f1f5f9; 
+            display: flex; justify-content: space-between; 
+        }
+        .btn-nav { padding: 12px 30px; border-radius: 10px; font-weight: 700; border: none; cursor: pointer; transition: 0.3s; }
+        .btn-next { background: var(--primary-color); color: white; }
+        .btn-next:hover { background: #4338ca; }
+        .btn-prev { background: #f1f5f9; color: #475569; }
+
+        @keyframes slideIn { from { opacity: 0; transform: translateX(20px); } to { opacity: 1; transform: translateX(0); } }
+
+        @media (max-width: 850px) {
+            .wizard-card { grid-template-columns: 1fr; }
+            .wizard-sidebar { display: none; }
+        }
     </style>
 </head>
 <body>
@@ -40,53 +90,163 @@
             <div class="logo"><i class="fas fa-bolt"></i> Edulizer</div>
         </div>
         <div class="nav-right">
-            <div class="user-info-nav"><small>Researcher</small> <span id="navUserName">User</span></div>
-            <button onclick="logout()" class="btn-logout-red">Logout</button>
+            <button onclick="window.location.href='dashboard.html'" class="btn-logout-red" style="background: #64748b;">
+                <i class="fas fa-arrow-left"></i> बाहेर पडा
+            </button>
         </div>
     </nav>
 
-    <div class="dashboard-layout">
-        <div class="sidebar">
-            <a href="dashboard.html" class="nav-item"><i class="fas fa-home"></i> होम</a>
-            <a href="college-list.html" class="nav-item active"><i class="fas fa-university"></i> माझी डायरी</a>
-            <a href="profile.html" class="nav-item"><i class="fas fa-user-circle"></i> प्रोफाइल</a>
-        </div>
+    <div class="form-container">
+        <div class="wizard-card">
+            
+            <div class="wizard-sidebar">
+                <div class="step-item active" id="s1"><div class="step-num">1</div> ओळख (Identity)</div>
+                <div class="step-item" id="s2"><div class="step-num">2</div> कट-ऑफ (Cut-off)</div>
+                <div class="step-item" id="s3"><div class="step-num">3</div> प्लेसमेंट (Placement)</div>
+                <div class="step-item" id="s4"><div class="step-num">4</div> फी (Financials)</div>
+                <div class="step-item" id="s5"><div class="step-num">5</div> संपर्क (Contact)</div>
+                <div class="step-item" id="s6"><div class="step-num">6</div> व्हॉल्ट (Vault)</div>
+            </div>
 
-        <div class="main-panel">
-            <div style="max-width: 1000px; margin: 0 auto;">
-                
-                <h2 style="margin-bottom: 20px;"><i class="fas fa-edit"></i> नवीन कॉलेज डेटा एन्ट्री</h2>
-                
-                <div class="wizard-progress">
-                    <div class="step-dot active" id="dot1">1</div>
-                    <div class="step-dot" id="dot2">2</div>
-                    <div class="step-dot" id="dot3">3</div>
-                    <div class="step-dot" id="dot4">4</div>
-                    <div class="step-dot" id="dot5">5</div>
-                    <div class="step-dot" id="dot6">6</div>
-                </div>
-
-                <form id="collegeForm" class="form-card">
+            <div class="wizard-content">
+                <form id="collegeMasterForm">
                     
-                    <div class="step-container active" id="step1">
-                        <h3 style="margin-bottom: 20px; color: var(--step-color);">१. बेसिक आयडेंटिटी आणि फोटो</h3>
-                        <div class="grid-3">
-                            <div class="form-group"><label>कॉलेजचे नाव</label><input type="text" id="cName" required></div>
-                            <div class="form-group"><label>DTE कोड</label><input type="text" id="cCode"></div>
+                    <div class="step-content active" id="step1">
+                        <h2><i class="fas fa-university" style="color: var(--primary-color);"></i> १. ओळख आणि फोटो</h2>
+                        
+                        <div class="form-group">
+                            <label>कॉलेजचे पूर्ण नाव</label>
+                            <input type="text" id="cName" placeholder="उदा. College of Engineering, Pune" required>
+                        </div>
+
+                        <div class="input-grid">
                             <div class="form-group">
-                                <label>ऑटोनॉमी</label>
-                                <select id="cAuto"><option>Autonomous</option><option>Non-Autonomous</option></select>
+                                <label>DTE कोड</label>
+                                <input type="number" id="cCode" placeholder="उदा. 6006">
+                            </div>
+                            <div class="form-group">
+                                <label>युनिव्हर्सिटी</label>
+                                <select id="cUni">
+                                    <option value="">निवडा...</option>
+                                    <option value="SPPU">SPPU (Pune)</option>
+                                    <option value="MU">MU (Mumbai)</option>
+                                    <option value="BATU">DBATU (Lonere)</option>
+                                    <option value="SU">Shivaji University</option>
+                                    <option value="Other">इतर</option>
+                                </select>
                             </div>
                         </div>
-                        <div class="upload-box" onclick="document.getElementById('cPhotos').click()">
-                            <i class="fas fa-camera fa-2x"></i>
-                            <p>कॉलेजचे फोटो अपलोड करा (Images)</p>
-                            <input type="file" id="cPhotos" multiple hidden accept="image/*">
+
+                        <div class="input-grid">
+                            <div class="form-group">
+                                <label>Status (प्रकार)</label>
+                                <select id="cStatus">
+                                    <option value="Govt">Government</option>
+                                    <option value="Private">Private</option>
+                                    <option value="Aided">Aided (अनुदानित)</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Autonomy (स्वायत्तता)</label>
+                                <select id="cAuto">
+                                    <option value="Autonomous">Autonomous</option>
+                                    <option value="Non-Autonomous">Non-Autonomous</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>NAAC Grade</label>
+                                <select id="cGrade">
+                                    <option value="A++">A++</option>
+                                    <option value="A+">A+</option>
+                                    <option value="A">A</option>
+                                    <option value="B++">B++</option>
+                                    <option value="B">B</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label>कॉलेजचे फोटो (Multiple Photos Allowed)</label>
+                            <div class="upload-container" onclick="document.getElementById('cPhotos').click()">
+                                <i class="fas fa-cloud-upload-alt"></i>
+                                <p>कॅम्पस, गेट किंवा लॅबचे फोटो निवडा</p>
+                                <small style="color: #94a3b8;">(Images: JPG, PNG only)</small>
+                                <input type="file" id="cPhotos" multiple hidden accept="image/*">
+                            </div>
+                            <div id="photoPreview" style="display: flex; gap: 10px; margin-top: 15px; flex-wrap: wrap;"></div>
                         </div>
                     </div>
 
-                    <div class="step-container" id="step2">
-                        <h3 style="margin-bottom: 20px; color: #10b981;">२. सविस्तर कट-ऑफ (Last Year)</h3>
+                    <div class="step-content" id="step2">
+                        </div>
+
+                    <div class="step-content" id="step3">
+                        </div>
+
+                    <div class="step-content" id="step4"></div>
+                    <div class="step-content" id="step5"></div>
+                    <div class="step-content" id="step6"></div>
+
+                    <div class="btn-footer">
+                        <button type="button" class="btn-nav btn-prev" id="prevBtn" onclick="moveStep(-1)" style="display: none;">मागे</button>
+                        <button type="button" class="btn-nav btn-next" id="nextBtn" onclick="moveStep(1)">पुढची पायरी</button>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentTab = 0;
+        const tabs = document.getElementsByClassName("step-content");
+        const steps = document.getElementsByClassName("step-item");
+
+        function moveStep(n) {
+            // सध्याचा टॅब लपवा
+            tabs[currentTab].style.display = "none";
+            steps[currentTab].classList.remove("active");
+
+            currentTab = currentTab + n;
+
+            // शेवटची पायरी आहे का चेक करा
+            if (currentTab >= tabs.length) {
+                alert("माहिती यशस्वीरित्या सेव्ह झाली!");
+                window.location.href = 'dashboard.html';
+                return false;
+            }
+
+            showTab(currentTab);
+        }
+
+        function showTab(n) {
+            tabs[n].style.display = "block";
+            steps[n].classList.add("active");
+
+            // Buttons कंट्रोल
+            document.getElementById("prevBtn").style.display = (n == 0) ? "none" : "inline";
+            document.getElementById("nextBtn").innerHTML = (n == (tabs.length - 1)) ? "माहिती जतन करा" : "पुढची पायरी";
+        }
+
+        // फोटो प्रिव्ह्यू लॉजिक
+        document.getElementById('cPhotos').addEventListener('change', function(e) {
+            const preview = document.getElementById('photoPreview');
+            preview.innerHTML = "";
+            Array.from(this.files).forEach(file => {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const img = document.createElement('img');
+                    img.src = e.target.result;
+                    img.style = "width: 80px; height: 60px; object-fit: cover; border-radius: 8px; border: 2px solid #e2e8f0;";
+                    preview.appendChild(img);
+                }
+                reader.readAsDataURL(file);
+            });
+        });
+    </script>
+
+</body>
+</html>
                         <div class="grid-3">
                             <div class="form-group"><label>General (Rank/%)</label><input type="text" id="cutOpen"></div>
                             <div class="form-group"><label>OBC (Rank/%)</label><input type="text" id="cutOBC"></div>
