@@ -114,6 +114,62 @@
         .user-text { display: none !important; }
         .form-container { margin-top: 90px; }
     }
+
+        /* Cut-off Table Styling */
+.cutoff-table-header {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr 1fr;
+    gap: 10px;
+    background: #f1f5f9;
+    padding: 12px;
+    border-radius: 10px;
+    font-weight: 800;
+    font-size: 0.85rem;
+    color: #475569;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+}
+
+.cutoff-row {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr 1fr;
+    gap: 10px;
+    margin-bottom: 10px;
+    align-items: center;
+}
+
+.cat-label {
+    font-weight: 600;
+    color: #334155;
+    font-size: 0.9rem;
+}
+
+.cutoff-row input {
+    padding: 10px !important;
+    font-size: 0.9rem !important;
+    text-align: center;
+}
+
+.special-row {
+    background: #f8fafc;
+    padding: 8px;
+    border-radius: 8px;
+    border-left: 4px solid #10b981;
+}
+
+/* Mobile Responsive for Cut-off */
+@media (max-width: 600px) {
+    .cutoff-table-header { display: none; } /* मोबाईलवर हेडर नको */
+    .cutoff-row {
+        grid-template-columns: 1fr 1fr; /* नाव वर आणि खाली दोन बॉक्स */
+        background: white;
+        border: 1px solid #e2e8f0;
+        padding: 15px;
+        border-radius: 12px;
+    }
+    .cat-label { grid-column: span 2; margin-bottom: 5px; color: #4f46e5; }
+        }
+        
     </style>
 </head>
 <body>
@@ -243,7 +299,67 @@
                     </div>
 
                     <div class="step-content" id="step2">
-                        </div>
+    <h2><i class="fas fa-chart-line" style="color: #10b981;"></i> २. कॅटेगरी वाईज कट-ऑफ</h2>
+    <p style="color: #64748b; font-size: 0.85rem; margin-bottom: 20px;">
+        मागील वर्षाचा (Last Year) क्लोजिंग रँक आणि पर्सेंटाईल अचूक भरा.
+    </p>
+
+    <div class="cutoff-table-header">
+        <div class="col-cat">Category</div>
+        <div class="col-rank">Merit Rank</div>
+        <div class="col-per">Percentile (%)</div>
+    </div>
+
+    <div class="cutoff-row">
+        <div class="cat-label">General (Open)</div>
+        <input type="number" id="rankOpen" placeholder="Rank">
+        <input type="text" id="perOpen" placeholder="Percentile">
+    </div>
+
+    <div class="cutoff-row">
+        <div class="cat-label">OBC / EBC</div>
+        <input type="number" id="rankOBC" placeholder="Rank">
+        <input type="text" id="perOBC" placeholder="Percentile">
+    </div>
+
+    <div class="cutoff-row">
+        <div class="cat-label">SC / ST</div>
+        <input type="number" id="rankSCST" placeholder="Rank">
+        <input type="text" id="perSCST" placeholder="Percentile">
+    </div>
+
+    <div class="cutoff-row">
+        <div class="cat-label">VJ / NT (1,2,3)</div>
+        <input type="number" id="rankVJNT" placeholder="Rank">
+        <input type="text" id="perVJNT" placeholder="Percentile">
+    </div>
+
+    <div class="cutoff-row">
+        <div class="cat-label">SBC / SEBC</div>
+        <input type="number" id="rankSBC" placeholder="Rank">
+        <input type="text" id="perSBC" placeholder="Percentile">
+    </div>
+
+    <h4 style="margin: 25px 0 15px 0; color: #1e293b; border-bottom: 2px solid #f1f5f9; padding-bottom: 5px;">Special & Reservations</h4>
+
+    <div class="cutoff-row special-row">
+        <div class="cat-label">TFWS / EWS</div>
+        <input type="number" id="rankTFWS" placeholder="Rank">
+        <input type="text" id="perTFWS" placeholder="Percentile">
+    </div>
+
+    <div class="cutoff-row special-row">
+        <div class="cat-label">PWD / Defense</div>
+        <input type="number" id="rankPWD" placeholder="Rank">
+        <input type="text" id="perPWD" placeholder="Percentile">
+    </div>
+
+    <div class="cutoff-row special-row">
+        <div class="cat-label">Orphan</div>
+        <input type="number" id="rankOrphan" placeholder="Rank">
+        <input type="text" id="perOrphan" placeholder="Percentile">
+    </div>
+</div>
 
                     <div class="step-content" id="step3">
                         </div>
