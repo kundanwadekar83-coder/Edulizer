@@ -576,6 +576,33 @@ if(placementInput) {
         });
     });
     }
+    // Step 4: Fee Proof Multiple Preview
+const feeInput = document.getElementById('feeProof');
+if(feeInput) {
+    feeInput.addEventListener('change', function(e) {
+        const preview = document.getElementById('feePreview');
+        preview.innerHTML = ""; // जुना प्रिव्ह्यू क्लिअर करा
+        
+        Array.from(this.files).forEach(file => {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const wrapper = document.createElement('div');
+                wrapper.style = "text-align: center; width: 70px;";
+
+                if (file.type.startsWith('image/')) {
+                    const img = document.createElement('img');
+                    img.src = e.target.result;
+                    img.style = "width: 70px; height: 70px; object-fit: cover; border-radius: 5px; border: 1px solid #ddd;";
+                    wrapper.appendChild(img);
+                } else {
+                    wrapper.innerHTML = `<i class="fas fa-file-pdf" style="font-size: 40px; color: #e11d48;"></i><p style="font-size: 10px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">${file.name}</p>`;
+                }
+                preview.appendChild(wrapper);
+            }
+            reader.readAsDataURL(file);
+        });
+    });
+    }
     
 </script>
 
