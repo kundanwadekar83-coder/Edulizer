@@ -546,48 +546,35 @@
     const tabs = document.getElementsByClassName("step-content");
     const steps = document.getElementsByClassName("step-item");
 
-    // १. सुरुवातीला पहिला टॅब दाखवण्यासाठी
     document.addEventListener('DOMContentLoaded', () => {
         showTab(currentTab);
 
-        // युजर डेटा लोकल स्टोरेजमधून मिळवा
-        const user = JSON.parse(localStorage.getItem('currentUser')) || { name: "Guest User" };
-        
-        // नाव आणि अवतॉर अपडेट करा
+        // युजर डेटा अपडेट
+        const user = JSON.parse(localStorage.getItem('currentUser')) || { name: "विद्यार्थी" };
         const navName = document.getElementById('navUserName');
         const navInit = document.getElementById('navInitial');
         
         if(navName) navName.innerText = user.name;
         if(navInit) navInit.innerText = user.name.charAt(0).toUpperCase();
 
-        // --- STEP 3: ADD MORE YEAR LOGIC (Paryay 2) ---
+        // --- STEP 3: ADD MORE YEAR LOGIC ---
         let yearCount = 1;
         const addBtn = document.getElementById('addYearBtn');
-        
         if(addBtn) {
             addBtn.addEventListener('click', function() {
                 if (yearCount < 3) {
                     const container = document.getElementById('placement-container');
                     const rows = document.getElementsByClassName('placement-row');
-                    
-                    // पहिला रो क्लोन करा
                     const newRow = rows[0].cloneNode(true);
-                    
-                    // नवीन रो मधील व्हॅल्यूज क्लिअर करा
                     newRow.querySelectorAll('input').forEach(input => input.value = '');
-                    
                     container.appendChild(newRow);
                     yearCount++;
-                    
-                    // ३ वर्षे पूर्ण झाल्यावर बटन लपवा
-                    if (yearCount === 3) {
-                        this.style.display = 'none';
-                    }
+                    if (yearCount === 3) this.style.display = 'none';
                 }
             });
         }
 
-        // फोटो प्रिव्ह्यू लॉजिक (Check added for safety)
+        // Photo Preview
         const photoInput = document.getElementById('cPhotos');
         if(photoInput) {
             photoInput.addEventListener('change', function(e) {
@@ -607,171 +594,106 @@
         }
     });
 
+    // --- फिक्स केलेले मुख्य फंक्शन (Merge केलेले) ---
     function showTab(n) {
         // सर्व टॅब्स लपवा
         for (let i = 0; i < tabs.length; i++) {
             tabs[i].style.display = "none";
-            steps[i].classList.remove("active");
+            if(steps[i]) steps[i].classList.remove("active");
         }
 
         // सध्याचा टॅब दाखवा
         tabs[n].style.display = "block";
-        steps[n].classList.add("active");
+        if(steps[n]) steps[n].classList.add("active");
 
-        // Buttons कंट्रोल
         const prevBtn = document.getElementById("prevBtn");
         const nextBtn = document.getElementById("nextBtn");
 
-        if(prevBtn) prevBtn.style.display = (n == 0) ? "none" : "inline";
-        if(nextBtn) nextBtn.innerHTML = (n == (tabs.length - 1)) ? "माहिती जतन करा" : "पुढची पायरी";
+        // Previous Button Control
+        if(prevBtn) {
+            prevBtn.style.display = (n == 0) ? "none" : "flex";
+        }
+
+        // Next/Save Button Text Control
+        if(nextBtn) {
+            if (n == (tabs.length - 1)) {
+                nextBtn.innerHTML = 'माहिती जतन करा <i class="fas fa-check"></i>';
+                nextBtn.style.background = "#10b981"; // शेवटच्या स्टेपला हिरवा रंग
+            } else {
+                nextBtn.innerHTML = 'पुढची पायरी <i class="fas fa-arrow-right"></i>';
+                nextBtn.style.background = "#4f46e5";
+            }
+        }
     }
 
     function moveStep(n) {
-        // सध्याचा टॅब लपवा
-        tabs[currentTab].style.display = "none";
-        steps[currentTab].classList.remove("active");
-
+        // सध्याचा टॅब व्हॅलिडेशन नसेल तर डायरेक्ट पुढे
         currentTab = currentTab + n;
 
-        // शेवटची पायरी आहे का चेक करा
         if (currentTab >= tabs.length) {
             alert("माहिती यशस्वीरित्या सेव्ह झाली!");
-            // इथे तुम्ही फॉर्म सबमिट करण्याचा कोड टाकू शकता (AJAX/Fetch)
             window.location.href = 'dashboard.html';
+            return false;
+        }
+        
+        if (currentTab < 0) {
+            currentTab = 0;
             return false;
         }
 
         showTab(currentTab);
     }
 
-                        // Placement Proof Multiple Preview
-const placementInput = document.getElementById('placementProof');
-if(placementInput) {
-    placementInput.addEventListener('change', function(e) {
-        const preview = document.getElementById('placementPreview');
-        preview.innerHTML = ""; // Juni preview clear kara
-        
-        Array.from(this.files).forEach(file => {
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                if (file.type.startsWith('image/')) {
-                    // Jar image asel tar photo dakhva
-                    const img = document.createElement('img');
-                    img.src = e.target.result;
-                    img.style = "width: 70px; height: 70px; object-fit: cover; border-radius: 5px; border: 1px solid #ddd;";
-                    preview.appendChild(img);
-                } else {
-                    // Jar PDF asel tar icon/nav dakhva
-                    const doc = document.createElement('div');
-                    doc.innerHTML = `<i class="fas fa-file-pdf" style="font-size: 40px; color: red;"></i><p style="font-size: 10px;">PDF</p>`;
-                    doc.style = "text-align: center; width: 70px;";
-                    preview.appendChild(doc);
-                }
-            }
-            reader.readAsDataURL(file);
-        });
-    });
+    // Placement Proof Preview
+    const placementInput = document.getElementById('placementProof');
+    if(placementInput) {
+        placementInput.addEventListener('change', (e) => handlePreview(e.target.files, 'placementPreview'));
     }
-    // Step 4: Fee Proof Multiple Preview
-const feeInput = document.getElementById('feeProof');
-if(feeInput) {
-    feeInput.addEventListener('change', function(e) {
-        const preview = document.getElementById('feePreview');
-        preview.innerHTML = ""; // जुना प्रिव्ह्यू क्लिअर करा
-        
-        Array.from(this.files).forEach(file => {
+
+    // Fee Proof Preview
+    const feeInput = document.getElementById('feeProof');
+    if(feeInput) {
+        feeInput.addEventListener('change', (e) => handlePreview(e.target.files, 'feePreview'));
+    }
+
+    // Step 6: Vault Preview (नवीन ॲड केलेले)
+    const vaultInput = document.getElementById('vaultDocs');
+    if(vaultInput) {
+        vaultInput.addEventListener('change', (e) => handlePreview(e.target.files, 'vaultPreview'));
+    }
+
+    // कॉमन प्रिव्ह्यू फंक्शन (कोड कमी करण्यासाठी)
+    function handlePreview(files, containerId) {
+        const preview = document.getElementById(containerId);
+        preview.innerHTML = "";
+        Array.from(files).forEach(file => {
             const reader = new FileReader();
             reader.onload = function(e) {
                 const wrapper = document.createElement('div');
-                wrapper.style = "text-align: center; width: 70px;";
-
+                wrapper.style = "text-align: center; width: 70px; margin-bottom:10px;";
                 if (file.type.startsWith('image/')) {
-                    const img = document.createElement('img');
-                    img.src = e.target.result;
-                    img.style = "width: 70px; height: 70px; object-fit: cover; border-radius: 5px; border: 1px solid #ddd;";
-                    wrapper.appendChild(img);
+                    wrapper.innerHTML = `<img src="${e.target.result}" style="width: 70px; height: 70px; object-fit: cover; border-radius: 5px; border: 1px solid #ddd;">`;
                 } else {
-                    wrapper.innerHTML = `<i class="fas fa-file-pdf" style="font-size: 40px; color: #e11d48;"></i><p style="font-size: 10px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">${file.name}</p>`;
+                    wrapper.innerHTML = `<i class="fas fa-file-pdf" style="font-size: 40px; color: #e11d48;"></i><p style="font-size: 10px; overflow: hidden; white-space: nowrap;">${file.name}</p>`;
                 }
                 preview.appendChild(wrapper);
             }
             reader.readAsDataURL(file);
         });
-    });
-    }
-    // PWD Section Toggle
-function togglePwdCategory(show) {
-    const div = document.getElementById('pwdCategoryDiv');
-    div.style.display = show ? 'block' : 'none';
-    if(!show) {
-        document.getElementById('pwdAmountDiv').style.display = 'none';
-        document.getElementById('pwdCatSelect').value = "";
-    }
-}
-
-// Show specific Input based on selected PWD Category
-function showPwdInput() {
-    const select = document.getElementById('pwdCatSelect');
-    const inputDiv = document.getElementById('pwdAmountDiv');
-    const label = document.getElementById('pwdAmountLabel');
-    
-    if(select.value !== "") {
-        inputDiv.style.display = 'block';
-        label.innerText = select.options[select.selectedIndex].text + " ची फी रक्कम:";
-    } else {
-        inputDiv.style.display = 'none';
-    }
-}
-
-// Hostel Section Toggle
-function toggleHostelInput() {
-    const checkBox = document.getElementById('hasHostel');
-    const inputDiv = document.getElementById('hostelInputDiv');
-    inputDiv.style.display = checkBox.checked ? 'grid' : 'none';
-    }
-    function showTab(n) {
-    tabs[n].style.display = "block";
-    steps[n].classList.add("active");
-
-    const prevBtn = document.getElementById("prevBtn");
-    const nextBtn = document.getElementById("nextBtn");
-
-    // Previous Button Logic
-    if (n == 0) {
-        prevBtn.style.display = "none";
-    } else {
-        prevBtn.style.display = "flex"; // kiwa inline-block
     }
 
-    // Next Button Text Logic
-    if (n == (tabs.length - 1)) {
-        nextBtn.innerHTML = 'माहिती जतन करा <i class="fas fa-check"></i>';
-    } else {
-        nextBtn.innerHTML = 'पुढची पायरी <i class="fas fa-arrow-right"></i>';
+    // PWD & Hostel Toggles
+    function togglePwdCategory(show) {
+        document.getElementById('pwdCategoryDiv').style.display = show ? 'block' : 'none';
     }
-        }
-    function showTab(n) {
-    tabs[n].style.display = "block";
-    steps[n].classList.add("active");
-
-    const prevBtn = document.getElementById("prevBtn");
-    const nextBtn = document.getElementById("nextBtn");
-
-    // Previous Button Logic
-    if (n == 0) {
-        prevBtn.style.display = "none";
-    } else {
-        prevBtn.style.display = "flex"; // kiwa inline-block
+    function showPwdInput() {
+        const select = document.getElementById('pwdCatSelect');
+        document.getElementById('pwdAmountDiv').style.display = (select.value !== "") ? 'block' : 'none';
     }
-
-    // Next Button Text Logic
-    if (n == (tabs.length - 1)) {
-        nextBtn.innerHTML = 'माहिती जतन करा <i class="fas fa-check"></i>';
-    } else {
-        nextBtn.innerHTML = 'पुढची पायरी <i class="fas fa-arrow-right"></i>';
+    function toggleHostelInput() {
+        const checkBox = document.getElementById('hasHostel');
+        document.getElementById('hostelInputDiv').style.display = checkBox.checked ? 'grid' : 'none';
     }
-    }
-        
 </script>
 
 </body>
