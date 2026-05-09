@@ -363,8 +363,36 @@
     </div>
 </div>
 
-                    <div class="step-content" id="step3">
-                        </div>
+                 <div class="step-content" id="step3">
+    <h2><i class="fas fa-briefcase"></i> ३. प्लेसमेंट डेटा</h2>
+    
+    <div id="placement-container">
+        <div class="placement-row" style="border-bottom: 1px solid #ddd; padding: 10px 0;">
+            <div class="input-group">
+                <label>वर्ष:</label>
+                <select class="year-select">
+                    <option value="2024">2024</option>
+                    <option value="2023">2023</option>
+                    <option value="2022">2022</option>
+                </select>
+            </div>
+            <div class="input-pair">
+                <input type="number" placeholder="Highest LPA">
+                <input type="number" placeholder="Average LPA">
+                <input type="number" placeholder="Placement %">
+            </div>
+        </div>
+    </div>
+
+    <button type="button" id="addYearBtn" style="margin-top: 10px; background: #10b981; color: white; border: none; padding: 8px 15px; border-radius: 5px; cursor: pointer;">
+        + आणखी वर्ष जोडा (जास्तीत जास्त ३ वर्षे)
+    </button>
+
+    <div class="upload-section" style="margin-top: 20px;">
+        <label>Placement Highlights (Photo/PDF):</label>
+        <input type="file" accept=".pdf, image/*">
+    </div>
+</div>
 
                     <div class="step-content" id="step4"></div>
                     <div class="step-content" id="step5"></div>
@@ -380,69 +408,109 @@
         </div>
     </div>
 
-    <script>
-        let currentTab = 0;
-        const tabs = document.getElementsByClassName("step-content");
-        const steps = document.getElementsByClassName("step-item");
+  <script>
+    let currentTab = 0;
+    const tabs = document.getElementsByClassName("step-content");
+    const steps = document.getElementsByClassName("step-item");
 
-        function moveStep(n) {
-            // सध्याचा टॅब लपवा
-            tabs[currentTab].style.display = "none";
-            steps[currentTab].classList.remove("active");
+    // १. सुरुवातीला पहिला टॅब दाखवण्यासाठी
+    document.addEventListener('DOMContentLoaded', () => {
+        showTab(currentTab);
 
-            currentTab = currentTab + n;
-
-            // शेवटची पायरी आहे का चेक करा
-            if (currentTab >= tabs.length) {
-                alert("माहिती यशस्वीरित्या सेव्ह झाली!");
-                window.location.href = 'dashboard.html';
-                return false;
-            }
-
-            showTab(currentTab);
-        }
-
-        function showTab(n) {
-            tabs[n].style.display = "block";
-            steps[n].classList.add("active");
-
-            // Buttons कंट्रोल
-            document.getElementById("prevBtn").style.display = (n == 0) ? "none" : "inline";
-            document.getElementById("nextBtn").innerHTML = (n == (tabs.length - 1)) ? "माहिती जतन करा" : "पुढची पायरी";
-        }
-
-        // फोटो प्रिव्ह्यू लॉजिक
-        document.getElementById('cPhotos').addEventListener('change', function(e) {
-            const preview = document.getElementById('photoPreview');
-            preview.innerHTML = "";
-            Array.from(this.files).forEach(file => {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    const img = document.createElement('img');
-                    img.src = e.target.result;
-                    img.style = "width: 80px; height: 60px; object-fit: cover; border-radius: 8px; border: 2px solid #e2e8f0;";
-                    preview.appendChild(img);
-                }
-                reader.readAsDataURL(file);
-            });
-        });
-
-        document.addEventListener('DOMContentLoaded', () => {
-    // युजर डेटा लोकल स्टोरेजमधून मिळवा
-    const user = JSON.parse(localStorage.getItem('currentUser')) || { name: "Guest User" };
-    
-    // १. नाव अपडेट करा
-    const navName = document.getElementById('navUserName');
-    if(navName) navName.innerText = user.name;
-    
-    // २. अवतॉर (Initial) अपडेट करा
-    const navInit = document.getElementById('navInitial');
-    if(navInit) navInit.innerText = user.name.charAt(0).toUpperCase();
-
-    // डॅशबोर्डवर जो कोड आपण आधी लिहिला होता तो तसाच राहू दे (checkUniversity वगैरे)
-});
+        // युजर डेटा लोकल स्टोरेजमधून मिळवा
+        const user = JSON.parse(localStorage.getItem('currentUser')) || { name: "Guest User" };
         
-    </script>
+        // नाव आणि अवतॉर अपडेट करा
+        const navName = document.getElementById('navUserName');
+        const navInit = document.getElementById('navInitial');
+        
+        if(navName) navName.innerText = user.name;
+        if(navInit) navInit.innerText = user.name.charAt(0).toUpperCase();
+
+        // --- STEP 3: ADD MORE YEAR LOGIC (Paryay 2) ---
+        let yearCount = 1;
+        const addBtn = document.getElementById('addYearBtn');
+        
+        if(addBtn) {
+            addBtn.addEventListener('click', function() {
+                if (yearCount < 3) {
+                    const container = document.getElementById('placement-container');
+                    const rows = document.getElementsByClassName('placement-row');
+                    
+                    // पहिला रो क्लोन करा
+                    const newRow = rows[0].cloneNode(true);
+                    
+                    // नवीन रो मधील व्हॅल्यूज क्लिअर करा
+                    newRow.querySelectorAll('input').forEach(input => input.value = '');
+                    
+                    container.appendChild(newRow);
+                    yearCount++;
+                    
+                    // ३ वर्षे पूर्ण झाल्यावर बटन लपवा
+                    if (yearCount === 3) {
+                        this.style.display = 'none';
+                    }
+                }
+            });
+        }
+
+        // फोटो प्रिव्ह्यू लॉजिक (Check added for safety)
+        const photoInput = document.getElementById('cPhotos');
+        if(photoInput) {
+            photoInput.addEventListener('change', function(e) {
+                const preview = document.getElementById('photoPreview');
+                preview.innerHTML = "";
+                Array.from(this.files).forEach(file => {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        const img = document.createElement('img');
+                        img.src = e.target.result;
+                        img.style = "width: 80px; height: 60px; object-fit: cover; border-radius: 8px; border: 2px solid #e2e8f0; margin-right: 5px;";
+                        preview.appendChild(img);
+                    }
+                    reader.readAsDataURL(file);
+                });
+            });
+        }
+    });
+
+    function showTab(n) {
+        // सर्व टॅब्स लपवा
+        for (let i = 0; i < tabs.length; i++) {
+            tabs[i].style.display = "none";
+            steps[i].classList.remove("active");
+        }
+
+        // सध्याचा टॅब दाखवा
+        tabs[n].style.display = "block";
+        steps[n].classList.add("active");
+
+        // Buttons कंट्रोल
+        const prevBtn = document.getElementById("prevBtn");
+        const nextBtn = document.getElementById("nextBtn");
+
+        if(prevBtn) prevBtn.style.display = (n == 0) ? "none" : "inline";
+        if(nextBtn) nextBtn.innerHTML = (n == (tabs.length - 1)) ? "माहिती जतन करा" : "पुढची पायरी";
+    }
+
+    function moveStep(n) {
+        // सध्याचा टॅब लपवा
+        tabs[currentTab].style.display = "none";
+        steps[currentTab].classList.remove("active");
+
+        currentTab = currentTab + n;
+
+        // शेवटची पायरी आहे का चेक करा
+        if (currentTab >= tabs.length) {
+            alert("माहिती यशस्वीरित्या सेव्ह झाली!");
+            // इथे तुम्ही फॉर्म सबमिट करण्याचा कोड टाकू शकता (AJAX/Fetch)
+            window.location.href = 'dashboard.html';
+            return false;
+        }
+
+        showTab(currentTab);
+    }
+</script>
 
 </body>
 </html>
