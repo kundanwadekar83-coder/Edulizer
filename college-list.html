@@ -7,184 +7,113 @@
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        :root {
-            --primary-color: #4f46e5;
-            --bg-color: #f8fafc;
-        }
+    :root {
+        --primary-color: #4f46e5;
+        --bg-color: #f8fafc;
+    }
 
-        body { background-color: var(--bg-color); font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+    body { background-color: var(--bg-color); font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; }
 
-        .form-container { max-width: 1000px; margin: 30px auto; padding: 0 15px; }
+    .form-container { max-width: 1000px; margin: 100px auto 30px auto; padding: 0 15px; }
 
-        .wizard-card {
-            background: white;
-            border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
-            display: grid;
-            grid-template-columns: 280px 1fr;
-            overflow: hidden;
-            min-height: 600px;
-        }
+    .wizard-card {
+        background: white;
+        border-radius: 20px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+        display: grid;
+        grid-template-columns: 280px 1fr;
+        overflow: hidden;
+        min-height: 600px;
+    }
 
-        /* Sidebar Steps */
-        .wizard-sidebar { background: #1e293b; color: white; padding: 40px 30px; }
-        .step-item { display: flex; align-items: center; gap: 15px; margin-bottom: 25px; opacity: 0.4; transition: 0.3s; }
-        .step-item.active { opacity: 1; color: #818cf8; font-weight: 700; }
-        .step-num { 
-            width: 32px; height: 32px; border-radius: 50%; border: 2px solid currentColor; 
-            display: flex; align-items: center; justify-content: center; font-size: 0.9rem;
-        }
+    /* Sidebar Steps */
+    .wizard-sidebar { background: #1e293b; color: white; padding: 40px 30px; }
+    .step-item { display: flex; align-items: center; gap: 15px; margin-bottom: 25px; opacity: 0.4; transition: 0.3s; }
+    .step-item.active { opacity: 1; color: #818cf8; font-weight: 700; }
+    .step-num { 
+        width: 32px; height: 32px; border-radius: 50%; border: 2px solid currentColor; 
+        display: flex; align-items: center; justify-content: center; font-size: 0.9rem;
+    }
 
-        /* Content Area */
-        .wizard-content { padding: 40px; position: relative; }
-        .step-content { display: none; animation: slideIn 0.4s ease; }
-        .step-content.active { display: block; }
+    /* Content Area */
+    .wizard-content { padding: 40px; position: relative; }
+    .step-content { display: none; animation: slideIn 0.4s ease; }
+    .step-content.active { display: block; }
 
-        h2 { color: #1e293b; margin-bottom: 25px; font-size: 1.5rem; display: flex; align-items: center; gap: 10px; }
+    h2 { color: #1e293b; margin-bottom: 25px; font-size: 1.5rem; display: flex; align-items: center; gap: 10px; }
 
-        /* Form Controls */
-        .input-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px; margin-bottom: 20px; }
-        .form-group { margin-bottom: 20px; }
-        .form-group label { display: block; margin-bottom: 8px; font-weight: 600; color: #475569; font-size: 0.9rem; }
-        .form-group input, .form-group select { 
-            width: 100%; padding: 12px; border: 1px solid #e2e8f0; border-radius: 10px; font-size: 1rem; transition: 0.3s;
-        }
-        .form-group input:focus { border-color: var(--primary-color); outline: none; box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1); }
+    /* Form Controls */
+    .input-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px; margin-bottom: 20px; }
+    .form-group { margin-bottom: 20px; }
+    .form-group label { display: block; margin-bottom: 8px; font-weight: 600; color: #475569; font-size: 0.9rem; }
+    .form-group input, .form-group select { 
+        width: 100%; padding: 12px; border: 1px solid #e2e8f0; border-radius: 10px; font-size: 1rem; transition: 0.3s;
+    }
+    .form-group input:focus { border-color: var(--primary-color); outline: none; box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1); }
 
-        /* Photo Upload UI */
-        .upload-container {
-            border: 2px dashed #cbd5e1;
-            padding: 30px;
-            border-radius: 15px;
-            text-align: center;
-            cursor: pointer;
-            background: #fcfcfd;
-            transition: 0.3s;
-        }
-        .upload-container:hover { border-color: var(--primary-color); background: #f5f3ff; }
-        .upload-container i { font-size: 2.5rem; color: var(--primary-color); margin-bottom: 10px; }
+    /* Photo Upload UI */
+    .upload-container {
+        border: 2px dashed #cbd5e1;
+        padding: 30px;
+        border-radius: 15px;
+        text-align: center;
+        cursor: pointer;
+        background: #fcfcfd;
+        transition: 0.3s;
+    }
+    .upload-container:hover { border-color: var(--primary-color); background: #f5f3ff; }
+    .upload-container i { font-size: 2.5rem; color: var(--primary-color); margin-bottom: 10px; }
 
-        /* Navigation Buttons */
-        .btn-footer { 
-            margin-top: 40px; padding-top: 25px; border-top: 1px solid #f1f5f9; 
-            display: flex; justify-content: space-between; 
-        }
-        .btn-nav { padding: 12px 30px; border-radius: 10px; font-weight: 700; border: none; cursor: pointer; transition: 0.3s; }
-        .btn-next { background: var(--primary-color); color: white; }
-        .btn-next:hover { background: #4338ca; }
-        .btn-prev { background: #f1f5f9; color: #475569; }
+    /* Header Fixes */
+    .glass-nav {
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(10px);
+        border-bottom: 1px solid #e2e8f0;
+        position: fixed;
+        top: 0; left: 0; width: 100%;
+        z-index: 1000;
+        height: 75px;
+        display: flex;
+        align-items: center;
+    }
 
-        @keyframes slideIn { from { opacity: 0; transform: translateX(20px); } to { opacity: 1; transform: translateX(0); } }
+    .nav-container {
+        width: 100%; max-width: 1200px; margin: 0 auto; padding: 0 25px;
+        display: flex; justify-content: space-between; align-items: center;
+    }
 
-        @media (max-width: 850px) {
-            .wizard-card { grid-template-columns: 1fr; }
-            .wizard-sidebar { display: none; }
-        }
+    .logo-brand { display: flex; align-items: center; gap: 12px; font-size: 1.6rem; font-weight: 900; color: #4f46e5; text-decoration: none; }
+    .nav-right { display: flex; align-items: center; gap: 25px; }
 
-     /* --- Modern Fixed Header Fix --- */
-.glass-nav {
-    background: rgba(255, 255, 255, 0.95);
-    backdrop-filter: blur(10px);
-    border-bottom: 1px solid #e2e8f0;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%; /* पूर्ण रुंदी */
-    z-index: 1000;
-    height: 75px;
-    display: flex;
-    align-items: center;
-}
+    .back-link {
+        text-decoration: none; display: flex; align-items: center; gap: 8px;
+        background: #f1f5f9; color: #475569; padding: 10px 20px;
+        border-radius: 12px; font-weight: 700; font-size: 0.9rem; transition: 0.3s ease;
+    }
+    .back-link:hover { background: #4f46e5; color: white; }
 
-.nav-container {
-    width: 100%;
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 25px;
-    display: flex;
-    justify-content: space-between; /* यामुळे लोगो डावीकडे आणि बटन/प्रोफाइल उजवीकडे ढकलले जाईल */
-    align-items: center;
-}
+    .user-profile-nav { display: flex; align-items: center; gap: 15px; padding-left: 20px; border-left: 2px solid #f1f5f9; }
+    .user-text { text-align: right; line-height: 1.2; }
+    .user-avatar {
+        width: 42px; height: 42px; background: linear-gradient(135deg, #6366f1, #4f46e5);
+        color: white; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-weight: 800;
+    }
 
-.nav-left {
-    display: flex;
-    align-items: center;
-}
+    /* Buttons */
+    .btn-footer { margin-top: 40px; padding-top: 25px; border-top: 1px solid #f1f5f9; display: flex; justify-content: space-between; }
+    .btn-nav { padding: 12px 30px; border-radius: 10px; font-weight: 700; border: none; cursor: pointer; transition: 0.3s; }
+    .btn-next { background: var(--primary-color); color: white; }
+    .btn-prev { background: #f1f5f9; color: #475569; }
 
-.nav-right {
-    display: flex;
-    align-items: center;
-    gap: 25px; /* बटन आणि प्रोफाइलमधील अंतर */
-}
+    @keyframes slideIn { from { opacity: 0; transform: translateX(20px); } to { opacity: 1; transform: translateX(0); } }
 
-.logo-brand {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    font-size: 1.6rem;
-    font-weight: 900;
-    color: #4f46e5;
-    text-decoration: none;
-}
-
-/* Dashboard Button Styling */
-.back-link {
-    text-decoration: none;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    background: #f1f5f9;
-    color: #475569;
-    padding: 10px 20px;
-    border-radius: 12px;
-    font-weight: 700;
-    font-size: 0.9rem;
-    transition: 0.3s ease;
-}
-
-.back-link:hover {
-    background: #4f46e5;
-    color: white;
-}
-
-/* User Profile Section */
-.user-profile-nav {
-    display: flex;
-    align-items: center;
-    gap: 15px;
-    padding-left: 20px;
-    border-left: 2px solid #f1f5f9;
-}
-
-.user-text {
-    text-align: right;
-    line-height: 1.2;
-}
-
-.user-text span {
-    display: block;
-    font-weight: 800;
-    color: #1e293b;
-}
-
-.user-avatar {
-    width: 42px;
-    height: 42px;
-    background: linear-gradient(135deg, #6366f1, #4f46e5);
-    color: white;
-    border-radius: 12px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: 800;
-}
-
-/* फॉर्मला हेडरच्या खाली आणण्यासाठी */
-.form-container {
-    margin-top: 100px; /* हे वाढवल्यामुळे फॉर्म हेडरच्या खाली येईल */
-}
-                                                              }
-        
+    /* Mobile Responsive */
+    @media (max-width: 850px) {
+        .wizard-card { grid-template-columns: 1fr; }
+        .wizard-sidebar { display: none; }
+        .user-text { display: none !important; }
+        .form-container { margin-top: 90px; }
+    }
     </style>
 </head>
 <body>
