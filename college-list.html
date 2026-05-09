@@ -135,12 +135,43 @@
     }
     .other-item:hover { border-color: var(--primary-color); box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
 
-    /* Footer Buttons */
-    .btn-footer { margin-top: 40px; padding-top: 25px; border-top: 1px solid #f1f5f9; display: flex; justify-content: space-between; }
-    .btn-nav { padding: 12px 30px; border-radius: 12px; font-weight: 700; border: none; cursor: pointer; transition: 0.3s; font-family: 'Poppins'; }
-    .btn-next { background: var(--primary-color); color: white; }
-    .btn-prev { background: #f1f5f9; color: #475569; }
+/* Footer Buttons */
+.btn-footer { 
+    margin-top: 40px; 
+    padding-top: 25px; 
+    border-top: 1px solid #f1f5f9; 
+    display: flex; 
+    justify-content: space-between; 
+    align-items: center; /* Vertical alignment sathi */
+}
 
+.btn-nav { 
+    padding: 12px 30px; 
+    border-radius: 12px; 
+    font-weight: 700; 
+    border: none; 
+    cursor: pointer; 
+    transition: 0.3s; 
+    font-family: 'Poppins'; 
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.btn-next { 
+    background: var(--primary-color); 
+    color: white; 
+    margin-left: auto; /* He khup mahatvache aahe */
+}
+
+.btn-prev { 
+    background: #f1f5f9; 
+    color: #475569; 
+}
+
+/* Hover effects */
+.btn-next:hover { opacity: 0.9; transform: translateY(-2px); }
+.btn-prev:hover { background: #e2e8f0; }
     @keyframes slideIn { from { opacity: 0; transform: translateX(20px); } to { opacity: 1; transform: translateX(0); } }
 
     /* Mobile Responsive - Table Header Fix */
@@ -409,28 +440,36 @@
             <div class="form-group"><label>TFWS Fee:</label><input type="number" id="tfwsFee" placeholder="00"></div>
         </div>
 
-        <div class="pwd-section" style="margin-top: 15px; padding-top: 10px; border-top: 1px dashed #cbd5e1;">
-            <label style="font-weight: bold;">विद्यार्थी दिव्यांग (PWD) आहे का?</label>
-            <div style="margin: 10px 0;">
-                <input type="radio" name="isPwd" value="no" checked onclick="togglePwdCategory(false)"> No
-                <input type="radio" name="isPwd" value="yes" onclick="togglePwdCategory(true)" style="margin-left: 20px;"> Yes
-            </div>
+       <div class="pwd-section" style="margin-top: 15px; padding: 15px; background: #ffffff; border: 1px solid #e2e8f0; border-radius: 12px;">
+    <label style="font-weight: 700; color: #1e293b; display: block; margin-bottom: 12px;">विद्यार्थी दिव्यांग (PWD) आहे का?</label>
+    
+    <div style="display: flex; gap: 25px; align-items: center; margin-bottom: 5px;">
+        <label style="display: flex; align-items: center; gap: 8px; cursor: pointer; font-size: 0.95rem;">
+            <input type="radio" name="isPwd" value="no" checked onclick="togglePwdCategory(false)" style="width: 18px; height: 18px; accent-color: #4f46e5;"> नाही (No)
+        </label>
+        <label style="display: flex; align-items: center; gap: 8px; cursor: pointer; font-size: 0.95rem;">
+            <input type="radio" name="isPwd" value="yes" onclick="togglePwdCategory(true)" style="width: 18px; height: 18px; accent-color: #4f46e5;"> हो (Yes)
+        </label>
+    </div>
 
-            <div id="pwdCategoryDiv" style="display: none; margin-top: 10px; animation: fadeIn 0.3s;">
-                <label>कोणत्या कॅटेगरीच्या PWD साठी फी टाकायची आहे?</label>
-                <select id="pwdCatSelect" onchange="showPwdInput()" style="width: 100%; padding: 8px; margin-top: 5px;">
-                    <option value="">-- निवडा --</option>
-                    <option value="open-pwd">Open-PWD</option>
-                    <option value="obc-pwd">OBC-PWD</option>
-                    <option value="scst-pwd">SC/ST-PWD</option>
-                    <option value="other-pwd">इतर (Common PWD Fee)</option>
-                </select>
-                <div id="pwdAmountDiv" style="margin-top: 10px; display: none;">
-                    <label id="pwdAmountLabel">फीची रक्कम:</label>
-                    <input type="number" id="pwdAmountInput" placeholder="रक्कम टाका" style="width: 100%; padding: 8px;">
-                </div>
-            </div>
+    <div id="pwdCategoryDiv" style="display: none; margin-top: 15px; border-top: 1px solid #f1f5f9; padding-top: 15px; animation: fadeIn 0.3s;">
+        <div class="form-group">
+            <label style="font-size: 0.85rem; color: #64748b;">कोणत्या कॅटेगरीच्या PWD साठी फी टाकायची आहे?</label>
+            <select id="pwdCatSelect" onchange="showPwdInput()" style="width: 100%; padding: 10px; border-radius: 8px; border: 1px solid #cbd5e1; margin-top: 5px; font-family: 'Poppins';">
+                <option value="">-- निवडा --</option>
+                <option value="open-pwd">Open-PWD</option>
+                <option value="obc-pwd">OBC-PWD</option>
+                <option value="scst-pwd">SC/ST-PWD</option>
+                <option value="other-pwd">इतर (Common PWD Fee)</option>
+            </select>
         </div>
+        
+        <div id="pwdAmountDiv" style="margin-top: 12px; display: none;">
+            <label id="pwdAmountLabel" style="font-size: 0.85rem; color: #64748b;">फीची रक्कम:</label>
+            <input type="number" id="pwdAmountInput" placeholder="रक्कम टाका" style="width: 100%; padding: 10px; border-radius: 8px; border: 1px solid #cbd5e1; margin-top: 5px;">
+        </div>
+    </div>
+</div>
     </div>
 
     <div class="hostel-section" style="background: #f0fdf4; padding: 15px; border-radius: 10px; margin-bottom: 20px;">
@@ -657,7 +696,49 @@ function toggleHostelInput() {
     const inputDiv = document.getElementById('hostelInputDiv');
     inputDiv.style.display = checkBox.checked ? 'grid' : 'none';
     }
-    
+    function showTab(n) {
+    tabs[n].style.display = "block";
+    steps[n].classList.add("active");
+
+    const prevBtn = document.getElementById("prevBtn");
+    const nextBtn = document.getElementById("nextBtn");
+
+    // Previous Button Logic
+    if (n == 0) {
+        prevBtn.style.display = "none";
+    } else {
+        prevBtn.style.display = "flex"; // kiwa inline-block
+    }
+
+    // Next Button Text Logic
+    if (n == (tabs.length - 1)) {
+        nextBtn.innerHTML = 'माहिती जतन करा <i class="fas fa-check"></i>';
+    } else {
+        nextBtn.innerHTML = 'पुढची पायरी <i class="fas fa-arrow-right"></i>';
+    }
+        }
+    function showTab(n) {
+    tabs[n].style.display = "block";
+    steps[n].classList.add("active");
+
+    const prevBtn = document.getElementById("prevBtn");
+    const nextBtn = document.getElementById("nextBtn");
+
+    // Previous Button Logic
+    if (n == 0) {
+        prevBtn.style.display = "none";
+    } else {
+        prevBtn.style.display = "flex"; // kiwa inline-block
+    }
+
+    // Next Button Text Logic
+    if (n == (tabs.length - 1)) {
+        nextBtn.innerHTML = 'माहिती जतन करा <i class="fas fa-check"></i>';
+    } else {
+        nextBtn.innerHTML = 'पुढची पायरी <i class="fas fa-arrow-right"></i>';
+    }
+    }
+        
 </script>
 
 </body>
