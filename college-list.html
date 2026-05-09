@@ -426,6 +426,25 @@
         </div>
     </div>
 
+                      <div class="form-group" style="grid-column: span 2;">
+    <label>PWD विद्यार्थ्यांसाठी फीचे स्वरूप निवडा:</label>
+    <select id="pwdType" onchange="togglePwdInput()" style="width: 100%; padding: 8px; border-radius: 5px;">
+        <option value="fixed">सर्व PWD साठी एकच फी (Fixed)</option>
+        <option value="category_based">मूळ प्रवर्गानुसार वेगळी फी (Category Based)</option>
+        <option value="free">पूर्णपणे मोफत (No Fees)</option>
+    </select>
+</div>
+
+<div class="form-group" id="pwdFixedInput">
+    <label>PWD Fixed Fee Amount:</label>
+    <input type="number" placeholder="उदा. 5000">
+</div>
+
+<div class="form-group" id="pwdNoteInput" style="display:none; grid-column: span 2;">
+    <label>PWD फी बद्दल अधिक माहिती (उदा. 'कॅटेगरीच्या ५०% फी' इ.):</label>
+    <textarea id="pwdDetails" placeholder="उदा. SC/ST PWD ला फी नाही, इतरांना ५०% सवलत..." rows="2" style="width: 100%; border-radius: 5px; border: 1px solid #ccc;"></textarea>
+</div>
+                      
     <div class="form-group" style="margin-top: 20px;">
         <label>Detailed Fee Structure (PDF/Image): 📂</label>
         <input type="file" id="feeProof" accept=".pdf, image/*" multiple>
