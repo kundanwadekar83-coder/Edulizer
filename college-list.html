@@ -80,27 +80,115 @@
             .wizard-card { grid-template-columns: 1fr; }
             .wizard-sidebar { display: none; }
         }
+
+        /* --- Modern Header CSS --- */
+.glass-nav {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid #e2e8f0;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    padding: 12px 0;
+}
+
+.nav-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo-brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 1.6rem;
+    font-weight: 900;
+    color: #4f46e5;
+}
+
+.back-link {
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: #f1f5f9;
+    color: #475569;
+    padding: 10px 18px;
+    border-radius: 12px;
+    font-weight: 700;
+    font-size: 0.9rem;
+    transition: 0.3s all cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.back-link:hover {
+    background: #4f46e5;
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(79, 70, 229, 0.2);
+}
+
+.user-profile-nav {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding-left: 20px;
+    border-left: 2px solid #f1f5f9;
+}
+
+.user-text { text-align: right; line-height: 1.2; }
+.user-text span { display: block; font-weight: 800; color: #1e293b; font-size: 0.95rem; }
+.user-text small { color: #64748b; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.5px; }
+
+.user-avatar {
+    width: 42px;
+    height: 42px;
+    background: linear-gradient(135deg, #6366f1, #4f46e5);
+    color: white;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 800;
+    font-size: 1.2rem;
+}
+
+@media (max-width: 768px) {
+    .user-text, .back-link span { display: none; }
+                                                                   }
+        
     </style>
 </head>
 <body>
 
-    <nav>
+  <nav class="glass-nav">
+    <div class="nav-container">
         <div class="nav-left">
-            <i class="fas fa-bars" id="menu-btn"></i>
-            <div class="logo" style="font-weight: 800; color: #4f46e5; font-size: 1.5rem;">
-                <i class="fas fa-bolt"></i> Edulizer
+            <div class="logo-brand">
+                <i class="fas fa-bolt"></i>
+                <span>Edulizer</span>
             </div>
         </div>
+
         <div class="nav-right">
-            <div class="user-info-nav">
-                <small>Researcher</small>
-                <span id="navUserName">Loading...</span>
+            <a href="dashboard.html" class="back-link">
+                <i class="fas fa-th-large"></i>
+                <span>डॅशबोर्डवर परत जा</span>
+            </a>
+            
+            <div class="user-profile-nav">
+                <div class="user-text">
+                    <span id="navUserName">विद्यार्थी</span>
+                    <small>Researcher</small>
+                </div>
+                <div class="user-avatar" id="navInitial">V</div>
             </div>
-            <button onclick="window.location.href='dashboard.html'" class="btn-logout-red" style="background: #64748b; padding: 8px 15px; font-size: 0.8rem;">
-                <i class="fas fa-arrow-left"></i> डॅशबोर्ड
-            </button>
         </div>
-    </nav>
+    </div>
+</nav>
 
     <div class="form-container">
         <div class="wizard-card">
@@ -266,6 +354,22 @@
                 reader.readAsDataURL(file);
             });
         });
+
+        document.addEventListener('DOMContentLoaded', () => {
+    // युजर डेटा लोकल स्टोरेजमधून मिळवा
+    const user = JSON.parse(localStorage.getItem('currentUser')) || { name: "Guest User" };
+    
+    // १. नाव अपडेट करा
+    const navName = document.getElementById('navUserName');
+    if(navName) navName.innerText = user.name;
+    
+    // २. अवतॉर (Initial) अपडेट करा
+    const navInit = document.getElementById('navInitial');
+    if(navInit) navInit.innerText = user.name.charAt(0).toUpperCase();
+
+    // डॅशबोर्डवर जो कोड आपण आधी लिहिला होता तो तसाच राहू दे (checkUniversity वगैरे)
+});
+        
     </script>
 
 </body>
