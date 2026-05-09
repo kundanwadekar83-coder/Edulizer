@@ -511,6 +511,36 @@
 
         showTab(currentTab);
     }
+
+                        // Placement Proof Multiple Preview
+const placementInput = document.getElementById('placementProof');
+if(placementInput) {
+    placementInput.addEventListener('change', function(e) {
+        const preview = document.getElementById('placementPreview');
+        preview.innerHTML = ""; // Juni preview clear kara
+        
+        Array.from(this.files).forEach(file => {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                if (file.type.startsWith('image/')) {
+                    // Jar image asel tar photo dakhva
+                    const img = document.createElement('img');
+                    img.src = e.target.result;
+                    img.style = "width: 70px; height: 70px; object-fit: cover; border-radius: 5px; border: 1px solid #ddd;";
+                    preview.appendChild(img);
+                } else {
+                    // Jar PDF asel tar icon/nav dakhva
+                    const doc = document.createElement('div');
+                    doc.innerHTML = `<i class="fas fa-file-pdf" style="font-size: 40px; color: red;"></i><p style="font-size: 10px;">PDF</p>`;
+                    doc.style = "text-align: center; width: 70px;";
+                    preview.appendChild(doc);
+                }
+            }
+            reader.readAsDataURL(file);
+        });
+    });
+    }
+    
 </script>
 
 </body>
