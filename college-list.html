@@ -115,61 +115,83 @@
         .form-container { margin-top: 90px; }
     }
 
-        /* Cut-off Table Styling */
-.cutoff-table-header {
+    /* Cut-off Hub Matrix */
+.cutoff-header {
     display: grid;
-    grid-template-columns: 1.5fr 1fr 1fr;
+    grid-template-columns: 120px 1fr 1fr 1fr;
     gap: 10px;
-    background: #f1f5f9;
+    background: #1e293b;
+    color: white;
     padding: 12px;
     border-radius: 10px;
-    font-weight: 800;
-    font-size: 0.85rem;
-    color: #475569;
-    margin-bottom: 10px;
-    text-transform: uppercase;
+    font-size: 0.8rem;
+    text-align: center;
+    font-weight: 600;
 }
 
-.cutoff-row {
+.cutoff-grid {
     display: grid;
-    grid-template-columns: 1.5fr 1fr 1fr;
+    grid-template-columns: 120px 1fr 1fr 1fr;
     gap: 10px;
-    margin-bottom: 10px;
+    align-items: center;
+    padding: 12px 0;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.cat-title { font-weight: 800; color: #4f46e5; font-size: 0.9rem; }
+
+.input-pair { display: flex; gap: 5px; }
+.input-pair input { 
+    width: 50%; padding: 8px !important; font-size: 0.85rem !important; 
+    text-align: center; border: 1px solid #cbd5e1 !important;
+}
+
+.section-divider {
+    margin: 30px 0 15px 0;
+    padding: 8px 15px;
+    background: #f1f5f9;
+    border-left: 5px solid #64748b;
+    font-size: 1rem;
+    font-weight: 700;
+}
+
+.scheme-color { background: #eef2ff; border-left-color: #4f46e5; color: #4f46e5; }
+
+.others-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 15px;
+}
+
+.other-item {
+    background: white;
+    border: 1px solid #e2e8f0;
+    padding: 12px;
+    border-radius: 12px;
+    display: flex;
+    justify-content: space-between;
     align-items: center;
 }
 
-.cat-label {
-    font-weight: 600;
-    color: #334155;
-    font-size: 0.9rem;
-}
+.other-item label { font-weight: 600; color: #334155; font-size: 0.85rem; }
 
-.cutoff-row input {
-    padding: 10px !important;
-    font-size: 0.9rem !important;
-    text-align: center;
-}
-
-.special-row {
-    background: #f8fafc;
-    padding: 8px;
-    border-radius: 8px;
-    border-left: 4px solid #10b981;
-}
-
-/* Mobile Responsive for Cut-off */
-@media (max-width: 600px) {
-    .cutoff-table-header { display: none; } /* मोबाईलवर हेडर नको */
-    .cutoff-row {
-        grid-template-columns: 1fr 1fr; /* नाव वर आणि खाली दोन बॉक्स */
-        background: white;
-        border: 1px solid #e2e8f0;
+/* Mobile View Fix */
+@media (max-width: 768px) {
+    .cutoff-header { display: none; }
+    .cutoff-grid { 
+        grid-template-columns: 1fr; 
+        background: #f8fafc;
         padding: 15px;
-        border-radius: 12px;
+        border-radius: 15px;
+        margin-bottom: 10px;
     }
-    .cat-label { grid-column: span 2; margin-bottom: 5px; color: #4f46e5; }
-        }
-        
+    .input-pair::before {
+        content: attr(data-label);
+        font-size: 0.7rem;
+        display: block;
+    }
+}
+    
     </style>
 </head>
 <body>
@@ -298,66 +320,65 @@
                         </div>
                     </div>
 
-                    <div class="step-content" id="step2">
+                  <div class="step-content" id="step2">
     <h2><i class="fas fa-chart-line" style="color: #10b981;"></i> २. कॅटेगरी वाईज कट-ऑफ</h2>
-    <p style="color: #64748b; font-size: 0.85rem; margin-bottom: 20px;">
-        मागील वर्षाचा (Last Year) क्लोजिंग रँक आणि पर्सेंटाईल अचूक भरा.
+    <p style="color: #64748b; font-size: 0.8rem; margin-bottom: 20px;">
+        प्रत्येक प्रवर्गाचा 'Merit Rank' आणि 'Percentile' अचूक भरा. रिकामे सोडल्यास तो डेटा ग्राह्य धरला जाणार नाही.
     </p>
 
-    <div class="cutoff-table-header">
-        <div class="col-cat">Category</div>
-        <div class="col-rank">Merit Rank</div>
-        <div class="col-per">Percentile (%)</div>
+    <div class="cutoff-header">
+        <div class="header-cell">प्रवर्ग (Category)</div>
+        <div class="header-cell">General (Rank/%)</div>
+        <div class="header-cell">PWD (Rank/%)</div>
+        <div class="header-cell">Defense (Rank/%)</div>
     </div>
 
-    <div class="cutoff-row">
-        <div class="cat-label">General (Open)</div>
-        <input type="number" id="rankOpen" placeholder="Rank">
-        <input type="text" id="perOpen" placeholder="Percentile">
+    <div class="category-block">
+        <div class="cutoff-grid">
+            <div class="cat-title">Open</div>
+            <div class="input-pair"><input type="number" id="openGenR" placeholder="Rank"><input type="text" id="openGenP" placeholder="%"></div>
+            <div class="input-pair"><input type="number" id="openPwdR" placeholder="Rank"><input type="text" id="openPwdP" placeholder="%"></div>
+            <div class="input-pair"><input type="number" id="openDefR" placeholder="Rank"><input type="text" id="openDefP" placeholder="%"></div>
+        </div>
+
+        <div class="cutoff-grid">
+            <div class="cat-title">OBC</div>
+            <div class="input-pair"><input type="number" id="obcGenR" placeholder="Rank"><input type="text" id="obcGenP" placeholder="%"></div>
+            <div class="input-pair"><input type="number" id="obcPwdR" placeholder="Rank"><input type="text" id="obcPwdP" placeholder="%"></div>
+            <div class="input-pair"><input type="number" id="obcDefR" placeholder="Rank"><input type="text" id="obcDefP" placeholder="%"></div>
+        </div>
+
+        <div class="cutoff-grid">
+            <div class="cat-title">SC</div>
+            <div class="input-pair"><input type="number" id="scGenR" placeholder="Rank"><input type="text" id="scGenP" placeholder="%"></div>
+            <div class="input-pair"><input type="number" id="scPwdR" placeholder="Rank"><input type="text" id="scPwdP" placeholder="%"></div>
+            <div class="input-pair"><input type="number" id="scDefR" placeholder="Rank"><input type="text" id="scDefP" placeholder="%"></div>
+        </div>
+
+        <div class="cutoff-grid">
+            <div class="cat-title">ST</div>
+            <div class="input-pair"><input type="number" id="stGenR" placeholder="Rank"><input type="text" id="stGenP" placeholder="%"></div>
+            <div class="input-pair"><input type="number" id="stPwdR" placeholder="Rank"><input type="text" id="stPwdP" placeholder="%"></div>
+            <div class="input-pair"><input type="number" id="stDefR" placeholder="Rank"><input type="text" id="stDefP" placeholder="%"></div>
+        </div>
     </div>
 
-    <div class="cutoff-row">
-        <div class="cat-label">OBC / EBC</div>
-        <input type="number" id="rankOBC" placeholder="Rank">
-        <input type="text" id="perOBC" placeholder="Percentile">
+    <h3 class="section-divider">VJ / NT & Others</h3>
+    <div class="others-grid">
+        <div class="other-item"><label>VJ / DT (A)</label> <div class="input-pair"><input type="number" id="vjRank"><input type="text" id="vjPer"></div></div>
+        <div class="other-item"><label>NT-B (1)</label> <div class="input-pair"><input type="number" id="nt1Rank"><input type="text" id="nt1Per"></div></div>
+        <div class="other-item"><label>NT-C (2)</label> <div class="input-pair"><input type="number" id="nt2Rank"><input type="text" id="nt2Per"></div></div>
+        <div class="other-item"><label>NT-D (3)</label> <div class="input-pair"><input type="number" id="nt3Rank"><input type="text" id="nt3Per"></div></div>
+        <div class="other-item"><label>SBC</label> <div class="input-pair"><input type="number" id="sbcRank"><input type="text" id="sbcPer"></div></div>
+        <div class="other-item"><label>SEBC (Maratha)</label> <div class="input-pair"><input type="number" id="sebcRank"><input type="text" id="sebcPer"></div></div>
     </div>
 
-    <div class="cutoff-row">
-        <div class="cat-label">SC / ST</div>
-        <input type="number" id="rankSCST" placeholder="Rank">
-        <input type="text" id="perSCST" placeholder="Percentile">
-    </div>
-
-    <div class="cutoff-row">
-        <div class="cat-label">VJ / NT (1,2,3)</div>
-        <input type="number" id="rankVJNT" placeholder="Rank">
-        <input type="text" id="perVJNT" placeholder="Percentile">
-    </div>
-
-    <div class="cutoff-row">
-        <div class="cat-label">SBC / SEBC</div>
-        <input type="number" id="rankSBC" placeholder="Rank">
-        <input type="text" id="perSBC" placeholder="Percentile">
-    </div>
-
-    <h4 style="margin: 25px 0 15px 0; color: #1e293b; border-bottom: 2px solid #f1f5f9; padding-bottom: 5px;">Special & Reservations</h4>
-
-    <div class="cutoff-row special-row">
-        <div class="cat-label">TFWS / EWS</div>
-        <input type="number" id="rankTFWS" placeholder="Rank">
-        <input type="text" id="perTFWS" placeholder="Percentile">
-    </div>
-
-    <div class="cutoff-row special-row">
-        <div class="cat-label">PWD / Defense</div>
-        <input type="number" id="rankPWD" placeholder="Rank">
-        <input type="text" id="perPWD" placeholder="Percentile">
-    </div>
-
-    <div class="cutoff-row special-row">
-        <div class="cat-label">Orphan</div>
-        <input type="number" id="rankOrphan" placeholder="Rank">
-        <input type="text" id="perOrphan" placeholder="Percentile">
+    <h3 class="section-divider scheme-color">Economic & Special Schemes</h3>
+    <div class="others-grid">
+        <div class="other-item"><label>EBC (Open Econ)</label> <div class="input-pair"><input type="number" id="ebcRank"><input type="text" id="ebcPer"></div></div>
+        <div class="other-item"><label>EWS (10%)</label> <div class="input-pair"><input type="number" id="ewsRank"><input type="text" id="ewsPer"></div></div>
+        <div class="other-item"><label>TFWS (5%)</label> <div class="input-pair"><input type="number" id="tfwsRank"><input type="text" id="tfwsPer"></div></div>
+        <div class="other-item"><label>Orphan (अनाथ)</label> <div class="input-pair"><input type="number" id="orphanRank"><input type="text" id="orphanPer"></div></div>
     </div>
 </div>
 
