@@ -80,8 +80,8 @@
         .input-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px; margin-bottom: 20px; }
         .form-group { margin-bottom: 20px; }
         .form-group label { display: block; margin-bottom: 8px; font-weight: 600; color: #475569; font-size: 0.9rem; }
-        .form-group input, .form-group select { 
-            width: 100%; padding: 12px; border: 1px solid #e2e8f0; border-radius: 10px; font-size: 0.95rem; transition: 0.3s;
+        .form-group input, .form-group select, .form-group textarea { 
+            width: 100%; padding: 12px; border: 1px solid #e2e8f0; border-radius: 10px; font-size: 0.95rem; transition: 0.3s; font-family: inherit;
         }
         .form-group input:focus { border-color: var(--primary-color); outline: none; box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1); }
 
@@ -94,7 +94,6 @@
 
         .section-divider { margin: 40px 0 20px 0; padding: 12px 15px; background: #f1f5f9; border-left: 5px solid var(--primary-color); font-size: 1.1rem; font-weight: 700; border-radius: 0 8px 8px 0; }
         .others-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
-        .other-item { background: white; border: 1px solid #e2e8f0; padding: 15px; border-radius: 15px; display: flex; justify-content: space-between; align-items: center; }
 
         /* Upload Container */
         .upload-container { border: 2px dashed #cbd5e1; padding: 30px; border-radius: 15px; text-align: center; cursor: pointer; background: #fcfcfd; transition: 0.3s; }
@@ -154,30 +153,307 @@
                 
                 <div class="step-content active">
                     <h2><i class="fas fa-university" style="color: var(--primary-color);"></i> १. ओळख आणि फोटो</h2>
-                    <div class="form-group"><label>कॉलेजचे पूर्ण नाव</label><input type="text" id="cName" required></div>
+                    <div class="form-group"><label>कॉलेजचे पूर्ण नाव</label><input type="text" id="cName" required placeholder="उदा. College of Engineering, Pune"></div>
                     <div class="input-grid">
-                        <div class="form-group"><label>DTE कोड</label><input type="number" id="cCode"></div>
+                        <div class="form-group"><label>DTE कोड</label><input type="number" id="cCode" placeholder="उदा. 6006"></div>
                         <div class="form-group">
                             <label>युनिव्हर्सिटी</label>
                             <select id="cUni">
-                                <option value="SPPU">SPPU (Pune)</option>
-                                <option value="MU">MU (Mumbai)</option>
-                                <option value="DBATU">DBATU (Lonere)</option>
-                                <option value="Other">Other</option>
+                                    <option value="">Select University...</option>
+    
+    <option value="SPPU">SPPU (Savitribai Phule Pune University)</option>
+    <option value="MU">MU (Mumbai University)</option>
+    <option value="RTMNU">RTMNU (Rashtrasant Tukadoji Maharaj Nagpur University)</option>
+    <option value="DBATU">DBATU (Dr. Babasaheb Ambedkar Technological University)</option>
+    <option value="SUK">SUK (Shivaji University, Kolhapur)</option>
+    <option value="SGBAU">SGBAU (Sant Gadge Baba Amravati University)</option>
+    <option value="BAMU">Dr. BAMU (Dr. Babasaheb Ambedkar Marathwada University)</option>
+    <option value="KBCNMU">KBCNMU (Kavayitri Bahinabai Chaudhari North Maharashtra University)</option>
+    <option value="SRTMUN">SRTMUN (Swami Ramanand Teerth Marathwada University)</option>
+    <option value="PAHSUS">PAHSUS (Punyashlok Ahilyadevi Holkar Solapur University)</option>
+    <option value="GUG">GUG (Gondwana University, Gadchiroli)</option>
+    
+    <option value="Other">Other </option>
                             </select>
                         </div>
                     </div>
+                    <div class="form-group" id="otherUniDiv" style="display: none; animation: fadeIn 0.3s;">
+                            <label>इतर युनिव्हर्सिटीचे नाव सांगा</label>
+                            <input type="text" id="cUniOther" placeholder="युनिव्हर्सिटीचे पूर्ण नाव लिहा">
+                        </div>
+
+                        <div class="input-grid">
+                            <div class="form-group">
+                                <label>Status (प्रकार)</label>
+                                <select id="cStatus">
+                                    <option value="Govt">Government</option>
+                                    <option value="Private">Private</option>
+                                    <option value="Aided">Aided (अनुदानित)</option>
+                                    <option value="Deemed">Deemed University</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Autonomy (स्वायत्तता)</label>
+                                <select id="cAuto">
+                                    <option value="Autonomous">Autonomous</option>
+                                    <option value="Non-Autonomous">Non-Autonomous</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>NAAC Grade</label>
+                                <select id="cGrade">
+                                    <option value="A++">A++</option>
+                                    <option value="A+">A+</option>
+                                    <option value="A">A</option>
+                                    <option value="B++">B++</option>
+                                    <option value="B+">B+</option>
+                                    <option value="B">B</option>
+                                    <option value="C">C</option>
+                                    <option value="Not Accredited">अद्याप मिळालेला नाही</option>
+                                </select>
+                            </div>
+                        </div>
                     <div class="form-group">
                         <label>कॉलेजचे फोटो</label>
                         <div class="upload-container" onclick="document.getElementById('cPhotos').click()">
                             <i class="fas fa-cloud-upload-alt"></i><p>फोटो निवडा</p>
                             <input type="file" id="cPhotos" multiple hidden accept="image/*">
                         </div>
+                        <div id="photoPreview" style="display: flex; gap: 10px; margin-top: 10px; flex-wrap: wrap;"></div>
                     </div>
                 </div>
 
                 <div class="step-content">
-                    <h2><i class="fas fa-chart-line" style="color: #10b981;"></i> २. कॅटेगरी वाईज कट-ऑफ</h2>
+                  <h2><i class="fas fa-chart-line" style="color: #10b981;"></i> २. कॅटेगरी वाईज कट-ऑफ</h2>
+    <p style="color: #64748b; font-size: 0.8rem; margin-bottom: 20px;">
+        प्रत्येक प्रवर्गाचा 'Merit Rank' आणि 'Percentile' अचूक भरा. रिकामे सोडल्यास तो डेटा ग्राह्य धरला जाणार नाही.
+    </p>
+
+    <div class="cutoff-header">
+        <div class="header-cell">प्रवर्ग (Category)</div>
+        <div class="header-cell">General (Rank/%)</div>
+        <div class="header-cell">PWD (Rank/%)</div>
+        <div class="header-cell">Defense (Rank/%)</div>
+    </div>
+
+    <div class="category-block">
+        <div class="cutoff-grid">
+            <div class="cat-title">Open</div>
+            <div class="input-pair"><input type="number" id="openGenR" placeholder="Rank"><input type="text" id="openGenP" placeholder="%"></div>
+            <div class="input-pair"><input type="number" id="openPwdR" placeholder="Rank"><input type="text" id="openPwdP" placeholder="%"></div>
+            <div class="input-pair"><input type="number" id="openDefR" placeholder="Rank"><input type="text" id="openDefP" placeholder="%"></div>
+        </div>
+
+        <div class="cutoff-grid">
+            <div class="cat-title">OBC</div>
+            <div class="input-pair"><input type="number" id="obcGenR" placeholder="Rank"><input type="text" id="obcGenP" placeholder="%"></div>
+            <div class="input-pair"><input type="number" id="obcPwdR" placeholder="Rank"><input type="text" id="obcPwdP" placeholder="%"></div>
+            <div class="input-pair"><input type="number" id="obcDefR" placeholder="Rank"><input type="text" id="obcDefP" placeholder="%"></div>
+        </div>
+
+        <div class="cutoff-grid">
+            <div class="cat-title">SC</div>
+            <div class="input-pair"><input type="number" id="scGenR" placeholder="Rank"><input type="text" id="scGenP" placeholder="%"></div>
+            <div class="input-pair"><input type="number" id="scPwdR" placeholder="Rank"><input type="text" id="scPwdP" placeholder="%"></div>
+            <div class="input-pair"><input type="number" id="scDefR" placeholder="Rank"><input type="text" id="scDefP" placeholder="%"></div>
+        </div>
+
+        <div class="cutoff-grid">
+            <div class="cat-title">ST</div>
+            <div class="input-pair"><input type="number" id="stGenR" placeholder="Rank"><input type="text" id="stGenP" placeholder="%"></div>
+            <div class="input-pair"><input type="number" id="stPwdR" placeholder="Rank"><input type="text" id="stPwdP" placeholder="%"></div>
+            <div class="input-pair"><input type="number" id="stDefR" placeholder="Rank"><input type="text" id="stDefP" placeholder="%"></div>
+        </div>
+    </div>
+
+    <h3 class="section-divider">VJ / NT & Others</h3>
+    <div class="others-grid">
+        <div class="other-item"><label>VJ / DT (A)</label> <div class="input-pair"><input type="number" id="vjRank"><input type="text" id="vjPer"></div></div>
+        <div class="other-item"><label>NT-B (1)</label> <div class="input-pair"><input type="number" id="nt1Rank"><input type="text" id="nt1Per"></div></div>
+        <div class="other-item"><label>NT-C (2)</label> <div class="input-pair"><input type="number" id="nt2Rank"><input type="text" id="nt2Per"></div></div>
+        <div class="other-item"><label>NT-D (3)</label> <div class="input-pair"><input type="number" id="nt3Rank"><input type="text" id="nt3Per"></div></div>
+        <div class="other-item"><label>SBC</label> <div class="input-pair"><input type="number" id="sbcRank"><input type="text" id="sbcPer"></div></div>
+        <div class="other-item"><label>SEBC (Maratha)</label> <div class="input-pair"><input type="number" id="sebcRank"><input type="text" id="sebcPer"></div></div>
+    </div>
+
+    <h3 class="section-divider scheme-color">Economic & Special Schemes</h3>
+    <div class="others-grid">
+        <div class="other-item"><label>EBC (Open Econ)</label> <div class="input-pair"><input type="number" id="ebcRank"><input type="text" id="ebcPer"></div></div>
+        <div class="other-item"><label>EWS (10%)</label> <div class="input-pair"><input type="number" id="ewsRank"><input type="text" id="ewsPer"></div></div>
+        <div class="other-item"><label>TFWS (5%)</label> <div class="input-pair"><input type="number" id="tfwsRank"><input type="text" id="tfwsPer"></div></div>
+        <div class="other-item"><label>Orphan (अनाथ)</label> <div class="input-pair"><input type="number" id="orphanRank"><input type="text" id="orphanPer"></div></div>
+    </div>
+</div>
+
+           <h2><i class="fas fa-briefcase"></i> ३. प्लेसमेंट डेटा</h2>
+    
+    <div id="placement-container">
+        <div class="placement-row" style="border-bottom: 1px solid #ddd; padding: 10px 0;">
+            <div class="input-group">
+                <label>वर्ष:</label>
+                <select class="year-select">
+                    <option value="2024">2024</option>
+                    <option value="2023">2023</option>
+                    <option value="2022">2022</option>
+                </select>
+            </div>
+            <div class="input-pair">
+                <input type="number" placeholder="Highest LPA">
+                <input type="number" placeholder="Average LPA">
+                <input type="number" placeholder="Placement %">
+            </div>
+        </div>
+    </div>
+
+    <button type="button" id="addYearBtn" style="margin-top: 10px; background: #10b981; color: white; border: none; padding: 8px 15px; border-radius: 5px; cursor: pointer;">
+        + आणखी वर्ष जोडा (जास्तीत जास्त ३ वर्षे)
+    </button>
+
+  <div class="form-group">
+    <label>Placement Highlights (Photos/PDF): 📄</label>
+    <input type="file" id="placementProof" accept=".pdf, image/*" multiple>
+    <p style="font-size: 12px; color: gray;">Tu ekasofat anek photos kiwa PDFs select karu shakto.</p>
+    <div id="placementPreview" style="display: flex; gap: 10px; margin-top: 10px; flex-wrap: wrap;"></div>
+</div>
+</div>
+        <div class="step-content">
+                    <h2><i class="fas fa-wallet" style="color: #f59e0b;"></i> ४. फी आणि स्कॉलरशिप</h2>
+                    <div class="input-grid">
+                        <div class="form-group"><label>Open Category Fee</label><input type="number" id="feeOpen" placeholder="00000"></div>
+                        <div class="form-group"><label>OBC / EBC Fee</label><input type="number" id="feeObc" placeholder="00000"></div>
+                        <div class="form-group"><label>SC / ST Fee</label><input type="number" id="feeScst" placeholder="00000"></div>
+                        <div class="form-group"><label>VJ / NT / SBC Fee</label><input type="number" id="feeVjnt" placeholder="00000"></div>
+                        <div class="form-group"><label>TFWS Fee</label><input type="number" id="feeTfws" placeholder="00000"></div>
+                    </div>
+                    <h3 class="section-divider">Hostel Facility</h3>
+                    <div class="input-grid">
+                        <div class="form-group"><label>Hostel Fee (Per Year)</label><input type="number" id="feeHostel" placeholder="00000"></div>
+                        <div class="form-group"><label>Mess Fee (Per Month)</label><input type="number" id="feeMess" placeholder="0000"></div>
+                    </div>
+                </div>
+
+                <div class="step-content" id="step4">
+    <h2><i class="fas fa-wallet" style="color: #f59e0b;"></i> ४. फी आणि स्कॉलरशिप</h2>
+
+    <div class="fee-section" style="background: #f8fafc; padding: 15px; border-radius: 10px; margin-bottom: 20px;">
+        <h3 style="font-size: 16px; margin-bottom: 10px; color: #1e293b; border-bottom: 2px solid #e2e8f0;">कॉलेज फी (प्रति वर्ष)</h3>
+        <div class="fee-grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+            <div class="form-group"><label>Open Category:</label><input type="number" id="openFee" placeholder="00"></div>
+            <div class="form-group"><label>OBC/EBC:</label><input type="number" id="obcFee" placeholder="00"></div>
+            <div class="form-group"><label>SC/ST:</label><input type="number" id="scstFee" placeholder="00"></div>
+            <div class="form-group"><label>VJ/NT/SBC:</label><input type="number" id="vjntFee" placeholder="00"></div>
+            <div class="form-group"><label>TFWS Fee:</label><input type="number" id="tfwsFee" placeholder="00"></div>
+        </div>
+
+       <div class="pwd-section" style="margin-top: 15px; padding: 15px; background: #ffffff; border: 1px solid #e2e8f0; border-radius: 12px;">
+    <label style="font-weight: 700; color: #1e293b; display: block; margin-bottom: 12px;">विद्यार्थी दिव्यांग (PWD) आहे का?</label>
+    
+    <div style="display: flex; gap: 25px; align-items: center; margin-bottom: 5px;">
+        <label style="display: flex; align-items: center; gap: 8px; cursor: pointer; font-size: 0.95rem;">
+            <input type="radio" name="isPwd" value="no" checked onclick="togglePwdCategory(false)" style="width: 18px; height: 18px; accent-color: #4f46e5;"> नाही (No)
+        </label>
+        <label style="display: flex; align-items: center; gap: 8px; cursor: pointer; font-size: 0.95rem;">
+            <input type="radio" name="isPwd" value="yes" onclick="togglePwdCategory(true)" style="width: 18px; height: 18px; accent-color: #4f46e5;"> हो (Yes)
+        </label>
+    </div>
+
+    <div id="pwdCategoryDiv" style="display: none; margin-top: 15px; border-top: 1px solid #f1f5f9; padding-top: 15px; animation: fadeIn 0.3s;">
+        <div class="form-group">
+            <label style="font-size: 0.85rem; color: #64748b;">कोणत्या कॅटेगरीच्या PWD साठी फी टाकायची आहे?</label>
+            <select id="pwdCatSelect" onchange="showPwdInput()" style="width: 100%; padding: 10px; border-radius: 8px; border: 1px solid #cbd5e1; margin-top: 5px; font-family: 'Poppins';">
+                <option value="">-- निवडा --</option>
+                <option value="open-pwd">Open-PWD</option>
+                <option value="obc-pwd">OBC-PWD</option>
+                <option value="scst-pwd">SC/ST-PWD</option>
+                <option value="other-pwd">इतर (Common PWD Fee)</option>
+            </select>
+        </div>
+        
+        <div id="pwdAmountDiv" style="margin-top: 12px; display: none;">
+            <label id="pwdAmountLabel" style="font-size: 0.85rem; color: #64748b;">फीची रक्कम:</label>
+            <input type="number" id="pwdAmountInput" placeholder="रक्कम टाका" style="width: 100%; padding: 10px; border-radius: 8px; border: 1px solid #cbd5e1; margin-top: 5px;">
+        </div>
+    </div>
+</div>
+    </div>
+
+    <div class="hostel-section" style="background: #f0fdf4; padding: 15px; border-radius: 10px; margin-bottom: 20px;">
+        <h3 style="font-size: 16px; margin-bottom: 10px; color: #166534; border-bottom: 2px solid #bbf7d0;">वसतिगृह आणि मेस (Hostel & Mess)</h3>
+        <label><input type="checkbox" id="hasHostel" onclick="toggleHostelInput()"> आमच्या कॉलेजला हॉस्टेल सुविधा आहे</label>
+        
+        <div id="hostelInputDiv" style="display: none; margin-top: 12px; grid-template-columns: 1fr 1fr; gap: 12px;">
+            <div class="form-group"><label>Hostel Fee:</label><input type="number" id="hostelFee" placeholder="00"></div>
+            <div class="form-group"><label>Mess Fee:</label><input type="number" id="messFee" placeholder="00"></div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label>Detailed Fee Structure (PDF/Image): 📂</label>
+        <input type="file" id="feeProof" accept=".pdf, image/*" multiple>
+        <div id="feePreview" style="display: flex; gap: 10px; margin-top: 10px; flex-wrap: wrap;"></div>
+    </div>
+             </div> </div>                    <div id="vaultPreview" style="margin-top: 15px; display: grid; grid-template-columns: 1fr 1fr; gap: 10px;"></div>
+                </div>
+
+                <div class="btn-footer">
+                    <button type="button" class="btn-nav btn-prev" id="prevBtn" onclick="changeStep(-1)" style="display: none;"><i class="fas fa-arrow-left"></i> मागे</button>
+                    <button type="button" class="btn-nav btn-next" id="nextBtn" onclick="changeStep(1)">पुढची पायरी <i class="fas fa-arrow-right"></i></button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    let currentStep = 0;
+    const steps = document.querySelectorAll(".step-content");
+    const stepItems = document.querySelectorAll(".step-item");
+
+    function showStep(n) {
+        steps.forEach((step, index) => {
+            step.style.display = (index === n) ? "block" : "none";
+            stepItems[index].classList.toggle("active", index === n);
+        });
+
+        document.getElementById("prevBtn").style.display = (n === 0) ? "none" : "flex";
+        const nextBtn = document.getElementById("nextBtn");
+        
+        if (n === (steps.length - 1)) {
+            nextBtn.innerHTML = 'माहिती जतन करा <i class="fas fa-check"></i>';
+            nextBtn.style.background = "#10b981";
+        } else {
+            nextBtn.innerHTML = 'पुढची पायरी <i class="fas fa-arrow-right"></i>';
+            nextBtn.style.background = "#4f46e5";
+        }
+    }
+
+    function changeStep(n) {
+        if (n === 1 && currentStep === steps.length - 1) {
+            alert("कॉलेज डेटा यशस्वीरित्या सेव्ह झाला!");
+            window.location.href = 'dashboard.html';
+            return;
+        }
+        currentStep += n;
+        showStep(currentStep);
+        window.scrollTo(0,0);
+    }
+
+    // Add Year Placement Logic
+    document.getElementById('addYearBtn').addEventListener('click', () => {
+        const container = document.getElementById('placement-container');
+        const row = document.querySelector('.placement-row').cloneNode(true);
+        row.querySelectorAll('input').forEach(input => input.value = "");
+        container.appendChild(row);
+    });
+
+    // Vault File Preview
+    const vaultInput = document.getElementById('vaultDocs');
+    if(vaultInput) {
+        vaultInput.addEventListener('change', function() {
+            const preview = document.getElementById('vaultPreview');
+            preview.innerHTML = "";
+            Array.from(this.files).forEach(file => {
+                const div = document.createEl   <h2><i class="fas fa-chart-line" style="color: #10b981;"></i> २. कॅटेगरी वाईज कट-ऑफ</h2>
                     <div class="cutoff-header">
                         <div>Category</div><div>General</div><div>PWD</div><div>Defense</div>
                     </div>
