@@ -396,74 +396,60 @@
 </div>
 </div>
 
-                  <div class="step-content" id="step4">
+             <div class="step-content" id="step4">
     <h2><i class="fas fa-wallet" style="color: #f59e0b;"></i> ४. फी आणि स्कॉलरशिप</h2>
-    
-    <div class="fee-grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
-        <div class="form-group">
-            <label>Open Category Fee:</label>
-            <input type="number" id="openFee" placeholder="उदा. 1,10,000">
-        </div>
-        <div class="form-group">
-            <label>OBC/EBC Fee:</label>
-            <input type="number" id="obcFee" placeholder="उदा. 60,000">
-        </div>
-        <div class="form-group">
-            <label>SC/ST Fee:</label>
-            <input type="number" id="scstFee" placeholder="उदा. 5,000">
-        </div>
-        <div class="form-group">
-            <label>VJ/NT/SBC Fee:</label>
-            <input type="number" id="vjntFee" placeholder="उदा. 15,000">
-        </div>
-        <div class="form-group">
-            <label>TFWS Fee:</label>
-            <input type="number" id="tfwsFee" placeholder="उदा. 12,000">
-        </div>
-        <div class="form-group">
-            <label>Hostel & Mess Fee:</label>
-            <input type="number" id="hostelFee" placeholder="उदा. 50,000">
-        </div>
-    </div>
 
-                      <div class="form-group" style="grid-column: span 2;">
-    <label>PWD विद्यार्थ्यांसाठी फीचे स्वरूप निवडा:</label>
-    <select id="pwdType" onchange="togglePwdInput()" style="width: 100%; padding: 8px; border-radius: 5px;">
-        <option value="fixed">सर्व PWD साठी एकच फी (Fixed)</option>
-        <option value="category_based">मूळ प्रवर्गानुसार वेगळी फी (Category Based)</option>
-        <option value="free">पूर्णपणे मोफत (No Fees)</option>
-    </select>
-</div>
+    <div class="fee-section" style="background: #f8fafc; padding: 15px; border-radius: 10px; margin-bottom: 20px;">
+        <h3 style="font-size: 16px; margin-bottom: 10px; color: #1e293b; border-bottom: 2px solid #e2e8f0;">कॉलेज फी (प्रति वर्ष)</h3>
+        <div class="fee-grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+            <div class="form-group"><label>Open Category:</label><input type="number" id="openFee" placeholder="00"></div>
+            <div class="form-group"><label>OBC/EBC:</label><input type="number" id="obcFee" placeholder="00"></div>
+            <div class="form-group"><label>SC/ST:</label><input type="number" id="scstFee" placeholder="00"></div>
+            <div class="form-group"><label>VJ/NT/SBC:</label><input type="number" id="vjntFee" placeholder="00"></div>
+            <div class="form-group"><label>TFWS Fee:</label><input type="number" id="tfwsFee" placeholder="00"></div>
+        </div>
 
-<div class="form-group" id="pwdFixedInput">
-    <label>PWD Fixed Fee Amount:</label>
-    <input type="number" placeholder="उदा. 5000">
-</div>
+        <div class="pwd-section" style="margin-top: 15px; padding-top: 10px; border-top: 1px dashed #cbd5e1;">
+            <label style="font-weight: bold;">विद्यार्थी दिव्यांग (PWD) आहे का?</label>
+            <div style="margin: 10px 0;">
+                <input type="radio" name="isPwd" value="no" checked onclick="togglePwdCategory(false)"> No
+                <input type="radio" name="isPwd" value="yes" onclick="togglePwdCategory(true)" style="margin-left: 20px;"> Yes
+            </div>
 
-<div class="form-group" id="pwdNoteInput" style="display:none; grid-column: span 2;">
-    <label>PWD फी बद्दल अधिक माहिती (उदा. 'कॅटेगरीच्या ५०% फी' इ.):</label>
-    <textarea id="pwdDetails" placeholder="उदा. SC/ST PWD ला फी नाही, इतरांना ५०% सवलत..." rows="2" style="width: 100%; border-radius: 5px; border: 1px solid #ccc;"></textarea>
-</div>
-                      
-    <div class="form-group" style="margin-top: 20px;">
-        <label>Detailed Fee Structure (PDF/Image): 📂</label>
-        <input type="file" id="feeProof" accept=".pdf, image/*" multiple>
-        <p style="font-size: 12px; color: gray;">अधिकृत फी पावती किंवा नोटीसचा फोटो/PDF अपलोड करा.</p>
-        <div id="feePreview" style="display: flex; gap: 10px; margin-top: 10px; flex-wrap: wrap;"></div>
-    </div>
-</div>
-                  <div class="step-content" id="step5"></div>
-                    <div class="step-content" id="step6"></div>
-
-                    <div class="btn-footer">
-                        <button type="button" class="btn-nav btn-prev" id="prevBtn" onclick="moveStep(-1)" style="display: none;">मागे</button>
-                        <button type="button" class="btn-nav btn-next" id="nextBtn" onclick="moveStep(1)">पुढची पायरी</button>
-                    </div>
-
-                </form>
+            <div id="pwdCategoryDiv" style="display: none; margin-top: 10px; animation: fadeIn 0.3s;">
+                <label>कोणत्या कॅटेगरीच्या PWD साठी फी टाकायची आहे?</label>
+                <select id="pwdCatSelect" onchange="showPwdInput()" style="width: 100%; padding: 8px; margin-top: 5px;">
+                    <option value="">-- निवडा --</option>
+                    <option value="open-pwd">Open-PWD</option>
+                    <option value="obc-pwd">OBC-PWD</option>
+                    <option value="scst-pwd">SC/ST-PWD</option>
+                    <option value="other-pwd">इतर (Common PWD Fee)</option>
+                </select>
+                <div id="pwdAmountDiv" style="margin-top: 10px; display: none;">
+                    <label id="pwdAmountLabel">फीची रक्कम:</label>
+                    <input type="number" id="pwdAmountInput" placeholder="रक्कम टाका" style="width: 100%; padding: 8px;">
+                </div>
             </div>
         </div>
     </div>
+
+    <div class="hostel-section" style="background: #f0fdf4; padding: 15px; border-radius: 10px; margin-bottom: 20px;">
+        <h3 style="font-size: 16px; margin-bottom: 10px; color: #166534; border-bottom: 2px solid #bbf7d0;">वसतिगृह आणि मेस (Hostel & Mess)</h3>
+        <label><input type="checkbox" id="hasHostel" onclick="toggleHostelInput()"> आमच्या कॉलेजला हॉस्टेल सुविधा आहे</label>
+        
+        <div id="hostelInputDiv" style="display: none; margin-top: 12px; grid-template-columns: 1fr 1fr; gap: 12px;">
+            <div class="form-group"><label>Hostel Fee:</label><input type="number" id="hostelFee" placeholder="00"></div>
+            <div class="form-group"><label>Mess Fee:</label><input type="number" id="messFee" placeholder="00"></div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label>Detailed Fee Structure (PDF/Image): 📂</label>
+        <input type="file" id="feeProof" accept=".pdf, image/*" multiple>
+        <div id="feePreview" style="display: flex; gap: 10px; margin-top: 10px; flex-wrap: wrap;"></div>
+    </div>
+             </div>
+                   
 <script>
     let currentTab = 0;
     const tabs = document.getElementsByClassName("step-content");
@@ -621,6 +607,36 @@ if(feeInput) {
             reader.readAsDataURL(file);
         });
     });
+    }
+    // PWD Section Toggle
+function togglePwdCategory(show) {
+    const div = document.getElementById('pwdCategoryDiv');
+    div.style.display = show ? 'block' : 'none';
+    if(!show) {
+        document.getElementById('pwdAmountDiv').style.display = 'none';
+        document.getElementById('pwdCatSelect').value = "";
+    }
+}
+
+// Show specific Input based on selected PWD Category
+function showPwdInput() {
+    const select = document.getElementById('pwdCatSelect');
+    const inputDiv = document.getElementById('pwdAmountDiv');
+    const label = document.getElementById('pwdAmountLabel');
+    
+    if(select.value !== "") {
+        inputDiv.style.display = 'block';
+        label.innerText = select.options[select.selectedIndex].text + " ची फी रक्कम:";
+    } else {
+        inputDiv.style.display = 'none';
+    }
+}
+
+// Hostel Section Toggle
+function toggleHostelInput() {
+    const checkBox = document.getElementById('hasHostel');
+    const inputDiv = document.getElementById('hostelInputDiv');
+    inputDiv.style.display = checkBox.checked ? 'grid' : 'none';
     }
     
 </script>
