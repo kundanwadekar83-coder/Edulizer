@@ -58,6 +58,49 @@
         }
 
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        .category-card {
+    background: #fff;
+    border-radius: 12px;
+    padding: 15px;
+    margin-bottom: 25px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+    border: 1px solid #e2e8f0;
+}
+.table-title {
+    font-weight: 700;
+    color: var(--primary);
+    margin-bottom: 12px;
+    display: block;
+    font-size: 0.95rem;
+}
+.table-responsive {
+    overflow-x: auto; /* Mobile var table scroll hova mhanun */
+}
+.cutoff-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+.cutoff-table th, .cutoff-table td {
+    padding: 10px;
+    border: 1px solid #edf2f7;
+    text-align: center;
+    font-size: 0.85rem;
+}
+.cutoff-table th {
+    background: #f8fafc;
+    color: #64748b;
+}
+.cutoff-table input {
+    width: 60px; /* Small input box */
+    padding: 5px;
+    text-align: center;
+    border-radius: 4px;
+}
+@media (max-width: 768px) {
+    .cutoff-table input { width: 50px; }
+                        }
+                  
     </style>
 </head>
 <body>
@@ -158,11 +201,74 @@
                 </div>
 
                 <div class="step-content">
-                    <h2><i class="fas fa-chart-line"></i> २. कट-ऑफ (Cut-off)</h2>
-                    <div class="form-group"><label>Open General Cutoff (%)</label><input type="text" id="cutOpen"></div>
-                    <div class="form-group"><label>OBC General Cutoff (%)</label><input type="text" id="cutObc"></div>
-                </div>
+    <h2><i class="fas fa-chart-line"></i> २. प्रवर्गानुसार कट-ऑफ (%)</h2>
+    
+    <div class="category-card">
+        <label class="table-title">टेबल १: मुख्य प्रवर्ग (Open, OBC, SC, ST)</label>
+        <div class="table-responsive">
+            <table class="cutoff-table">
+                <thead>
+                    <tr>
+                        <th>प्रवर्ग</th>
+                        <th>General</th>
+                        <th>Ladies</th>
+                        <th>PWD</th>
+                        <th>DEF</th>
+                        <th>Orphan</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td>Open</td><td><input type="number" id="cOpenGen"></td><td><input type="number" id="cOpenLad"></td><td><input type="number" id="cOpenPwd"></td><td><input type="number" id="cOpenDef"></td><td><input type="number" id="cOpenOrp"></td></tr>
+                    <tr><td>OBC</td><td><input type="number" id="cObcGen"></td><td><input type="number" id="cObcLad"></td><td><input type="number" id="cObcPwd"></td><td><input type="number" id="cObcDef"></td><td><input type="number" id="cObcOrp"></td></tr>
+                    <tr><td>SC</td><td><input type="number" id="cScGen"></td><td><input type="number" id="cScLad"></td><td><input type="number" id="cScPwd"></td><td><input type="number" id="cScDef"></td><td><input type="number" id="cScOrp"></td></tr>
+                    <tr><td>ST</td><td><input type="number" id="cStGen"></td><td><input type="number" id="cStLad"></td><td><input type="number" id="cStPwd"></td><td><input type="number" id="cStDef"></td><td><input type="number" id="cStOrp"></td></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
 
+    <div class="category-card">
+        <label class="table-title">टेबल २: VJ आणि NT प्रवर्ग</label>
+        <div class="table-responsive">
+            <table class="cutoff-table">
+                <thead>
+                    <tr>
+                        <th>प्रवर्ग</th>
+                        <th>General</th>
+                        <th>Ladies</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td>VJ / DT (A)</td><td><input type="number" id="cVjGen"></td><td><input type="number" id="cVjLad"></td></tr>
+                    <tr><td>NT-B (NT-1)</td><td><input type="number" id="cNtbGen"></td><td><input type="number" id="cNtbLad"></td></tr>
+                    <tr><td>NT-C (NT-2)</td><td><input type="number" id="cNtcGen"></td><td><input type="number" id="cNtcLad"></td></tr>
+                    <tr><td>NT-D (NT-3)</td><td><input type="number" id="cNtdGen"></td><td><input type="number" id="cNtdLad"></td></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="category-card">
+        <label class="table-title">टेबल ३: विशेष प्रवर्ग (Special Cases)</label>
+        <div class="table-responsive">
+            <table class="cutoff-table">
+                <thead>
+                    <tr>
+                        <th>प्रवर्ग</th>
+                        <th>Cut-off (%)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td>SBC</td><td><input type="number" id="cSbcCut"></td></tr>
+                    <tr><td>SEBC (Maratha)</td><td><input type="number" id="cSebcCut"></td></tr>
+                    <tr><td>EWS</td><td><input type="number" id="cEwsCut"></td></tr>
+                    <tr><td>TFWS</td><td><input type="number" id="cTfwsCut"></td></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    </div>
+                            
                 <div class="step-content">
                     <h2><i class="fas fa-briefcase"></i> ३. प्लेसमेंट</h2>
                     <div class="input-grid">
