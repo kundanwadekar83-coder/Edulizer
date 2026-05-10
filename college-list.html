@@ -61,95 +61,98 @@
 
 /* --- Step 2 Final Fixed CSS --- */
 
-/* १. मुख्य कंटेनर जो स्क्रीनच्या बाहेर जाणार नाही */
-.category-card {
-    background: #ffffff;
-    border: 1px solid #e2e8f0;
-    border-radius: 12px;
+/* --- मोबाईल रिस्पॉन्सिव्ह आणि स्टिकी कॉलम फिक्स --- */
+
+/* १. मुख्य फॉर्म कंटेनर मोबाईलवर स्क्रीनबाहेर जाऊ नये म्हणून */
+.wizard-content {
     padding: 15px;
-    margin-bottom: 20px;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-    max-width: 100%; /* स्क्रीनच्या बाहेर जाणार नाही */
-    overflow: hidden;
+    width: 100%;
+    box-sizing: border-box;
+    overflow-x: hidden; /* बाजूला पळणार नाही याची खात्री */
 }
 
-.table-title {
-    display: block;
-    font-weight: 700;
-    color: var(--primary);
-    margin-bottom: 10px;
-}
-
-/* २. स्क्रोलिंग एरिया */
+/* २. टेबल ज्या बॉक्समध्ये आहे तो */
 .table-responsive {
     width: 100%;
-    overflow-x: auto; /* फक्त आडवी स्क्रोलिंग */
-    border: 1px solid #f1f5f9;
-    border-radius: 8px;
-    position: relative; /* Sticky साठी आवश्यक */
+    overflow-x: auto; /* आडवी स्क्रोल सुरू */
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    margin-bottom: 20px;
+    -webkit-overflow-scrolling: touch; /* स्मूथ स्क्रोल */
+    display: block; /* ब्लॉक असणे गरजेचे आहे */
 }
 
+/* ३. टेबल स्ट्रक्चर - रुंदी फिक्स करणे */
 .cutoff-table {
-    border-collapse: separate; /* Sticky बॉर्डरसाठी separate आवश्यक */
+    border-collapse: separate; 
     border-spacing: 0;
-    width: max-content; /* कंटेंटनुसार रुंदी घेईल, डबल होणार नाही */
-    min-width: 100%;
+    width: 100%;
+    min-width: 950px; /* एवढ्या रुंदीमुळेच स्क्रोल येईल आणि कॉलम लॉक होईल */
+    background: white;
 }
 
-.cutoff-table th, .cutoff-table td {
-    padding: 10px;
-    border-right: 1px solid #f1f5f9;
-    border-bottom: 1px solid #f1f5f9;
-    text-align: center;
-    font-size: 0.8rem;
-    background: white; /* Sticky मागे डेटा दिसू नये म्हणून */
-}
-
-/* ३. प्रवर्ग (Category) कॉलम स्टिकी करण्यासाठी */
-/* पहिल्या कॉलमचे हेडर आणि सेल्स दोन्ही लॉक केले */
-.cutoff-table th:first-child, 
+/* ४. प्रवर्ग (Category) कॉलम लॉक करणे - हा मुख्य भाग आहे */
+.cutoff-table th:first-child,
 .cutoff-table td:first-child {
+    position: -webkit-sticky; /* Safari साठी */
     position: sticky;
-    left: 0;
-    z-index: 10;
-    background-color: #f8fafc; /* थोडा वेगळा रंग */
-    font-weight: 700;
-    min-width: 100px;
+    left: 0; /* डावीकडे लॉक */
+    z-index: 10; /* इतर मजकुराच्या वर राहण्यासाठी */
+    background-color: #f1f5f9 !important; /* बॅकग्राउंड सॉलिड हवा, नाहीतर खालचा मजकूर दिसेल */
+    border-right: 2px solid #cbd5e1;
+    min-width: 120px; /* रुंदी थोडी वाढवली जेणेकरून नाव मावेल */
     text-align: left;
-    border-right: 2px solid #e2e8f0; /* लॉक केल्यावर दिसणारी बॉर्डर */
+    padding-left: 12px;
+    font-weight: 800;
 }
 
-/* हेडरचा पहिला सेल सगळ्यात वर असावा */
+/* हेडरचा पहिला सेल (प्रवर्ग लिहिलेला) */
 .cutoff-table th:first-child {
     z-index: 11;
+    top: 0;
 }
 
+/* ५. टेबल सेल्स स्टाईलिंग */
+.cutoff-table th, .cutoff-table td {
+    padding: 12px 10px;
+    border-bottom: 1px solid #e2e8f0;
+    border-right: 1px solid #f1f5f9;
+    background: #ffffff;
+    font-size: 0.8rem;
+    white-space: nowrap; /* मजकूर तुटू नये म्हणून */
+}
+
+/* ६. इनपुट बॉक्सेस */
 .cutoff-table input {
-    width: 60px;
+    width: 65px;
     padding: 6px;
     border: 1px solid #cbd5e1;
-    border-radius: 4px;
+    border-radius: 6px;
     font-size: 0.75rem;
+    text-align: center;
 }
 
-/* ४. नेक्स्ट बटन आणि फुटर फिक्स */
+/* ७. नेक्स्ट/मागे बटन एरिया */
 .btn-footer {
-    position: relative;
-    z-index: 100; /* टेबलच्या वर दिसावे */
-    background: white;
-    padding: 20px 0;
-    margin-top: 10px;
+    display: flex;
+    justify-content: space-between;
     width: 100%;
+    padding: 20px 0;
+    background: #fff;
+    border-top: 1px solid #f1f5f9;
+    margin-top: 20px;
 }
 
-/* मोबाईलवर स्क्रोल बार दिसावा म्हणून स्टाईलिंग */
-.table-responsive::-webkit-scrollbar {
-    height: 8px;
+/* मोबाईलसाठी खास बदल */
+@media (max-width: 768px) {
+    .wizard-card {
+        grid-template-columns: 1fr; /* पूर्ण रुंदी */
+    }
+    .form-container {
+        margin-top: 20px;
+    }
 }
-.table-responsive::-webkit-scrollbar-thumb {
-    background: #cbd5e1;
-    border-radius: 10px;
-}
+
              
     </style>
 </head>
