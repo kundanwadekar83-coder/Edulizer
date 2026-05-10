@@ -59,7 +59,9 @@
 
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-     .category-card {
+/* --- Step 2 Table Scrolling Fix --- */
+
+.category-card {
     background: #ffffff;
     border: 1px solid #e2e8f0;
     border-radius: 15px;
@@ -76,28 +78,37 @@
     font-size: 0.9rem;
 }
 
+/* मुख्य बदल: आडवी स्क्रोलिंग इथून कंट्रोल होते */
 .table-responsive {
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
+    width: 100%;
+    overflow-x: auto; /* आडवी स्क्रोल सुरू केली */
+    -webkit-overflow-scrolling: touch; /* मोबाईलवर स्मूथ टच स्क्रोलिंगसाठी */
+    border: 1px solid #f1f5f9;
+    border-radius: 10px;
 }
 
 .cutoff-table {
     width: 100%;
     border-collapse: collapse;
-    min-width: 600px; /* मोबाईलवर स्क्रोल येण्यासाठी */
+    /* टेबल कमीत कमी 900px रुंद राहील, ज्यामुळे मोबाईलवर आपोआप स्क्रोल येईल */
+    min-width: 900px; 
+    background-color: white;
 }
 
 .cutoff-table th, .cutoff-table td {
     border: 1px solid #f1f5f9;
-    padding: 8px 5px;
+    padding: 12px 8px; /* पॅडिंग थोडी वाढवली जेणेकरून मजकूर मोकळा दिसेल */
     text-align: center;
     font-size: 0.8rem;
+    white-space: nowrap; /* मजकूर पुढच्या ओळीवर जाऊन टेबलची उंची बिघडवणार नाही */
 }
 
 .cutoff-table th {
     background-color: #f8fafc;
     color: #475569;
-    font-weight: 600;
+    font-weight: 700;
+    position: sticky; /* हेडर जागेवर ठेवण्यासाठी (Optional) */
+    top: 0;
 }
 
 .cat-name {
@@ -105,22 +116,36 @@
     font-weight: 700;
     color: var(--dark);
     text-align: left !important;
-    padding-left: 10px !important;
+    padding-left: 15px !important;
+    position: sticky;
+    left: 0; /* पहिली कॉलम (Category Name) जागेवर फ्रीज करण्यासाठी */
+    z-index: 1;
 }
 
 .cutoff-table input {
-    width: 55px;
-    padding: 5px;
+    width: 65px; /* रँक आणि % साठी थोडी जास्त जागा */
+    padding: 6px;
     border: 1px solid #cbd5e1;
     border-radius: 6px;
     font-size: 0.75rem;
     outline: none;
     transition: 0.2s;
+    text-align: center;
 }
 
 .cutoff-table input:focus {
     border-color: var(--primary);
     box-shadow: 0 0 0 2px rgba(79, 70, 229, 0.1);
+    background-color: #f5f3ff;
+}
+
+/* स्क्रोलबारची स्टाईल (दिसायला सोपे जाते) */
+.table-responsive::-webkit-scrollbar {
+    height: 6px;
+}
+.table-responsive::-webkit-scrollbar-thumb {
+    background: #cbd5e1;
+    border-radius: 10px;
 }
              
     </style>
