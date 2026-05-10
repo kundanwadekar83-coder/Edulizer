@@ -7,48 +7,45 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&display=swap" rel="stylesheet">
     <style>
-        :root { --primary-color: #4f46e5; --bg-color: #f8fafc; --dark-blue: #1e293b; }
-        body { background-color: var(--bg-color); font-family: 'Poppins', sans-serif; margin: 0; color: #1e293b; }
-        
-        /* Layout */
-        .form-container { max-width: 1100px; margin: 100px auto 30px auto; padding: 0 15px; }
-        .wizard-card { background: white; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.08); display: grid; grid-template-columns: 280px 1fr; overflow: hidden; min-height: 650px; }
-        
-        /* Sidebar */
-        .wizard-sidebar { background: var(--dark-blue); color: white; padding: 40px 30px; }
-        .step-item { display: flex; align-items: center; gap: 15px; margin-bottom: 25px; opacity: 0.4; transition: 0.3s; }
-        .step-item.active { opacity: 1; color: #818cf8; font-weight: 700; }
-        .step-num { width: 32px; height: 32px; border-radius: 50%; border: 2px solid currentColor; display: flex; align-items: center; justify-content: center; font-size: 0.9rem; }
+       :root { 
+    --primary: #4f46e5; 
+    --success: #10b981;
+    --dark: #1e293b; 
+    --light-bg: #f8fafc; 
+}
 
-        /* Content */
-        .wizard-content { padding: 40px; position: relative; }
-        .step-content { display: none; animation: slideIn 0.4s ease; }
-        .step-content.active { display: block; }
-        h2 { color: var(--dark-blue); margin-bottom: 25px; font-size: 1.5rem; display: flex; align-items: center; gap: 10px; font-weight: 700; }
+/* डेस्कटॉपसाठी ग्रीड लेआउट */
+.input-grid { 
+    display: grid; 
+    grid-template-columns: repeat(3, 1fr); 
+    gap: 15px; 
+    margin-bottom: 20px; 
+}
 
-        /* Form Elements */
-        .input-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; }
-        .form-group { margin-bottom: 15px; }
-        .form-group label { display: block; margin-bottom: 5px; font-weight: 600; color: #475569; font-size: 0.85rem; }
-        input, select, textarea { width: 100%; padding: 10px; border: 1px solid #e2e8f0; border-radius: 10px; font-family: inherit; }
-        
-        /* Branch Section */
-        .branch-section { background: #f1f5f9; padding: 20px; border-radius: 15px; margin: 20px 0; border-left: 5px solid var(--primary-color); }
-        .branch-row { background: white; padding: 15px; border-radius: 10px; margin-bottom: 10px; border: 1px solid #e2e8f0; }
+/* मोबाईलसाठी रिस्पॉन्सिव्ह बदल */
+@media (max-width: 768px) {
+    .wizard-card { grid-template-columns: 1fr; }
+    .wizard-sidebar { display: none; } /* मोबाईलवर साईडबार लपवला */
+    .input-grid { grid-template-columns: 1fr; } /* मोबाईलवर १ कॉलम */
+    .form-container { margin-top: 80px; }
+    .btn-nav { padding: 10px 15px; font-size: 0.9rem; }
+}
 
-        /* Preview Styles */
-        .preview-box { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 15px; padding: 20px; }
-        .preview-group { margin-bottom: 15px; padding-bottom: 10px; border-bottom: 1px dashed #cbd5e1; }
-        .preview-label { font-weight: 700; color: #64748b; font-size: 0.8rem; text-transform: uppercase; }
-        .preview-val { font-size: 1rem; color: var(--dark-blue); display: block; }
+/* प्रिव्ह्यू पेज स्टाईलिंग */
+.preview-box { 
+    background: #ffffff; 
+    border: 1px solid #e2e8f0; 
+    border-radius: 12px; 
+    padding: 20px; 
+    box-shadow: inset 0 2px 4px rgba(0,0,0,0.02);
+}
+.preview-section { margin-bottom: 20px; padding-bottom: 15px; border-bottom: 1px solid #f1f5f9; }
+.preview-label { font-weight: 700; color: #64748b; font-size: 0.8rem; text-transform: uppercase; display: block; }
+.preview-value { font-size: 1rem; color: var(--dark); margin-top: 4px; display: block; }
 
-        /* Buttons */
-        .btn-footer { margin-top: 30px; display: flex; justify-content: space-between; }
-        .btn-nav { padding: 12px 30px; border-radius: 12px; font-weight: 700; border: none; cursor: pointer; display: flex; align-items: center; gap: 8px; }
-        .btn-next { background: var(--primary-color); color: white; margin-left: auto; }
-        .btn-prev { background: #f1f5f9; color: #475569; }
-
-        @keyframes slideIn { from { opacity: 0; transform: translateX(20px); } to { opacity: 1; transform: translateX(0); } }
+/* प्रिव्ह्यू मधील फोटो */
+#previewImagesArea { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 10px; }
+.preview-img-card { width: 100px; height: 100px; object-fit: cover; border-radius: 8px; border: 2px solid #fff; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
     </style>
 </head>
 <body>
@@ -132,8 +129,151 @@
                 </div>
 
                 <div class="step-content">
-                    <h2><i class="fas fa-eye" style="color:var(--primary-color)"></i> ६. प्रिव्ह्यू (तपासून घ्या)</h2>
-                    <div class="preview-box" id="finalPreviewHTML">
+    <h2><i class="fas fa-eye" style="color:var(--primary)"></i> ६. प्रिव्ह्यू (माहिती तपासा)</h2>
+    <div class="preview-box" id="fullPreviewContent">
+        <div id="textPreview"></div>
+        <div class="preview-section">
+            <span class="preview-label">अपलोड केलेले फोटो:</span>
+            <div id="previewImagesArea"></div>
+        </div>
+    </div>
+                </div>
+                
+                <div class="btn-footer">
+                    <button type="button" class="btn-nav btn-prev" id="prevBtn" onclick="changeStep(-1)" style="display:none;"><i class="fas fa-arrow-left"></i> मागे</button>
+                    <button type="button" class="btn-nav btn-next" id="nextBtn" onclick="changeStep(1)">पुढची पायरी <i class="fas fa-arrow-right"></i></button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!DOCTYPE html>
+<html lang="mr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>College Entry | Edulizer</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root { 
+            --primary: #4f46e5; 
+            --success: #10b981;
+            --dark: #1e293b; 
+            --light-bg: #f8fafc; 
+        }
+
+        body { background-color: var(--light-bg); font-family: 'Poppins', sans-serif; margin: 0; }
+
+        /* Layout Container */
+        .form-container { max-width: 1100px; margin: 100px auto 30px auto; padding: 0 15px; }
+        .wizard-card { background: white; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.08); display: grid; grid-template-columns: 280px 1fr; overflow: hidden; min-height: 600px; }
+
+        /* Sidebar - Desktop */
+        .wizard-sidebar { background: var(--dark); color: white; padding: 40px 30px; }
+        .step-item { display: flex; align-items: center; gap: 15px; margin-bottom: 25px; opacity: 0.4; }
+        .step-item.active { opacity: 1; color: #818cf8; font-weight: 700; }
+        .step-num { width: 30px; height: 30px; border-radius: 50%; border: 2px solid currentColor; display: flex; align-items: center; justify-content: center; font-size: 0.8rem; }
+
+        /* Main Content Area */
+        .wizard-content { padding: 40px; position: relative; }
+        .step-content { display: none; animation: fadeIn 0.4s ease; }
+        .step-content.active { display: block; }
+
+        /* Grid System - Responsive */
+        .input-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin-bottom: 20px; }
+        .form-group { margin-bottom: 15px; }
+        .form-group label { display: block; margin-bottom: 5px; font-weight: 600; color: #475569; font-size: 0.85rem; }
+        input, select, textarea { width: 100%; padding: 12px; border: 1px solid #e2e8f0; border-radius: 10px; font-size: 0.9rem; box-sizing: border-box; }
+
+        /* Branch Section Card */
+        .branch-section { background: #f1f5f9; padding: 15px; border-radius: 12px; margin: 15px 0; border-left: 4px solid var(--primary); }
+        .branch-row { background: white; padding: 12px; border-radius: 8px; margin-bottom: 10px; border: 1px solid #e2e8f0; }
+
+        /* Image Preview Box */
+        #photoPreview, #previewImagesArea { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 10px; }
+        .thumb-img { width: 70px; height: 70px; object-fit: cover; border-radius: 8px; border: 1px solid #ddd; }
+
+        /* Preview Page Styling */
+        .preview-box { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 20px; }
+        .preview-item { border-bottom: 1px solid #e2e8f0; padding: 10px 0; }
+        .preview-label { font-weight: 700; color: #64748b; font-size: 0.75rem; text-transform: uppercase; }
+        .preview-value { color: var(--dark); font-size: 0.95rem; display: block; margin-top: 2px; }
+
+        /* Footer Buttons */
+        .btn-footer { margin-top: 30px; display: flex; justify-content: space-between; }
+        .btn-nav { padding: 12px 25px; border-radius: 10px; font-weight: 700; border: none; cursor: pointer; display: flex; align-items: center; gap: 8px; }
+        .btn-next { background: var(--primary); color: white; margin-left: auto; }
+        .btn-prev { background: #f1f5f9; color: #475569; }
+
+        /* Mobile View Fixes */
+        @media (max-width: 768px) {
+            .wizard-card { grid-template-columns: 1fr; }
+            .wizard-sidebar { display: none; } /* Mobile var sidebar hide kela */
+            .input-grid { grid-template-columns: 1fr; } /* Inputs ekakhali ek */
+            .form-container { margin-top: 20px; }
+            .wizard-content { padding: 20px; }
+        }
+
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    </style>
+</head>
+<body>
+
+<div class="form-container">
+    <div class="wizard-card">
+        <div class="wizard-sidebar">
+            <div class="step-item active"><div class="step-num">1</div> ओळख & ब्रांचेस</div>
+            <div class="step-item"><div class="step-num">2</div> कट-ऑफ</div>
+            <div class="step-item"><div class="step-num">3</div> प्लेसमेंट</div>
+            <div class="step-item"><div class="step-num">4</div> फी</div>
+            <div class="step-item"><div class="step-num">5</div> संपर्क</div>
+            <div class="step-item"><div class="step-num">6</div> प्रिव्ह्यू</div>
+        </div>
+
+        <div class="wizard-content">
+            <form id="collegeForm">
+                
+                <div class="step-content active">
+                    <h2><i class="fas fa-university"></i> १. कॉलेजची ओळख</h2>
+                    <div class="form-group"><label>कॉलेजचे नाव</label><input type="text" id="cName" placeholder="उदा. Government College of Engineering"></div>
+                    
+                    <div class="input-grid">
+                        <div class="form-group"><label>DTE कोड</label><input type="text" id="cCode"></div>
+                        <div class="form-group"><label>युनिव्हर्सिटी</label><select id="cUni"><option>SPPU</option><option>Mumbai University</option><option>DBATU</option></select></div>
+                        <div class="form-group"><label>प्रकार</label><select id="cType"><option>Government</option><option>Private</option></select></div>
+                    </div>
+
+                    <div class="branch-section">
+                        <label style="font-weight: 700; font-size: 0.9rem;">ब्रांच माहिती (Branches)</label>
+                        <div id="branch-list">
+                            <div class="branch-row">
+                                <div class="input-grid">
+                                    <input type="text" class="bName" placeholder="Branch Name">
+                                    <input type="text" class="bCode" placeholder="Branch Code">
+                                    <input type="number" class="bIntake" placeholder="Intake">
+                                </div>
+                            </div>
+                        </div>
+                        <button type="button" onclick="addNewBranch()" style="margin-top:5px; cursor:pointer; font-size: 0.8rem;">+ आणखी ब्रांच जोडा</button>
+                    </div>
+
+                    <div class="form-group">
+                        <label>फोटो अपलोड</label>
+                        <input type="file" id="cPhotos" multiple accept="image/*">
+                        <div id="photoPreview"></div>
+                    </div>
+                </div>
+
+                <div class="step-content"><h2>२. कट-ऑफ</h2><div class="form-group"><label>Open Cut-off (%)</label><input type="text" id="cutOpen"></div></div>
+                <div class="step-content"><h2>३. प्लेसमेंट</h2><div class="form-group"><label>Highest Package</label><input type="text" id="pHigh"></div></div>
+                <div class="step-content"><h2>४. फी माहिती</h2><div class="form-group"><label>Total Fee (Open)</label><input type="text" id="feeOpen"></div></div>
+                <div class="step-content"><h2>५. संपर्क</h2><div class="form-group"><label>ईमेल पत्ता</label><input type="email" id="cEmail"></div></div>
+
+                <div class="step-content">
+                    <h2><i class="fas fa-eye"></i> ६. माहितीचा प्रिव्ह्यू</h2>
+                    <div class="preview-box" id="fullPreviewHTML">
                         </div>
                 </div>
 
@@ -151,121 +291,95 @@
     const steps = document.querySelectorAll(".step-content");
     const stepItems = document.querySelectorAll(".step-item");
 
-    // 1. स्टेप दाखवण्याचे लॉजिक
     function showStep(n) {
-        steps.forEach((step, index) => {
-            step.style.display = (index === n) ? "block" : "none";
-            if (stepItems[index]) {
-                stepItems[index].classList.toggle("active", index === n);
-            }
+        steps.forEach((s, i) => {
+            s.classList.toggle("active", i === n);
+            if(stepItems[i]) stepItems[i].classList.toggle("active", i === n);
         });
-
-        // 'मागे' बटन पहिल्या स्टेपवर लपवा
         document.getElementById("prevBtn").style.display = (n === 0) ? "none" : "flex";
-
-        // शेवटच्या स्टेपला 'Submit' बटन दाखवा
-        const nextBtn = document.getElementById("nextBtn");
-        if (n === (steps.length - 1)) {
-            nextBtn.innerHTML = 'माहिती जतन करा <i class="fas fa-check"></i>';
-            nextBtn.style.background = "#10b981";
-        } else {
-            nextBtn.innerHTML = 'पुढची पायरी <i class="fas fa-arrow-right"></i>';
-            nextBtn.style.background = "#4f46e5";
-        }
+        const nxt = document.getElementById("nextBtn");
+        nxt.innerHTML = (n === steps.length - 1) ? 'Save Data <i class="fas fa-check"></i>' : 'पुढची पायरी <i class="fas fa-arrow-right"></i>';
     }
 
-    // 2. स्टेप बदलण्याचे लॉजिक (Next/Prev)
     function changeStep(n) {
-        // जर शेवटच्या स्टेपवर असाल आणि 'Next' दाबलं तर फॉर्म सबमिट करा
-        if (n === 1 && currentStep === steps.length - 1) {
-            alert("अभिनंदन! कॉलेज डेटा यशस्वीरित्या सेव्ह झाला.");
-            window.location.href = 'dashboard.html';
-            return;
-        }
-
-        // शेवटच्या प्रिव्ह्यू स्टेपवर जाण्यापूर्वी डेटा अपडेट करा
-        if (n === 1 && currentStep === steps.length - 2) {
-            generatePreview();
-        }
-
+        if (n === 1 && currentStep === steps.length - 2) generateFinalPreview();
+        if (n === 1 && currentStep === steps.length - 1) { alert("Data Saved!"); return; }
         currentStep += n;
         showStep(currentStep);
-        window.scrollTo({ top: 0, behavior: 'smooth' });
+        window.scrollTo(0,0);
     }
 
-    // 3. नवीन ब्रांच ॲड करण्याचे लॉजिक
-    function addBranchRow() {
-        const container = document.getElementById('branch-list');
-        const firstRow = document.querySelector('.branch-row');
-        const newRow = firstRow.cloneNode(true);
+    function addNewBranch() {
+        const row = document.querySelector('.branch-row').cloneNode(true);
+        row.querySelectorAll('input').forEach(i => i.value = "");
+        document.getElementById('branch-list').appendChild(row);
+    }
+
+    // Real-time Photo Preview (Step 1)
+    document.getElementById('cPhotos').addEventListener('change', function() {
+        const preview = document.getElementById('photoPreview');
+        preview.innerHTML = "";
+        Array.from(this.files).forEach(file => {
+            const reader = new FileReader();
+            reader.onload = e => {
+                const img = document.createElement('img');
+                img.src = e.target.result;
+                img.className = "thumb-img";
+                preview.appendChild(img);
+            }
+            reader.readAsDataURL(file);
+        });
+    });
+
+    // Generate Preview with Text and Images (Step 6)
+    function generateFinalPreview() {
+        const previewDiv = document.getElementById('fullPreviewHTML');
         
-        // नवीन रो मधील व्हॅल्यूज क्लिअर करा
-        newRow.querySelectorAll('input').forEach(input => input.value = "");
-        container.appendChild(newRow);
-    }
-
-    // 4. फोटो प्रिव्ह्यू लॉजिक (हे बटन हँग होऊ देत नाही)
-    const photoInput = document.getElementById('cPhotos');
-    if (photoInput) {
-        photoInput.addEventListener('change', function() {
-            const preview = document.getElementById('photoPreview');
-            preview.innerHTML = ""; // जुने प्रिव्ह्यू काढा
-
-            if (this.files) {
-                Array.from(this.files).forEach(file => {
-                    const reader = new FileReader();
-                    reader.onload = function(e) {
-                        const img = document.createElement('img');
-                        img.src = e.target.result;
-                        img.style = "width:80px; height:80px; object-fit:cover; border-radius:10px; border:2px solid #e2e8f0; box-shadow: 0 2px 5px rgba(0,0,0,0.1);";
-                        preview.appendChild(img);
-                    }
-                    reader.readAsDataURL(file);
-                });
-            }
-        });
-    }
-
-    // 5. प्रिव्ह्यू जनरेट करण्याचे लॉजिक
-    function generatePreview() {
+        // Collect Text Data
         const name = document.getElementById('cName').value || "---";
-        const code = document.getElementById('cCode').value || "---";
-        const fee = document.getElementById('feeOpen').value || "0";
-        const email = document.getElementById('clgEmail').value || "---";
-
-        // ब्रांचेसची माहिती गोळा करा
-        let branchHTML = "<ul>";
-        document.querySelectorAll('.branch-row').forEach(row => {
-            const bName = row.querySelector('.bName').value;
-            const bIntake = row.querySelector('.bIntake').value;
-            if (bName) {
-                branchHTML += `<li><strong>${bName}</strong> - जागा: ${bIntake || '0'}</li>`;
-            }
+        const email = document.getElementById('cEmail').value || "---";
+        const fee = document.getElementById('feeOpen').value || "---";
+        
+        // Collect Branches
+        let branches = "";
+        document.querySelectorAll('.branch-row').forEach(r => {
+            const bn = r.querySelector('.bName').value;
+            if(bn) branches += `<li>${bn} (Intake: ${r.querySelector('.bIntake').value})</li>`;
         });
-        branchHTML += "</ul>";
 
-        // प्रिव्ह्यू एरियामध्ये डेटा सेट करा
-        const previewArea = document.getElementById('finalPreviewHTML');
-        if (previewArea) {
-            previewArea.innerHTML = `
-                <div style="margin-bottom:15px;">
-                    <p><strong>कॉलेज:</strong> ${name} (DTE: ${code})</p>
-                    <p><strong>ईमेल:</strong> ${email}</p>
-                    <p><strong>ओपन फी:</strong> ₹${fee}</p>
-                </div>
-                <div style="border-top: 1px solid #ddd; pt-10px;">
-                    <p><strong>ब्रांचेस:</strong></p>
-                    ${branchHTML}
-                </div>
-            `;
+        // HTML for Text Data
+        let html = `
+            <div class="preview-item"><span class="preview-label">कॉलेजचे नाव</span><span class="preview-value">${name}</span></div>
+            <div class="preview-item"><span class="preview-label">संपर्क आणि फी</span><span class="preview-value">Email: ${email} | Fee: ${fee}</span></div>
+            <div class="preview-item"><span class="preview-label">ब्रांचेस</span><span class="preview-value"><ul>${branches || "माहिती भरलेली नाही"}</ul></span></div>
+            <div class="preview-item"><span class="preview-label">निवडलेले फोटो</span><div id="previewImagesArea"></div></div>
+        `;
+        previewDiv.innerHTML = html;
+
+        // Collect and Show Images in Preview
+        const files = document.getElementById('cPhotos').files;
+        const imgArea = document.getElementById('previewImagesArea');
+        if(files.length > 0) {
+            Array.from(files).forEach(file => {
+                const reader = new FileReader();
+                reader.onload = e => {
+                    const img = document.createElement('img');
+                    img.src = e.target.result;
+                    img.className = "thumb-img";
+                    img.style.width = "100px"; img.style.height = "100px";
+                    imgArea.appendChild(img);
+                }
+                reader.readAsDataURL(file);
+            });
+        } else {
+            imgArea.innerHTML = "<small>फोटो अपलोड केलेले नाहीत</small>";
         }
     }
 
-    // 6. पेज लोड झाल्यावर पहिली स्टेप दाखवा
-    document.addEventListener("DOMContentLoaded", () => {
-        showStep(currentStep);
-    });
+    document.addEventListener("DOMContentLoaded", () => showStep(currentStep));
 </script>
+</body>
+</html>
 
 
 </body>
