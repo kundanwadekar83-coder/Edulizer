@@ -69,14 +69,29 @@
                     <div class="form-group"><label>कॉलेजचे पूर्ण नाव</label><input type="text" id="cName" placeholder="उदा. COEP Pune"></div>
                     <div class="input-grid">
                         <div class="form-group"><label>DTE कोड</label><input type="number" id="cCode"></div>
-                        <div class="form-group">
-                            <label>युनिव्हर्सिटी</label>
-                            <select id="cUni">
-                                <option value="SPPU">SPPU (Pune)</option>
-                                <option value="MU">MU (Mumbai)</option>
-                                <option value="DBATU">DBATU</option>
-                            </select>
-                        </div>
+                       <div class="form-group">
+    <label>युनिव्हर्सिटी</label>
+    <select id="cUni" onchange="toggleOtherUni()">
+        <option value="">-- विद्यापीठ निवडा --</option>
+        <option value="SPPU">SPPU (पुणे, अहमदनगर, नाशिक)</option>
+        <option value="MU">MU (मुंबई, ठाणे, कोकण)</option>
+        <option value="RTMNU">RTMNU (नागपूर)</option>
+        <option value="DBATU">DBATU (Technological University)</option>
+        <option value="SUK">SUK (कोल्हापूर, सांगली, सातारा)</option>
+        <option value="BAMU">BAMU (छत्रपती संभाजीनगर, जालना, बीड, धाराशिव)</option>
+        <option value="SGBAU">SGBAU (अमरावती, अकोला, बुलढाणा, यवतमाळ, वाशिम)</option>
+        <option value="NMU">NMU (जळगाव, धुळे, नंदुरबार)</option>
+        <option value="SRTMUN">SRTMUN (नांदेड, लातूर, परभणी, हिंगोली)</option>
+        <option value="PAHSUS">PAHSUS (सोलापूर)</option>
+        <option value="GU">GU (गोंडवाना विद्यापीठ, गडचिरोली)</option>
+        <option value="Other">इतर (Other)</option>
+    </select>
+</div>
+
+<div class="form-group" id="otherUniGroup" style="display: none;">
+    <label>विद्यापीठाचे नाव सांगा</label>
+    <input type="text" id="otherUniName" placeholder="तुमच्या विद्यापीठाचे नाव लिहा">
+</div>
                     </div>
 
                     <div class="branch-section">
@@ -377,6 +392,18 @@
     }
 
     document.addEventListener("DOMContentLoaded", () => showStep(currentStep));
+
+    // १. 'Other' निवडल्यावर टेक्स्ट बॉक्स दाखवण्यासाठी
+function toggleOtherUni() {
+    const uniSelect = document.getElementById('cUni');
+    const otherGroup = document.getElementById('otherUniGroup');
+    
+    if (uniSelect.value === "Other") {
+        otherGroup.style.display = "block";
+    } else {
+        otherGroup.style.display = "none";
+    }
+    }
 </script>
 </body>
 </html>
