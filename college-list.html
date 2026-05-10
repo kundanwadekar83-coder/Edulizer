@@ -9,84 +9,267 @@
     <style>
         :root { --primary-color: #4f46e5; --bg-color: #f8fafc; --dark-blue: #1e293b; }
         body { background-color: var(--bg-color); font-family: 'Poppins', sans-serif; margin: 0; color: #1e293b; }
+        
+        /* Layout */
         .form-container { max-width: 1100px; margin: 100px auto 30px auto; padding: 0 15px; }
         .wizard-card { background: white; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.08); display: grid; grid-template-columns: 280px 1fr; overflow: hidden; min-height: 650px; }
+        
+        /* Sidebar */
         .wizard-sidebar { background: var(--dark-blue); color: white; padding: 40px 30px; }
         .step-item { display: flex; align-items: center; gap: 15px; margin-bottom: 25px; opacity: 0.4; transition: 0.3s; }
         .step-item.active { opacity: 1; color: #818cf8; font-weight: 700; }
         .step-num { width: 32px; height: 32px; border-radius: 50%; border: 2px solid currentColor; display: flex; align-items: center; justify-content: center; font-size: 0.9rem; }
+
+        /* Content */
         .wizard-content { padding: 40px; position: relative; }
         .step-content { display: none; animation: slideIn 0.4s ease; }
         .step-content.active { display: block; }
         h2 { color: var(--dark-blue); margin-bottom: 25px; font-size: 1.5rem; display: flex; align-items: center; gap: 10px; font-weight: 700; }
-        .glass-nav { background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); border-bottom: 1px solid #e2e8f0; position: fixed; top: 0; left: 0; width: 100%; z-index: 1000; height: 75px; display: flex; align-items: center; }
-        .nav-container { width: 100%; max-width: 1200px; margin: 0 auto; padding: 0 25px; display: flex; justify-content: space-between; align-items: center; }
-        .logo-brand { display: flex; align-items: center; gap: 12px; font-size: 1.6rem; font-weight: 900; color: var(--primary-color); text-decoration: none; }
-        .back-link { text-decoration: none; display: flex; align-items: center; gap: 8px; background: #f1f5f9; color: #475569; padding: 10px 20px; border-radius: 12px; font-weight: 700; font-size: 0.9rem; transition: 0.3s ease; }
-        .user-profile-nav { display: flex; align-items: center; gap: 15px; padding-left: 20px; border-left: 2px solid #f1f5f9; }
-        .user-avatar { width: 42px; height: 42px; background: linear-gradient(135deg, #6366f1, #4f46e5); color: white; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-weight: 800; }
-        .input-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px; margin-bottom: 20px; }
-        .form-group { margin-bottom: 20px; }
-        .form-group label { display: block; margin-bottom: 8px; font-weight: 600; color: #475569; font-size: 0.9rem; }
-        .form-group input, .form-group select, .form-group textarea { width: 100%; padding: 12px; border: 1px solid #e2e8f0; border-radius: 10px; font-size: 0.95rem; transition: 0.3s; font-family: inherit; }
-        .cutoff-header { display: grid; grid-template-columns: 120px 1fr 1fr 1fr; gap: 10px; background: var(--dark-blue); color: white; padding: 12px; border-radius: 10px; font-size: 0.8rem; text-align: center; font-weight: 600; }
-        .cutoff-grid { display: grid; grid-template-columns: 120px 1fr 1fr 1fr; gap: 15px; align-items: center; padding: 15px 0; border-bottom: 1px solid #e2e8f0; }
-        .cat-title { font-weight: 800; color: var(--primary-color); }
-        .input-pair { display: flex; gap: 5px; }
-        .input-pair input { width: 50% !important; padding: 8px !important; text-align: center; }
-        .section-divider { margin: 30px 0 15px 0; padding: 10px; background: #f1f5f9; border-left: 5px solid var(--primary-color); font-weight: 700; }
-        .others-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 15px; }
-        .upload-container { border: 2px dashed #cbd5e1; padding: 30px; border-radius: 15px; text-align: center; cursor: pointer; background: #fcfcfd; }
-        .btn-footer { margin-top: 40px; display: flex; justify-content: space-between; }
+
+        /* Form Elements */
+        .input-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; }
+        .form-group { margin-bottom: 15px; }
+        .form-group label { display: block; margin-bottom: 5px; font-weight: 600; color: #475569; font-size: 0.85rem; }
+        input, select, textarea { width: 100%; padding: 10px; border: 1px solid #e2e8f0; border-radius: 10px; font-family: inherit; }
+        
+        /* Branch Section */
+        .branch-section { background: #f1f5f9; padding: 20px; border-radius: 15px; margin: 20px 0; border-left: 5px solid var(--primary-color); }
+        .branch-row { background: white; padding: 15px; border-radius: 10px; margin-bottom: 10px; border: 1px solid #e2e8f0; }
+
+        /* Preview Styles */
+        .preview-box { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 15px; padding: 20px; }
+        .preview-group { margin-bottom: 15px; padding-bottom: 10px; border-bottom: 1px dashed #cbd5e1; }
+        .preview-label { font-weight: 700; color: #64748b; font-size: 0.8rem; text-transform: uppercase; }
+        .preview-val { font-size: 1rem; color: var(--dark-blue); display: block; }
+
+        /* Buttons */
+        .btn-footer { margin-top: 30px; display: flex; justify-content: space-between; }
         .btn-nav { padding: 12px 30px; border-radius: 12px; font-weight: 700; border: none; cursor: pointer; display: flex; align-items: center; gap: 8px; }
         .btn-next { background: var(--primary-color); color: white; margin-left: auto; }
         .btn-prev { background: #f1f5f9; color: #475569; }
+
         @keyframes slideIn { from { opacity: 0; transform: translateX(20px); } to { opacity: 1; transform: translateX(0); } }
-        @media (max-width: 850px) { .wizard-card { grid-template-columns: 1fr; } .wizard-sidebar { display: none; } .cutoff-header { display: none; } .cutoff-grid { grid-template-columns: 1fr; border: 1px solid #eee; padding: 10px; margin-bottom: 10px; } }
     </style>
 </head>
 <body>
 
-<nav class="glass-nav">
-    <div class="nav-container">
-        <a href="dashboard.html" class="logo-brand"><i class="fas fa-bolt"></i><span>Edulizer</span></a>
-        <div class="nav-right">
-            <a href="dashboard.html" class="back-link"><i class="fas fa-th-large"></i><span>डॅशबोर्डवर परत जा</span></a>
-            <div class="user-profile-nav"><div class="user-avatar">V</div></div>
-        </div>
-    </div>
-</nav>
-
 <div class="form-container">
     <div class="wizard-card">
         <div class="wizard-sidebar">
-            <div class="step-item active"><div class="step-num">1</div> ओळख</div>
+            <div class="step-item active"><div class="step-num">1</div> ओळख & ब्रांचेस</div>
             <div class="step-item"><div class="step-num">2</div> कट-ऑफ</div>
             <div class="step-item"><div class="step-num">3</div> प्लेसमेंट</div>
             <div class="step-item"><div class="step-num">4</div> फी</div>
             <div class="step-item"><div class="step-num">5</div> संपर्क</div>
-            <div class="step-item"><div class="step-num">6</div> व्हॉल्ट</div>
+            <div class="step-item"><div class="step-num">6</div> प्रिव्ह्यू</div>
         </div>
 
         <div class="wizard-content">
             <form id="collegeMasterForm">
                 
                 <div class="step-content active">
-                    <h2><i class="fas fa-university" style="color: var(--primary-color);"></i> १. ओळख आणि फोटो</h2>
-                    <div class="form-group"><label>कॉलेजचे पूर्ण नाव</label><input type="text" id="cName" required placeholder="उदा. College of Engineering, Pune"></div>
+                    <h2><i class="fas fa-university"></i> १. कॉलेजची ओळख</h2>
+                    <div class="form-group"><label>कॉलेजचे पूर्ण नाव</label><input type="text" id="cName" placeholder="उदा. COEP Pune"></div>
                     <div class="input-grid">
-                        <div class="form-group"><label>DTE कोड</label><input type="number" id="cCode" placeholder="उदा. 6006"></div>
+                        <div class="form-group"><label>DTE कोड</label><input type="number" id="cCode"></div>
                         <div class="form-group">
                             <label>युनिव्हर्सिटी</label>
-                            <select id="cUni" onchange="toggleOtherUni()">
-                                <option value="">Select University...</option>
+                            <select id="cUni">
                                 <option value="SPPU">SPPU (Pune)</option>
                                 <option value="MU">MU (Mumbai)</option>
-                                <option value="DBATU">DBATU (Lonere)</option>
-                                <option value="Other">Other</option>
+                                <option value="DBATU">DBATU</option>
                             </select>
                         </div>
                     </div>
+
+                    <div class="branch-section">
+                        <label style="font-weight: 800; display: block; margin-bottom: 10px;">ब्रांच माहिती</label>
+                        <div id="branch-list">
+                            <div class="branch-row">
+                                <div class="input-grid">
+                                    <input type="text" class="bName" placeholder="Branch Name (e.g. CS)">
+                                    <input type="text" class="bCode" placeholder="Branch Code">
+                                    <input type="number" class="bIntake" placeholder="Intake">
+                                </div>
+                            </div>
+                        </div>
+                        <button type="button" onclick="addBranchRow()" style="margin-top:10px; cursor:pointer;">+ Branch Add करा</button>
+                    </div>
+
+                    <div class="form-group">
+                        <label>कॉलेज फोटो</label>
+                        <input type="file" id="cPhotos" multiple accept="image/*" style="padding:5px;">
+                        <div id="photoPreview" style="display:flex; gap:10px; margin-top:10px; flex-wrap:wrap;"></div>
+                    </div>
+                </div>
+
+                <div class="step-content">
+                    <h2><i class="fas fa-chart-line"></i> २. कट-ऑफ (Cut-off)</h2>
+                    <div class="form-group"><label>Open General Cutoff (%)</label><input type="text" id="cutOpen"></div>
+                    <div class="form-group"><label>OBC General Cutoff (%)</label><input type="text" id="cutObc"></div>
+                </div>
+
+                <div class="step-content">
+                    <h2><i class="fas fa-briefcase"></i> ३. प्लेसमेंट</h2>
+                    <div class="input-grid">
+                        <div class="form-group"><label>Highest LPA</label><input type="number" id="placeHigh"></div>
+                        <div class="form-group"><label>Average LPA</label><input type="number" id="placeAvg"></div>
+                    </div>
+                </div>
+
+                <div class="step-content">
+                    <h2><i class="fas fa-wallet"></i> ४. फी तपशील</h2>
+                    <div class="input-grid">
+                        <div class="form-group"><label>Open Category Fee</label><input type="number" id="feeOpen"></div>
+                        <div class="form-group"><label>OBC/EBC Fee</label><input type="number" id="feeObc"></div>
+                    </div>
+                </div>
+
+                <div class="step-content">
+                    <h2><i class="fas fa-phone"></i> ५. संपर्क माहिती</h2>
+                    <div class="form-group"><label>ईमेल</label><input type="email" id="clgEmail"></div>
+                    <div class="form-group"><label>पत्ता</label><textarea id="clgAddr"></textarea></div>
+                </div>
+
+                <div class="step-content">
+                    <h2><i class="fas fa-eye" style="color:var(--primary-color)"></i> ६. प्रिव्ह्यू (तपासून घ्या)</h2>
+                    <div class="preview-box" id="finalPreviewHTML">
+                        </div>
+                </div>
+
+                <div class="btn-footer">
+                    <button type="button" class="btn-nav btn-prev" id="prevBtn" onclick="changeStep(-1)" style="display:none;"><i class="fas fa-arrow-left"></i> मागे</button>
+                    <button type="button" class="btn-nav btn-next" id="nextBtn" onclick="changeStep(1)">पुढची पायरी <i class="fas fa-arrow-right"></i></button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    let currentStep = 0;
+    const steps = document.querySelectorAll(".step-content");
+    const stepItems = document.querySelectorAll(".step-item");
+
+    // 1. स्टेप दाखवण्याचे लॉजिक
+    function showStep(n) {
+        steps.forEach((step, index) => {
+            step.style.display = (index === n) ? "block" : "none";
+            if (stepItems[index]) {
+                stepItems[index].classList.toggle("active", index === n);
+            }
+        });
+
+        // 'मागे' बटन पहिल्या स्टेपवर लपवा
+        document.getElementById("prevBtn").style.display = (n === 0) ? "none" : "flex";
+
+        // शेवटच्या स्टेपला 'Submit' बटन दाखवा
+        const nextBtn = document.getElementById("nextBtn");
+        if (n === (steps.length - 1)) {
+            nextBtn.innerHTML = 'माहिती जतन करा <i class="fas fa-check"></i>';
+            nextBtn.style.background = "#10b981";
+        } else {
+            nextBtn.innerHTML = 'पुढची पायरी <i class="fas fa-arrow-right"></i>';
+            nextBtn.style.background = "#4f46e5";
+        }
+    }
+
+    // 2. स्टेप बदलण्याचे लॉजिक (Next/Prev)
+    function changeStep(n) {
+        // जर शेवटच्या स्टेपवर असाल आणि 'Next' दाबलं तर फॉर्म सबमिट करा
+        if (n === 1 && currentStep === steps.length - 1) {
+            alert("अभिनंदन! कॉलेज डेटा यशस्वीरित्या सेव्ह झाला.");
+            window.location.href = 'dashboard.html';
+            return;
+        }
+
+        // शेवटच्या प्रिव्ह्यू स्टेपवर जाण्यापूर्वी डेटा अपडेट करा
+        if (n === 1 && currentStep === steps.length - 2) {
+            generatePreview();
+        }
+
+        currentStep += n;
+        showStep(currentStep);
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // 3. नवीन ब्रांच ॲड करण्याचे लॉजिक
+    function addBranchRow() {
+        const container = document.getElementById('branch-list');
+        const firstRow = document.querySelector('.branch-row');
+        const newRow = firstRow.cloneNode(true);
+        
+        // नवीन रो मधील व्हॅल्यूज क्लिअर करा
+        newRow.querySelectorAll('input').forEach(input => input.value = "");
+        container.appendChild(newRow);
+    }
+
+    // 4. फोटो प्रिव्ह्यू लॉजिक (हे बटन हँग होऊ देत नाही)
+    const photoInput = document.getElementById('cPhotos');
+    if (photoInput) {
+        photoInput.addEventListener('change', function() {
+            const preview = document.getElementById('photoPreview');
+            preview.innerHTML = ""; // जुने प्रिव्ह्यू काढा
+
+            if (this.files) {
+                Array.from(this.files).forEach(file => {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        const img = document.createElement('img');
+                        img.src = e.target.result;
+                        img.style = "width:80px; height:80px; object-fit:cover; border-radius:10px; border:2px solid #e2e8f0; box-shadow: 0 2px 5px rgba(0,0,0,0.1);";
+                        preview.appendChild(img);
+                    }
+                    reader.readAsDataURL(file);
+                });
+            }
+        });
+    }
+
+    // 5. प्रिव्ह्यू जनरेट करण्याचे लॉजिक
+    function generatePreview() {
+        const name = document.getElementById('cName').value || "---";
+        const code = document.getElementById('cCode').value || "---";
+        const fee = document.getElementById('feeOpen').value || "0";
+        const email = document.getElementById('clgEmail').value || "---";
+
+        // ब्रांचेसची माहिती गोळा करा
+        let branchHTML = "<ul>";
+        document.querySelectorAll('.branch-row').forEach(row => {
+            const bName = row.querySelector('.bName').value;
+            const bIntake = row.querySelector('.bIntake').value;
+            if (bName) {
+                branchHTML += `<li><strong>${bName}</strong> - जागा: ${bIntake || '0'}</li>`;
+            }
+        });
+        branchHTML += "</ul>";
+
+        // प्रिव्ह्यू एरियामध्ये डेटा सेट करा
+        const previewArea = document.getElementById('finalPreviewHTML');
+        if (previewArea) {
+            previewArea.innerHTML = `
+                <div style="margin-bottom:15px;">
+                    <p><strong>कॉलेज:</strong> ${name} (DTE: ${code})</p>
+                    <p><strong>ईमेल:</strong> ${email}</p>
+                    <p><strong>ओपन फी:</strong> ₹${fee}</p>
+                </div>
+                <div style="border-top: 1px solid #ddd; pt-10px;">
+                    <p><strong>ब्रांचेस:</strong></p>
+                    ${branchHTML}
+                </div>
+            `;
+        }
+    }
+
+    // 6. पेज लोड झाल्यावर पहिली स्टेप दाखवा
+    document.addEventListener("DOMContentLoaded", () => {
+        showStep(currentStep);
+    });
+</script>
+
+
+</body>
+</html>
                     <div class="form-group" id="otherUniDiv" style="display: none;">
                         <label>इतर युनिव्हर्सिटीचे नाव</label><input type="text" id="cUniOther">
                     </div>
