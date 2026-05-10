@@ -61,55 +61,59 @@
 
 /* --- Step 2 Final Fixed CSS --- */
 
-/* --- मोबाईल रिस्पॉन्सिव्ह आणि स्टिकी कॉलम फिक्स --- */
+/* --- Step 2 Final Pro Fix (Sticky & Size Issue) --- */
 
-/* १. मुख्य फॉर्म कंटेनर मोबाईलवर स्क्रीनबाहेर जाऊ नये म्हणून */
+/* १. मुख्य फॉर्म कंटेनर फिक्स */
 .wizard-content {
     padding: 15px;
     width: 100%;
     box-sizing: border-box;
-    overflow-x: hidden; /* बाजूला पळणार नाही याची खात्री */
+    overflow-x: hidden; 
 }
 
 /* २. टेबल ज्या बॉक्समध्ये आहे तो */
 .table-responsive {
     width: 100%;
-    overflow-x: auto; /* आडवी स्क्रोल सुरू */
+    overflow-x: auto; 
     border: 1px solid #e2e8f0;
     border-radius: 12px;
-    margin-bottom: 20px;
-    -webkit-overflow-scrolling: touch; /* स्मूथ स्क्रोल */
-    display: block; /* ब्लॉक असणे गरजेचे आहे */
+    margin-bottom: 25px;
+    -webkit-overflow-scrolling: touch;
+    background: #ffffff;
 }
 
-/* ३. टेबल स्ट्रक्चर - रुंदी फिक्स करणे */
+/* ३. टेबल स्ट्रक्चर - रुंदी आणि ओव्हरलॅपिंग फिक्स */
 .cutoff-table {
     border-collapse: separate; 
     border-spacing: 0;
-    width: 100%;
-    min-width: 950px; /* एवढ्या रुंदीमुळेच स्क्रोल येईल आणि कॉलम लॉक होईल */
+    width: max-content; /* कंटेंटनुसार रुंदी घेईल */
+    min-width: 100%;
     background: white;
 }
 
-/* ४. प्रवर्ग (Category) कॉलम लॉक करणे - हा मुख्य भाग आहे */
+/* ४. प्रवर्ग (Category) कॉलम लॉक करणे - मुख्य बदल */
 .cutoff-table th:first-child,
 .cutoff-table td:first-child {
-    position: -webkit-sticky; /* Safari साठी */
+    position: -webkit-sticky; 
     position: sticky;
-    left: 0; /* डावीकडे लॉक */
-    z-index: 10; /* इतर मजकुराच्या वर राहण्यासाठी */
-    background-color: #f1f5f9 !important; /* बॅकग्राउंड सॉलिड हवा, नाहीतर खालचा मजकूर दिसेल */
+    left: 0; 
+    
+    /* रुंदी लॉक केली - यामुळे टेबल्समध्ये साईज बदलणार नाही */
+    width: 130px !important; 
+    min-width: 130px !important;
+    max-width: 130px !important;
+    
+    z-index: 20; /* डेटा खालून जावा म्हणून हाय इंडेक्स */
+    background-color: #f8fafc !important; /* सॉलिड बॅकग्राउंड */
     border-right: 2px solid #cbd5e1;
-    min-width: 120px; /* रुंदी थोडी वाढवली जेणेकरून नाव मावेल */
     text-align: left;
     padding-left: 12px;
     font-weight: 800;
 }
 
-/* हेडरचा पहिला सेल (प्रवर्ग लिहिलेला) */
-.cutoff-table th:first-child {
-    z-index: 11;
-    top: 0;
+/* हेडरचा पहिला सेल (जिथे 'प्रवर्ग' लिहिलंय) */
+.cutoff-table thead tr th:first-child {
+    z-index: 30; /* हा सेल सर्वात वर राहील */
 }
 
 /* ५. टेबल सेल्स स्टाईलिंग */
@@ -119,12 +123,12 @@
     border-right: 1px solid #f1f5f9;
     background: #ffffff;
     font-size: 0.8rem;
-    white-space: nowrap; /* मजकूर तुटू नये म्हणून */
+    white-space: nowrap; 
 }
 
-/* ६. इनपुट बॉक्सेस */
+/* ६. इनपुट बॉक्सेस - सर्वांची साईज एकसारखी */
 .cutoff-table input {
-    width: 65px;
+    width: 60px !important;
     padding: 6px;
     border: 1px solid #cbd5e1;
     border-radius: 6px;
@@ -132,28 +136,33 @@
     text-align: center;
 }
 
-/* ७. नेक्स्ट/मागे बटन एरिया */
+/* ७. नेक्स्ट/मागे बटन एरिया - स्क्रीनवर फिक्स राहण्यासाठी */
 .btn-footer {
     display: flex;
     justify-content: space-between;
     width: 100%;
     padding: 20px 0;
     background: #fff;
-    border-top: 1px solid #f1f5f9;
+    border-top: 2px solid #f1f5f9;
     margin-top: 20px;
+    position: relative;
+    z-index: 50;
 }
 
-/* मोबाईलसाठी खास बदल */
+/* मोबाईलसाठी सुधारणा */
 @media (max-width: 768px) {
     .wizard-card {
-        grid-template-columns: 1fr; /* पूर्ण रुंदी */
+        grid-template-columns: 1fr; 
     }
     .form-container {
-        margin-top: 20px;
+        margin-top: 10px;
+    }
+    /* मोबाईलवर टेबल जास्त ओढला जाऊ नये म्हणून */
+    .cutoff-table {
+        min-width: 850px; 
     }
 }
-
-             
+           
     </style>
 </head>
 <body>
