@@ -145,23 +145,114 @@
     background: #fff;
     border-top: 2px solid #f1f5f9;
     margin-top: 20px;
-    position: relative;
-    z-index: 50;
+    position: relative;/* --- Step 2 Final Pro Fix (Colors & Sticky ghosting fix) --- */
+
+/* १. मुख्य कंटेनर */
+.wizard-content {
+    padding: 15px;
+    width: 100%;
+    box-sizing: border-box;
+    overflow-x: hidden; 
 }
 
-/* मोबाईलसाठी सुधारणा */
-@media (max-width: 768px) {
-    .wizard-card {
-        grid-template-columns: 1fr; 
-    }
-    .form-container {
-        margin-top: 10px;
-    }
-    /* मोबाईलवर टेबल जास्त ओढला जाऊ नये म्हणून */
-    .cutoff-table {
-        min-width: 850px; 
-    }
+.table-responsive {
+    width: 100%;
+    overflow-x: auto; 
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    margin-bottom: 25px;
+    -webkit-overflow-scrolling: touch;
+    background: #ffffff;
 }
+
+.cutoff-table {
+    border-collapse: separate; 
+    border-spacing: 0;
+    width: max-content;
+    min-width: 100%;
+    background: white;
+}
+
+/* २. प्रवर्ग (Category) कॉलम - तिन्ही टेबल्समध्ये सेम कलर */
+.cutoff-table td:first-child,
+.cutoff-table th:first-child {
+    position: sticky;
+    left: 0; 
+    width: 130px !important; 
+    min-width: 130px !important;
+    max-width: 130px !important;
+    z-index: 25; /* डेटा खालून जावा म्हणून */
+    /* पहिला कॉलम हलका राखाडी (तिन्ही टेबलमध्ये सेम राहील) */
+    background-color: #f8fafc !important; 
+    border-right: 2px solid #cbd5e1;
+    text-align: left;
+    padding-left: 12px;
+    font-weight: 800;
+}
+
+/* ३. हेडर्स कलर्स - तिन्ही टेबलसाठी सारखे */
+
+/* पहिली ओळ (General, Ladies, etc.) */
+.cutoff-table thead tr:first-child th {
+    background-color: #4f46e5 !important; /* गडद निळा */
+    color: white !important;
+    z-index: 10;
+}
+
+/* कोपऱ्यातला मुख्य 'प्रवर्ग' सेल - याला हाय इंडेक्स हवा */
+.cutoff-table thead tr:first-child th:first-child {
+    z-index: 50 !important; /* सर्वात वर */
+    background-color: #3730a3 !important; /* सर्वात गडद निळा */
+}
+
+/* दुसरी ओळ (% आणि Rank) - तिन्ही टेबलमध्ये सेम कलर */
+.cutoff-table thead tr:nth-child(2) th,
+.cutoff-table thead tr th[colspan="1"] { 
+    background-color: #e0e7ff !important; /* हलका जांभळा/निळा */
+    color: #4338ca !important;
+    font-weight: 700;
+    z-index: 5;
+}
+
+/* ४. डेटा सेल्स फिक्स (स्क्रोलिंगच्या वेळी मजकूर लपवण्यासाठी) */
+.cutoff-table td {
+    padding: 12px 10px;
+    border-bottom: 1px solid #e2e8f0;
+    border-right: 1px solid #f1f5f9;
+    background: #ffffff; /* डेटाचा बॅकग्राउंड पांढरा ठेवा */
+    font-size: 0.8rem;
+    white-space: nowrap; 
+}
+
+/* ५. इनपुट बॉक्सेस */
+.cutoff-table input {
+    width: 60px !important;
+    padding: 6px;
+    border: 1px solid #cbd5e1;
+    border-radius: 6px;
+    font-size: 0.75rem;
+    text-align: center;
+}
+
+/* ६. फुटर बटने */
+.btn-footer {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    padding: 20px 0;
+    background: #fff;
+    border-top: 2px solid #f1f5f9;
+    margin-top: 20px;
+    position: relative;
+    z-index: 100;
+}
+
+/* मोबाईलसाठी */
+@media (max-width: 768px) {
+    .wizard-card { grid-template-columns: 1fr; }
+    .cutoff-table { min-width: 850px; }
+}
+
            
     </style>
 </head>
