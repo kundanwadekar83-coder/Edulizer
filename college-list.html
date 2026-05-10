@@ -59,48 +59,70 @@
 
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-        .category-card {
-    background: #fff;
-    border-radius: 12px;
+     .category-card {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 15px;
     padding: 15px;
     margin-bottom: 25px;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
-    border: 1px solid #e2e8f0;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
 }
+
 .table-title {
+    display: block;
     font-weight: 700;
     color: var(--primary);
-    margin-bottom: 12px;
-    display: block;
-    font-size: 0.95rem;
+    margin-bottom: 10px;
+    font-size: 0.9rem;
 }
+
 .table-responsive {
-    overflow-x: auto; /* Mobile var table scroll hova mhanun */
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
 }
+
 .cutoff-table {
     width: 100%;
     border-collapse: collapse;
+    min-width: 600px; /* मोबाईलवर स्क्रोल येण्यासाठी */
 }
+
 .cutoff-table th, .cutoff-table td {
-    padding: 10px;
-    border: 1px solid #edf2f7;
+    border: 1px solid #f1f5f9;
+    padding: 8px 5px;
     text-align: center;
-    font-size: 0.85rem;
+    font-size: 0.8rem;
 }
+
 .cutoff-table th {
+    background-color: #f8fafc;
+    color: #475569;
+    font-weight: 600;
+}
+
+.cat-name {
     background: #f8fafc;
-    color: #64748b;
+    font-weight: 700;
+    color: var(--dark);
+    text-align: left !important;
+    padding-left: 10px !important;
 }
+
 .cutoff-table input {
-    width: 60px; /* Small input box */
+    width: 55px;
     padding: 5px;
-    text-align: center;
-    border-radius: 4px;
+    border: 1px solid #cbd5e1;
+    border-radius: 6px;
+    font-size: 0.75rem;
+    outline: none;
+    transition: 0.2s;
 }
-@media (max-width: 768px) {
-    .cutoff-table input { width: 50px; }
-                        }
-                  
+
+.cutoff-table input:focus {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 2px rgba(79, 70, 229, 0.1);
+}
+             
     </style>
 </head>
 <body>
@@ -201,74 +223,115 @@
                 </div>
 
                 <div class="step-content">
-    <h2><i class="fas fa-chart-line"></i> २. प्रवर्गानुसार कट-ऑफ (%)</h2>
-    
+    <h2><i class="fas fa-chart-line"></i> २. प्रवर्गानुसार कट-ऑफ आणि रँक</h2>
+    <p style="font-size: 0.8rem; color: #64748b; margin-bottom: 15px;">टीप: रँक उपलब्ध नसल्यास फक्त % भरा.</p>
+
     <div class="category-card">
         <label class="table-title">टेबल १: मुख्य प्रवर्ग (Open, OBC, SC, ST)</label>
         <div class="table-responsive">
             <table class="cutoff-table">
                 <thead>
                     <tr>
-                        <th>प्रवर्ग</th>
-                        <th>General</th>
-                        <th>Ladies</th>
-                        <th>PWD</th>
-                        <th>DEF</th>
-                        <th>Orphan</th>
+                        <th rowspan="2">प्रवर्ग</th>
+                        <th colspan="2">General</th>
+                        <th colspan="2">Ladies</th>
+                        <th colspan="2">PWD</th>
+                        <th colspan="2">DEF</th>
+                        <th colspan="2">Orphan</th>
+                    </tr>
+                    <tr>
+                        <th>%</th><th>Rank</th>
+                        <th>%</th><th>Rank</th>
+                        <th>%</th><th>Rank</th>
+                        <th>%</th><th>Rank</th>
+                        <th>%</th><th>Rank</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr><td>Open</td><td><input type="number" id="cOpenGen"></td><td><input type="number" id="cOpenLad"></td><td><input type="number" id="cOpenPwd"></td><td><input type="number" id="cOpenDef"></td><td><input type="number" id="cOpenOrp"></td></tr>
-                    <tr><td>OBC</td><td><input type="number" id="cObcGen"></td><td><input type="number" id="cObcLad"></td><td><input type="number" id="cObcPwd"></td><td><input type="number" id="cObcDef"></td><td><input type="number" id="cObcOrp"></td></tr>
-                    <tr><td>SC</td><td><input type="number" id="cScGen"></td><td><input type="number" id="cScLad"></td><td><input type="number" id="cScPwd"></td><td><input type="number" id="cScDef"></td><td><input type="number" id="cScOrp"></td></tr>
-                    <tr><td>ST</td><td><input type="number" id="cStGen"></td><td><input type="number" id="cStLad"></td><td><input type="number" id="cStPwd"></td><td><input type="number" id="cStDef"></td><td><input type="number" id="cStOrp"></td></tr>
+                    <tr>
+                        <td class="cat-name">Open</td>
+                        <td><input type="number" step="0.01" id="cOpenGenPct"></td><td><input type="number" id="cOpenGenRank"></td>
+                        <td><input type="number" step="0.01" id="cOpenLadPct"></td><td><input type="number" id="cOpenLadRank"></td>
+                        <td><input type="number" step="0.01" id="cOpenPwdPct"></td><td><input type="number" id="cOpenPwdRank"></td>
+                        <td><input type="number" step="0.01" id="cOpenDefPct"></td><td><input type="number" id="cOpenDefRank"></td>
+                        <td><input type="number" step="0.01" id="cOpenOrpPct"></td><td><input type="number" id="cOpenOrpRank"></td>
+                    </tr>
+                    <tr>
+                        <td class="cat-name">OBC</td>
+                        <td><input type="number" step="0.01" id="cObcGenPct"></td><td><input type="number" id="cObcGenRank"></td>
+                        <td><input type="number" step="0.01" id="cObcLadPct"></td><td><input type="number" id="cObcLadRank"></td>
+                        <td><input type="number" step="0.01" id="cObcPwdPct"></td><td><input type="number" id="cObcPwdRank"></td>
+                        <td><input type="number" step="0.01" id="cObcDefPct"></td><td><input type="number" id="cObcDefRank"></td>
+                        <td><input type="number" step="0.01" id="cObcOrpPct"></td><td><input type="number" id="cObcOrpRank"></td>
+                    </tr>
+                    <tr>
+                        <td class="cat-name">SC</td>
+                        <td><input type="number" step="0.01" id="cScGenPct"></td><td><input type="number" id="cScGenRank"></td>
+                        <td><input type="number" step="0.01" id="cScLadPct"></td><td><input type="number" id="cScLadRank"></td>
+                        <td><input type="number" step="0.01" id="cScPwdPct"></td><td><input type="number" id="cScPwdRank"></td>
+                        <td><input type="number" step="0.01" id="cScDefPct"></td><td><input type="number" id="cScDefRank"></td>
+                        <td><input type="number" step="0.01" id="cScOrpPct"></td><td><input type="number" id="cScOrpRank"></td>
+                    </tr>
+                    <tr>
+                        <td class="cat-name">ST</td>
+                        <td><input type="number" step="0.01" id="cStGenPct"></td><td><input type="number" id="cStGenRank"></td>
+                        <td><input type="number" step="0.01" id="cStLadPct"></td><td><input type="number" id="cStLadRank"></td>
+                        <td><input type="number" step="0.01" id="cStPwdPct"></td><td><input type="number" id="cStPwdRank"></td>
+                        <td><input type="number" step="0.01" id="cStDefPct"></td><td><input type="number" id="cStDefRank"></td>
+                        <td><input type="number" step="0.01" id="cStOrpPct"></td><td><input type="number" id="cStOrpRank"></td>
+                    </tr>
                 </tbody>
             </table>
         </div>
     </div>
 
     <div class="category-card">
-        <label class="table-title">टेबल २: VJ आणि NT प्रवर्ग</label>
+        <label class="table-title">टेबल २: VJ आणि NT प्रवर्ग (General आणि Ladies)</label>
         <div class="table-responsive">
             <table class="cutoff-table">
                 <thead>
                     <tr>
-                        <th>प्रवर्ग</th>
-                        <th>General</th>
-                        <th>Ladies</th>
+                        <th rowspan="2">प्रवर्ग</th>
+                        <th colspan="2">General</th>
+                        <th colspan="2">Ladies</th>
+                    </tr>
+                    <tr>
+                        <th>%</th><th>Rank</th>
+                        <th>%</th><th>Rank</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr><td>VJ / DT (A)</td><td><input type="number" id="cVjGen"></td><td><input type="number" id="cVjLad"></td></tr>
-                    <tr><td>NT-B (NT-1)</td><td><input type="number" id="cNtbGen"></td><td><input type="number" id="cNtbLad"></td></tr>
-                    <tr><td>NT-C (NT-2)</td><td><input type="number" id="cNtcGen"></td><td><input type="number" id="cNtcLad"></td></tr>
-                    <tr><td>NT-D (NT-3)</td><td><input type="number" id="cNtdGen"></td><td><input type="number" id="cNtdLad"></td></tr>
+                    <tr><td class="cat-name">VJ / DT (A)</td><td><input type="number" step="0.01" id="cVjGenPct"></td><td><input type="number" id="cVjGenRank"></td><td><input type="number" step="0.01" id="cVjLadPct"></td><td><input type="number" id="cVjLadRank"></td></tr>
+                    <tr><td class="cat-name">NT-B (NT-1)</td><td><input type="number" step="0.01" id="cNtbGenPct"></td><td><input type="number" id="cNtbGenRank"></td><td><input type="number" step="0.01" id="cNtbLadPct"></td><td><input type="number" id="cNtbLadRank"></td></tr>
+                    <tr><td class="cat-name">NT-C (NT-2)</td><td><input type="number" step="0.01" id="cNtcGenPct"></td><td><input type="number" id="cNtcGenRank"></td><td><input type="number" step="0.01" id="cNtcLadPct"></td><td><input type="number" id="cNtcLadRank"></td></tr>
+                    <tr><td class="cat-name">NT-D (NT-3)</td><td><input type="number" step="0.01" id="cNtdGenPct"></td><td><input type="number" id="cNtdGenRank"></td><td><input type="number" step="0.01" id="cNtdLadPct"></td><td><input type="number" id="cNtdLadRank"></td></tr>
                 </tbody>
             </table>
         </div>
     </div>
 
     <div class="category-card">
-        <label class="table-title">टेबल ३: विशेष प्रवर्ग (Special Cases)</label>
+        <label class="table-title">टेबल ३: विशेष प्रवर्ग (SBC, SEBC, EWS, TFWS)</label>
         <div class="table-responsive">
             <table class="cutoff-table">
                 <thead>
                     <tr>
                         <th>प्रवर्ग</th>
                         <th>Cut-off (%)</th>
+                        <th>Rank</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr><td>SBC</td><td><input type="number" id="cSbcCut"></td></tr>
-                    <tr><td>SEBC (Maratha)</td><td><input type="number" id="cSebcCut"></td></tr>
-                    <tr><td>EWS</td><td><input type="number" id="cEwsCut"></td></tr>
-                    <tr><td>TFWS</td><td><input type="number" id="cTfwsCut"></td></tr>
+                    <tr><td class="cat-name">SBC</td><td><input type="number" step="0.01" id="cSbcPct"></td><td><input type="number" id="cSbcRank"></td></tr>
+                    <tr><td class="cat-name">SEBC (Maratha)</td><td><input type="number" step="0.01" id="cSebcPct"></td><td><input type="number" id="cSebcRank"></td></tr>
+                    <tr><td class="cat-name">EWS</td><td><input type="number" step="0.01" id="cEwsPct"></td><td><input type="number" id="cEwsRank"></td></tr>
+                    <tr><td class="cat-name">TFWS</td><td><input type="number" step="0.01" id="cTfwsPct"></td><td><input type="number" id="cTfwsRank"></td></tr>
                 </tbody>
             </table>
         </div>
     </div>
-    </div>
-                            
+</div>
+            
                 <div class="step-content">
                     <h2><i class="fas fa-briefcase"></i> ३. प्लेसमेंट</h2>
                     <div class="input-grid">
