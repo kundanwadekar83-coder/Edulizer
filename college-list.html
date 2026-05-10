@@ -24,7 +24,7 @@
         .step-item.active { opacity: 1; color: #818cf8; font-weight: 700; }
         .step-num { width: 30px; height: 30px; border-radius: 50%; border: 2px solid currentColor; display: flex; align-items: center; justify-content: center; font-size: 0.8rem; }
 
-        .wizard-content { padding: 40px; position: relative; }
+        .wizard-content { padding: 40px; position: relative; width: 100%; box-sizing: border-box; overflow-x: hidden; }
         .step-content { display: none; animation: fadeIn 0.4s ease; }
         .step-content.active { display: block; }
 
@@ -33,18 +33,83 @@
         .form-group label { display: block; margin-bottom: 5px; font-weight: 600; color: #475569; font-size: 0.85rem; }
         input, select, textarea { width: 100%; padding: 12px; border: 1px solid #e2e8f0; border-radius: 10px; font-size: 0.9rem; box-sizing: border-box; font-family: inherit; }
 
-        .branch-section { background: #f1f5f9; padding: 15px; border-radius: 12px; margin: 15px 0; border-left: 4px solid var(--primary); }
-        .branch-row { background: white; padding: 12px; border-radius: 8px; margin-bottom: 10px; border: 1px solid #e2e8f0; }
+        /* --- TABLE SYSTEM FIXES --- */
+        .category-card { background: #ffffff; border: 1px solid #e2e8f0; border-radius: 12px; padding: 15px; margin-bottom: 25px; }
+        .table-title { display: block; font-weight: 700; color: var(--primary); margin-bottom: 10px; }
 
-        #photoPreview, #previewImagesArea { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 10px; }
-        .thumb-img { width: 70px; height: 70px; object-fit: cover; border-radius: 8px; border: 1px solid #ddd; }
+        .table-responsive {
+            width: 100%;
+            overflow-x: auto; 
+            border: 1px solid #e2e8f0;
+            border-radius: 10px;
+            -webkit-overflow-scrolling: touch;
+            background: #ffffff;
+        }
 
-        .preview-box { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 20px; }
-        .preview-item { border-bottom: 1px solid #e2e8f0; padding: 10px 0; }
-        .preview-label { font-weight: 700; color: #64748b; font-size: 0.75rem; text-transform: uppercase; }
-        .preview-value { color: var(--dark); font-size: 0.95rem; display: block; margin-top: 2px; }
+        .cutoff-table { border-collapse: separate; border-spacing: 0; width: max-content; min-width: 100%; }
 
-        .btn-footer { margin-top: 30px; display: flex; justify-content: space-between; }
+        /* १. पहिला कॉलम (प्रवर्ग) - FIXED SIZE & STICKY */
+        .cutoff-table th:first-child,
+        .cutoff-table td:first-child {
+            position: sticky;
+            left: 0; 
+            width: 130px !important; 
+            min-width: 130px !important;
+            max-width: 130px !important;
+            z-index: 25; 
+            background-color: #f8fafc !important; /* तिन्ही टेबलमध्ये सेम कलर */
+            border-right: 2px solid #cbd5e1;
+            text-align: left;
+            padding-left: 12px;
+            font-weight: 800;
+            color: #1e293b;
+        }
+
+        /* २. हेडर्स कलर्स - तिन्ही टेबलसाठी सेम */
+        /* पहिली ओळ (General, Ladies, etc.) */
+        .cutoff-table thead tr:first-child th {
+            background-color: #4f46e5 !important; 
+            color: white !important;
+            z-index: 10;
+        }
+
+        /* कोपऱ्यातला मुख्य 'प्रवर्ग' सेल - GHOSTING FIX */
+        .cutoff-table thead tr:first-child th:first-child {
+            z-index: 50 !important; 
+            background-color: #3730a3 !important; 
+        }
+
+        /* दुसरी ओळ (% आणि Rank) */
+        .cutoff-table thead tr:nth-child(2) th,
+        .cutoff-table thead tr th[colspan="1"],
+        .cutoff-table thead tr th:not([colspan]) { 
+            background-color: #e0e7ff !important; 
+            color: #4338ca !important;
+            font-weight: 700;
+            z-index: 5;
+        }
+
+        .cutoff-table th, .cutoff-table td {
+            padding: 12px 10px;
+            border-bottom: 1px solid #e2e8f0;
+            border-right: 1px solid #f1f5f9;
+            font-size: 0.8rem;
+            white-space: nowrap; 
+        }
+
+        .cutoff-table td { background-color: #ffffff; }
+
+        .cutoff-table input {
+            width: 60px !important;
+            padding: 6px;
+            border: 1px solid #cbd5e1;
+            border-radius: 6px;
+            font-size: 0.75rem;
+            text-align: center;
+        }
+
+        /* Footer & Nav */
+        .btn-footer { margin-top: 30px; display: flex; justify-content: space-between; position: relative; z-index: 100; padding: 10px 0; background: #fff; }
         .btn-nav { padding: 12px 25px; border-radius: 10px; font-weight: 700; border: none; cursor: pointer; display: flex; align-items: center; gap: 8px; transition: 0.3s; }
         .btn-next { background: var(--primary); color: white; margin-left: auto; }
         .btn-prev { background: #f1f5f9; color: #475569; }
@@ -53,207 +118,11 @@
             .wizard-card { grid-template-columns: 1fr; }
             .wizard-sidebar { display: none; }
             .input-grid { grid-template-columns: 1fr; }
-            .form-container { margin-top: 20px; }
             .wizard-content { padding: 20px; }
+            .cutoff-table { min-width: 850px; }
         }
 
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-
-/* --- Step 2 Final Fixed CSS --- */
-
-/* --- Step 2 Final Pro Fix (Sticky & Size Issue) --- */
-
-/* १. मुख्य फॉर्म कंटेनर फिक्स */
-.wizard-content {
-    padding: 15px;
-    width: 100%;
-    box-sizing: border-box;
-    overflow-x: hidden; 
-}
-
-/* २. टेबल ज्या बॉक्समध्ये आहे तो */
-.table-responsive {
-    width: 100%;
-    overflow-x: auto; 
-    border: 1px solid #e2e8f0;
-    border-radius: 12px;
-    margin-bottom: 25px;
-    -webkit-overflow-scrolling: touch;
-    background: #ffffff;
-}
-
-/* ३. टेबल स्ट्रक्चर - रुंदी आणि ओव्हरलॅपिंग फिक्स */
-.cutoff-table {
-    border-collapse: separate; 
-    border-spacing: 0;
-    width: max-content; /* कंटेंटनुसार रुंदी घेईल */
-    min-width: 100%;
-    background: white;
-}
-
-/* ४. प्रवर्ग (Category) कॉलम लॉक करणे - मुख्य बदल */
-.cutoff-table th:first-child,
-.cutoff-table td:first-child {
-    position: -webkit-sticky; 
-    position: sticky;
-    left: 0; 
-    
-    /* रुंदी लॉक केली - यामुळे टेबल्समध्ये साईज बदलणार नाही */
-    width: 130px !important; 
-    min-width: 130px !important;
-    max-width: 130px !important;
-    
-    z-index: 20; /* डेटा खालून जावा म्हणून हाय इंडेक्स */
-    background-color: #f8fafc !important; /* सॉलिड बॅकग्राउंड */
-    border-right: 2px solid #cbd5e1;
-    text-align: left;
-    padding-left: 12px;
-    font-weight: 800;
-}
-
-/* हेडरचा पहिला सेल (जिथे 'प्रवर्ग' लिहिलंय) */
-.cutoff-table thead tr th:first-child {
-    z-index: 30; /* हा सेल सर्वात वर राहील */
-}
-
-/* ५. टेबल सेल्स स्टाईलिंग */
-.cutoff-table th, .cutoff-table td {
-    padding: 12px 10px;
-    border-bottom: 1px solid #e2e8f0;
-    border-right: 1px solid #f1f5f9;
-    background: #ffffff;
-    font-size: 0.8rem;
-    white-space: nowrap; 
-}
-
-/* ६. इनपुट बॉक्सेस - सर्वांची साईज एकसारखी */
-.cutoff-table input {
-    width: 60px !important;
-    padding: 6px;
-    border: 1px solid #cbd5e1;
-    border-radius: 6px;
-    font-size: 0.75rem;
-    text-align: center;
-}
-
-/* ७. नेक्स्ट/मागे बटन एरिया - स्क्रीनवर फिक्स राहण्यासाठी */
-.btn-footer {
-    display: flex;
-    justify-content: space-between;
-    width: 100%;
-    padding: 20px 0;
-    background: #fff;
-    border-top: 2px solid #f1f5f9;
-    margin-top: 20px;
-    position: relative;/* --- Step 2 Final Pro Fix (Colors & Sticky ghosting fix) --- */
-
-/* १. मुख्य कंटेनर */
-.wizard-content {
-    padding: 15px;
-    width: 100%;
-    box-sizing: border-box;
-    overflow-x: hidden; 
-}
-
-.table-responsive {
-    width: 100%;
-    overflow-x: auto; 
-    border: 1px solid #e2e8f0;
-    border-radius: 12px;
-    margin-bottom: 25px;
-    -webkit-overflow-scrolling: touch;
-    background: #ffffff;
-}
-
-.cutoff-table {
-    border-collapse: separate; 
-    border-spacing: 0;
-    width: max-content;
-    min-width: 100%;
-    background: white;
-}
-
-/* २. प्रवर्ग (Category) कॉलम - तिन्ही टेबल्समध्ये सेम कलर */
-.cutoff-table td:first-child,
-.cutoff-table th:first-child {
-    position: sticky;
-    left: 0; 
-    width: 130px !important; 
-    min-width: 130px !important;
-    max-width: 130px !important;
-    z-index: 25; /* डेटा खालून जावा म्हणून */
-    /* पहिला कॉलम हलका राखाडी (तिन्ही टेबलमध्ये सेम राहील) */
-    background-color: #f8fafc !important; 
-    border-right: 2px solid #cbd5e1;
-    text-align: left;
-    padding-left: 12px;
-    font-weight: 800;
-}
-
-/* ३. हेडर्स कलर्स - तिन्ही टेबलसाठी सारखे */
-
-/* पहिली ओळ (General, Ladies, etc.) */
-.cutoff-table thead tr:first-child th {
-    background-color: #4f46e5 !important; /* गडद निळा */
-    color: white !important;
-    z-index: 10;
-}
-
-/* कोपऱ्यातला मुख्य 'प्रवर्ग' सेल - याला हाय इंडेक्स हवा */
-.cutoff-table thead tr:first-child th:first-child {
-    z-index: 50 !important; /* सर्वात वर */
-    background-color: #3730a3 !important; /* सर्वात गडद निळा */
-}
-
-/* दुसरी ओळ (% आणि Rank) - तिन्ही टेबलमध्ये सेम कलर */
-.cutoff-table thead tr:nth-child(2) th,
-.cutoff-table thead tr th[colspan="1"] { 
-    background-color: #e0e7ff !important; /* हलका जांभळा/निळा */
-    color: #4338ca !important;
-    font-weight: 700;
-    z-index: 5;
-}
-
-/* ४. डेटा सेल्स फिक्स (स्क्रोलिंगच्या वेळी मजकूर लपवण्यासाठी) */
-.cutoff-table td {
-    padding: 12px 10px;
-    border-bottom: 1px solid #e2e8f0;
-    border-right: 1px solid #f1f5f9;
-    background: #ffffff; /* डेटाचा बॅकग्राउंड पांढरा ठेवा */
-    font-size: 0.8rem;
-    white-space: nowrap; 
-}
-
-/* ५. इनपुट बॉक्सेस */
-.cutoff-table input {
-    width: 60px !important;
-    padding: 6px;
-    border: 1px solid #cbd5e1;
-    border-radius: 6px;
-    font-size: 0.75rem;
-    text-align: center;
-}
-
-/* ६. फुटर बटने */
-.btn-footer {
-    display: flex;
-    justify-content: space-between;
-    width: 100%;
-    padding: 20px 0;
-    background: #fff;
-    border-top: 2px solid #f1f5f9;
-    margin-top: 20px;
-    position: relative;
-    z-index: 100;
-}
-
-/* मोबाईलसाठी */
-@media (max-width: 768px) {
-    .wizard-card { grid-template-columns: 1fr; }
-    .cutoff-table { min-width: 850px; }
-}
-
-           
     </style>
 </head>
 <body>
@@ -274,227 +143,89 @@
                 
                 <div class="step-content active">
                     <h2><i class="fas fa-university"></i> १. कॉलेजची ओळख</h2>
-                    <div class="form-group">
-                        <label>कॉलेजचे पूर्ण नाव</label>
-                        <input type="text" id="cName" placeholder="उदा. COEP Pune">
-                    </div>
-                    
+                    <div class="form-group"><label>कॉलेजचे पूर्ण नाव</label><input type="text" id="cName" placeholder="उदा. COEP Pune"></div>
                     <div class="input-grid">
                         <div class="form-group"><label>DTE कोड</label><input type="text" id="cCode"></div>
                         <div class="form-group">
                             <label>युनिव्हर्सिटी</label>
                             <select id="cUni" onchange="toggleOtherUni()">
                                 <option value="">-- विद्यापीठ निवडा --</option>
-                                <option value="SPPU">SPPU (पुणे, अहमदनगर, नाशिक)</option>
-                                <option value="MU">MU (मुंबई, ठाणे, कोकण)</option>
-                                <option value="RTMNU">RTMNU (नागपूर)</option>
-                                <option value="DBATU">DBATU (Technological University)</option>
-                                <option value="SUK">SUK (कोल्हापूर, सांगली, सातारा)</option>
-                                <option value="BAMU">BAMU (छत्रपती संभाजीनगर, जालना, बीड, धाराशिव)</option>
-                                <option value="SGBAU">SGBAU (अमरावती, अकोला, बुलढाणा, यवतमाळ, वाशिम)</option>
-                                <option value="NMU">NMU (जळगाव, धुळे, नंदुरबार)</option>
-                                <option value="SRTMUN">SRTMUN (नांदेड, लातूर, परभणी, हिंगोली)</option>
-                                <option value="PAHSUS">PAHSUS (सोलापूर)</option>
-                                <option value="GU">GU (गोंडवाना विद्यापीठ, गडचिरोली)</option>
-                                <option value="Other">इतर (Other)</option>
+                                <option value="SPPU">SPPU (पुणे)</option>
+                                <option value="MU">MU (मुंबई)</option>
+                                <option value="DBATU">DBATU</option>
+                                <option value="Other">इतर</option>
                             </select>
                         </div>
                         <div class="form-group"><label>प्रकार</label><select id="cType"><option>Government</option><option>Private</option></select></div>
                     </div>
+                </div>
 
-                    <div class="form-group" id="otherUniGroup" style="display: none;">
-                        <label>विद्यापीठाचे नाव सांगा</label>
-                        <input type="text" id="otherUniName" placeholder="तुमच्या विद्यापीठाचे नाव लिहा">
-                    </div>
-
-                    <div class="branch-section">
-                        <label style="font-weight: 700; font-size: 0.9rem;">ब्रांच माहिती (Branches)</label>
-                        <div id="branch-list">
-                            <div class="branch-row">
-                                <div class="input-grid">
-                                    <input type="text" class="bName" placeholder="Branch Name">
-                                    <input type="text" class="bCode" placeholder="Branch Code">
-                                    <input type="number" class="bIntake" placeholder="Intake">
-                                </div>
-                            </div>
-                        </div>
-                        <button type="button" onclick="addNewBranch()" style="margin-top:5px; cursor:pointer; font-size: 0.8rem;">+ आणखी ब्रांच जोडा</button>
-                    </div>
-
-                    <div class="input-grid">
-    <div class="form-group">
-        <label>स्वायत्तता (Autonomy)</label>
-        <select id="cAutonomy">
-            <option value="Autonomous">Autonomous (स्वायत्त)</option>
-            <option value="Non-Autonomous">Non-Autonomous (बिगर-स्वायत्त)</option>
-        </select>
-    </div>
-
-    <div class="form-group">
-        <label>NAAC ग्रेड</label>
-        <select id="cNaac">
-            <option value="Not Accredited">Not Accredited</option>
-            <option value="A++">A++</option>
-            <option value="A+">A+</option>
-            <option value="A">A</option>
-            <option value="B++">B++</option>
-            <option value="B+">B+</option>
-            <option value="B">B</option>
-            <option value="C">C</option>
-        </select>
-    </div>
-                    </div>
+                <div class="step-content">
+                    <h2><i class="fas fa-chart-line"></i> २. प्रवर्गानुसार कट-ऑफ आणि रँक</h2>
                     
-
-                    <div class="form-group">
-                        <label>कॉलेज फोटो</label>
-                        <input type="file" id="cPhotos" multiple accept="image/*">
-                        <div id="photoPreview"></div>
-                    </div>
-                </div>
-
-                <div class="step-content">
-    <h2><i class="fas fa-chart-line"></i> २. प्रवर्गानुसार कट-ऑफ आणि रँक</h2>
-    <p style="font-size: 0.8rem; color: #64748b; margin-bottom: 15px;">टीप: रँक उपलब्ध नसल्यास फक्त % भरा.</p>
-
-    <div class="category-card">
-        <label class="table-title">टेबल १: मुख्य प्रवर्ग (Open, OBC, SC, ST)</label>
-        <div class="table-responsive">
-            <table class="cutoff-table">
-                <thead>
-                    <tr>
-                        <th rowspan="2">प्रवर्ग</th>
-                        <th colspan="2">General</th>
-                        <th colspan="2">Ladies</th>
-                        <th colspan="2">PWD</th>
-                        <th colspan="2">DEF</th>
-                        <th colspan="2">Orphan</th>
-                    </tr>
-                    <tr>
-                        <th>%</th><th>Rank</th>
-                        <th>%</th><th>Rank</th>
-                        <th>%</th><th>Rank</th>
-                        <th>%</th><th>Rank</th>
-                        <th>%</th><th>Rank</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td class="cat-name">Open</td>
-                        <td><input type="number" step="0.01" id="cOpenGenPct"></td><td><input type="number" id="cOpenGenRank"></td>
-                        <td><input type="number" step="0.01" id="cOpenLadPct"></td><td><input type="number" id="cOpenLadRank"></td>
-                        <td><input type="number" step="0.01" id="cOpenPwdPct"></td><td><input type="number" id="cOpenPwdRank"></td>
-                        <td><input type="number" step="0.01" id="cOpenDefPct"></td><td><input type="number" id="cOpenDefRank"></td>
-                        <td><input type="number" step="0.01" id="cOpenOrpPct"></td><td><input type="number" id="cOpenOrpRank"></td>
-                    </tr>
-                    <tr>
-                        <td class="cat-name">OBC</td>
-                        <td><input type="number" step="0.01" id="cObcGenPct"></td><td><input type="number" id="cObcGenRank"></td>
-                        <td><input type="number" step="0.01" id="cObcLadPct"></td><td><input type="number" id="cObcLadRank"></td>
-                        <td><input type="number" step="0.01" id="cObcPwdPct"></td><td><input type="number" id="cObcPwdRank"></td>
-                        <td><input type="number" step="0.01" id="cObcDefPct"></td><td><input type="number" id="cObcDefRank"></td>
-                        <td><input type="number" step="0.01" id="cObcOrpPct"></td><td><input type="number" id="cObcOrpRank"></td>
-                    </tr>
-                    <tr>
-                        <td class="cat-name">SC</td>
-                        <td><input type="number" step="0.01" id="cScGenPct"></td><td><input type="number" id="cScGenRank"></td>
-                        <td><input type="number" step="0.01" id="cScLadPct"></td><td><input type="number" id="cScLadRank"></td>
-                        <td><input type="number" step="0.01" id="cScPwdPct"></td><td><input type="number" id="cScPwdRank"></td>
-                        <td><input type="number" step="0.01" id="cScDefPct"></td><td><input type="number" id="cScDefRank"></td>
-                        <td><input type="number" step="0.01" id="cScOrpPct"></td><td><input type="number" id="cScOrpRank"></td>
-                    </tr>
-                    <tr>
-                        <td class="cat-name">ST</td>
-                        <td><input type="number" step="0.01" id="cStGenPct"></td><td><input type="number" id="cStGenRank"></td>
-                        <td><input type="number" step="0.01" id="cStLadPct"></td><td><input type="number" id="cStLadRank"></td>
-                        <td><input type="number" step="0.01" id="cStPwdPct"></td><td><input type="number" id="cStPwdRank"></td>
-                        <td><input type="number" step="0.01" id="cStDefPct"></td><td><input type="number" id="cStDefRank"></td>
-                        <td><input type="number" step="0.01" id="cStOrpPct"></td><td><input type="number" id="cStOrpRank"></td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-    </div>
-
-    <div class="category-card">
-        <label class="table-title">टेबल २: VJ आणि NT प्रवर्ग (General आणि Ladies)</label>
-        <div class="table-responsive">
-            <table class="cutoff-table">
-                <thead>
-                    <tr>
-                        <th rowspan="2">प्रवर्ग</th>
-                        <th colspan="2">General</th>
-                        <th colspan="2">Ladies</th>
-                    </tr>
-                    <tr>
-                        <th>%</th><th>Rank</th>
-                        <th>%</th><th>Rank</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr><td class="cat-name">VJ / DT (A)</td><td><input type="number" step="0.01" id="cVjGenPct"></td><td><input type="number" id="cVjGenRank"></td><td><input type="number" step="0.01" id="cVjLadPct"></td><td><input type="number" id="cVjLadRank"></td></tr>
-                    <tr><td class="cat-name">NT-B (NT-1)</td><td><input type="number" step="0.01" id="cNtbGenPct"></td><td><input type="number" id="cNtbGenRank"></td><td><input type="number" step="0.01" id="cNtbLadPct"></td><td><input type="number" id="cNtbLadRank"></td></tr>
-                    <tr><td class="cat-name">NT-C (NT-2)</td><td><input type="number" step="0.01" id="cNtcGenPct"></td><td><input type="number" id="cNtcGenRank"></td><td><input type="number" step="0.01" id="cNtcLadPct"></td><td><input type="number" id="cNtcLadRank"></td></tr>
-                    <tr><td class="cat-name">NT-D (NT-3)</td><td><input type="number" step="0.01" id="cNtdGenPct"></td><td><input type="number" id="cNtdGenRank"></td><td><input type="number" step="0.01" id="cNtdLadPct"></td><td><input type="number" id="cNtdLadRank"></td></tr>
-                </tbody>
-            </table>
-        </div>
-    </div>
-
-    <div class="category-card">
-        <label class="table-title">टेबल ३: विशेष प्रवर्ग (SBC, SEBC, EWS, TFWS)</label>
-        <div class="table-responsive">
-            <table class="cutoff-table">
-                <thead>
-                    <tr>
-                        <th>प्रवर्ग</th>
-                        <th>Cut-off (%)</th>
-                        <th>Rank</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr><td class="cat-name">SBC</td><td><input type="number" step="0.01" id="cSbcPct"></td><td><input type="number" id="cSbcRank"></td></tr>
-                    <tr><td class="cat-name">SEBC (Maratha)</td><td><input type="number" step="0.01" id="cSebcPct"></td><td><input type="number" id="cSebcRank"></td></tr>
-                    <tr><td class="cat-name">EWS</td><td><input type="number" step="0.01" id="cEwsPct"></td><td><input type="number" id="cEwsRank"></td></tr>
-                    <tr><td class="cat-name">TFWS</td><td><input type="number" step="0.01" id="cTfwsPct"></td><td><input type="number" id="cTfwsRank"></td></tr>
-                </tbody>
-            </table>
-        </div>
-    </div>
-</div>
-            
-                <div class="step-content">
-                    <h2><i class="fas fa-briefcase"></i> ३. प्लेसमेंट</h2>
-                    <div class="input-grid">
-                        <div class="form-group"><label>Highest LPA</label><input type="number" id="pHigh"></div>
-                        <div class="form-group"><label>Average LPA</label><input type="number" id="pAvg"></div>
-                    </div>
-                </div>
-
-                <div class="step-content">
-                    <h2><i class="fas fa-wallet"></i> ४. फी तपशील</h2>
-                    <div class="input-grid">
-                        <div class="form-group"><label>Open Category Fee</label><input type="number" id="feeOpen"></div>
-                        <div class="form-group"><label>OBC/EBC Fee</label><input type="number" id="feeObc"></div>
-                    </div>
-                </div>
-
-                <div class="step-content">
-                    <h2><i class="fas fa-phone"></i> ५. संपर्क माहिती</h2>
-                    <div class="form-group"><label>ईमेल</label><input type="email" id="cEmail"></div>
-                    <div class="form-group"><label>पत्ता</label><textarea id="clgAddr" rows="3"></textarea></div>
-                </div>
-
-                <div class="step-content">
-                    <h2><i class="fas fa-eye"></i> ६. माहितीचा प्रिव्ह्यू</h2>
-                    <div class="preview-box" id="fullPreviewHTML">
+                    <div class="category-card">
+                        <label class="table-title">टेबल १: मुख्य प्रवर्ग</label>
+                        <div class="table-responsive">
+                            <table class="cutoff-table">
+                                <thead>
+                                    <tr>
+                                        <th rowspan="2">प्रवर्ग</th>
+                                        <th colspan="2">General</th><th colspan="2">Ladies</th><th colspan="2">PWD</th>
+                                    </tr>
+                                    <tr>
+                                        <th>%</th><th>Rank</th><th>%</th><th>Rank</th><th>%</th><th>Rank</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr><td class="cat-name">Open</td><td><input type="number"></td><td><input type="number"></td><td><input type="number"></td><td><input type="number"></td><td><input type="number"></td><td><input type="number"></td></tr>
+                                    <tr><td class="cat-name">OBC</td><td><input type="number"></td><td><input type="number"></td><td><input type="number"></td><td><input type="number"></td><td><input type="number"></td><td><input type="number"></td></tr>
+                                </tbody>
+                            </table>
                         </div>
+                    </div>
+
+                    <div class="category-card">
+                        <label class="table-title">टेबल २: VJ / NT प्रवर्ग</label>
+                        <div class="table-responsive">
+                            <table class="cutoff-table">
+                                <thead>
+                                    <tr>
+                                        <th rowspan="2">प्रवर्ग</th>
+                                        <th colspan="2">General</th><th colspan="2">Ladies</th>
+                                    </tr>
+                                    <tr>
+                                        <th>%</th><th>Rank</th><th>%</th><th>Rank</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr><td class="cat-name">VJ / DT (A)</td><td><input type="number"></td><td><input type="number"></td><td><input type="number"></td><td><input type="number"></td></tr>
+                                    <tr><td class="cat-name">NT-B (NT-1)</td><td><input type="number"></td><td><input type="number"></td><td><input type="number"></td><td><input type="number"></td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="category-card">
+                        <label class="table-title">टेबल ३: विशेष प्रवर्ग</label>
+                        <div class="table-responsive">
+                            <table class="cutoff-table">
+                                <thead>
+                                    <tr><th>प्रवर्ग</th><th>Cut-off (%)</th><th>Rank</th></tr>
+                                </thead>
+                                <tbody>
+                                    <tr><td class="cat-name">SBC</td><td><input type="number"></td><td><input type="number"></td></tr>
+                                    <tr><td class="cat-name">EWS</td><td><input type="number"></td><td><input type="number"></td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="btn-footer">
                     <button type="button" class="btn-nav btn-prev" id="prevBtn" onclick="changeStep(-1)" style="display:none;"><i class="fas fa-arrow-left"></i> मागे</button>
                     <button type="button" class="btn-nav btn-next" id="nextBtn" onclick="changeStep(1)">पुढची पायरी <i class="fas fa-arrow-right"></i></button>
                 </div>
+
             </form>
         </div>
     </div>
@@ -511,97 +242,14 @@
             if(stepItems[i]) stepItems[i].classList.toggle("active", i === n);
         });
         document.getElementById("prevBtn").style.display = (n === 0) ? "none" : "flex";
-        const nxt = document.getElementById("nextBtn");
-        nxt.innerHTML = (n === steps.length - 1) ? 'Save Data <i class="fas fa-check"></i>' : 'पुढची पायरी <i class="fas fa-arrow-right"></i>';
     }
 
     function changeStep(n) {
-        if (n === 1 && currentStep === steps.length - 2) generateFinalPreview();
-        if (n === 1 && currentStep === steps.length - 1) { 
-            alert("Data Saved Successfully!"); 
-            return; 
-        }
         currentStep += n;
         showStep(currentStep);
         window.scrollTo(0,0);
     }
-
-    function addNewBranch() {
-        const row = document.querySelector('.branch-row').cloneNode(true);
-        row.querySelectorAll('input').forEach(i => i.value = "");
-        document.getElementById('branch-list').appendChild(row);
-    }
-
-    function toggleOtherUni() {
-        const uniSelect = document.getElementById('cUni');
-        const otherGroup = document.getElementById('otherUniGroup');
-        otherGroup.style.display = (uniSelect.value === "Other") ? "block" : "none";
-    }
-
-    // Photo Preview Logic
-    document.getElementById('cPhotos').addEventListener('change', function() {
-        const preview = document.getElementById('photoPreview');
-        preview.innerHTML = "";
-        Array.from(this.files).forEach(file => {
-            const reader = new FileReader();
-            reader.onload = e => {
-                const img = document.createElement('img');
-                img.src = e.target.result;
-                img.className = "thumb-img";
-                preview.appendChild(img);
-            }
-            reader.readAsDataURL(file);
-        });
-    });
-
-    // Preview Generator
-    function generateFinalPreview() {
-        const previewDiv = document.getElementById('fullPreviewHTML');
-        
-        const name = document.getElementById('cName').value || "---";
-        const code = document.getElementById('cCode').value || "---";
-        const email = document.getElementById('cEmail').value || "---";
-        const fee = document.getElementById('feeOpen').value || "---";
-        const addr = document.getElementById('clgAddr').value || "---";
-        
-        let uni = document.getElementById('cUni').value;
-        if(uni === "Other") uni = document.getElementById('otherUniName').value || "Other University";
-
-        let branches = "";
-        document.querySelectorAll('.branch-row').forEach(r => {
-            const bn = r.querySelector('.bName').value;
-            const bc = r.querySelector('.bCode').value;
-            const bi = r.querySelector('.bIntake').value;
-            if(bn) branches += `<li>${bn} (Code: ${bc}, Intake: ${bi})</li>`;
-        });
-
-        previewDiv.innerHTML = `
-            <div class="preview-item"><span class="preview-label">कॉलेजचे नाव</span><span class="preview-value">${name} (DTE: ${code})</span></div>
-            <div class="preview-item"><span class="preview-label">युनिव्हर्सिटी</span><span class="preview-value">${uni}</span></div>
-            <div class="preview-item"><span class="preview-label">संपर्क आणि पत्ता</span><span class="preview-value">Email: ${email} <br> Address: ${addr}</span></div>
-            <div class="preview-item"><span class="preview-label">फी (Open)</span><span class="preview-value">₹${fee}</span></div>
-            <div class="preview-item"><span class="preview-label">ब्रांचेस</span><span class="preview-value"><ul>${branches || "माहिती नाही"}</ul></span></div>
-            <div class="preview-item"><span class="preview-label">निवडलेले फोटो</span><div id="previewImagesArea"></div></div>
-        `;
-
-        // Images in Preview
-        const files = document.getElementById('cPhotos').files;
-        const imgArea = document.getElementById('previewImagesArea');
-        Array.from(files).forEach(file => {
-            const reader = new FileReader();
-            reader.onload = e => {
-                const img = document.createElement('img');
-                img.src = e.target.result;
-                img.className = "thumb-img";
-                img.style.width = "100px"; img.style.height = "100px";
-                imgArea.appendChild(img);
-            }
-            reader.readAsDataURL(file);
-        });
-    }
-
-    document.addEventListener("DOMContentLoaded", () => showStep(currentStep));
 </script>
 </body>
                                     </html>
-                                    
+    
