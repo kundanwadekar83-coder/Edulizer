@@ -4,135 +4,120 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Score Calculator | Edulizer</title>
-    <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
     
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
+
     <style>
-        .calc-container { max-width: 800px; margin: 30px auto; padding: 20px; }
+        body { font-family: 'Poppins', sans-serif; background: #f1f5f9; margin: 0; padding: 20px; }
+        .calc-container { max-width: 600px; margin: auto; }
         .upload-box { 
-            border: 3px dashed #4f46e5; 
-            padding: 40px; 
-            text-align: center; 
-            border-radius: 20px; 
-            background: #f8fafc;
-            cursor: pointer;
-            transition: 0.3s;
+            border: 3px dashed #4f46e5; padding: 40px; text-align: center; 
+            border-radius: 20px; background: white; cursor: pointer;
         }
-        .upload-box:hover { background: #eff6ff; border-color: #818cf8; }
-        .result-card { display: none; background: white; padding: 25px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); margin-top: 30px; }
-        
-        .score-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 15px; margin-top: 20px; }
-        .subject-score { padding: 15px; border-radius: 12px; text-align: center; color: white; }
-        .phy { background: #ef4444; }
-        .chem { background: #3b82f6; }
-        .math { background: #10b981; }
-        
-        .loader { display: none; border: 4px solid #f3f3f3; border-top: 4px solid #4f46e5; border-radius: 50%; width: 40px; height: 40px; animation: spin 1s linear infinite; margin: 20px auto; }
+        .loader { display: none; border: 4px solid #f3f3f3; border-top: 4px solid #4f46e5; border-radius: 50%; width: 30px; height: 30px; animation: spin 1s linear infinite; margin: 20px auto; }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        
+        .result-card { display: none; background: white; padding: 20px; border-radius: 20px; margin-top: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+        .score-row { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #eee; }
+        #status-msg { font-size: 0.8rem; color: #ef4444; margin-top: 10px; text-align: center; }
     </style>
 </head>
 <body>
 
 <div class="calc-container">
-    <a href="dashboard.html" style="text-decoration: none; color: #4f46e5; font-weight: 700;">
-        <i class="fas fa-arrow-left"></i> डॅशबोर्डवर परत जा
-    </a>
-
-    <div class="header" style="text-align: center; margin: 30px 0;">
-        <h1><i class="fas fa-magic"></i> Instant Score Checker</h1>
-        <p>तुमची MHT-CET रिस्पॉन्स शीट अपलोड करा</p>
+    <div class="upload-box" id="drop-zone" onclick="document.getElementById('pdfFile').click()">
+        <i class="fas fa-file-pdf" style="font-size: 40px; color: #4f46e5;"></i>
+        <h3>MHT-CET PDF अपलोड करा</h3>
+        <p>क्लिक करा किंवा फाईल ओढून इथे टाका</p>
+        <input type="file" id="pdfFile" accept=".pdf" style="display:none">
     </div>
 
-    <div class="upload-box" onclick="document.getElementById('pdfFile').click()">
-        <i class="fas fa-cloud-upload-alt" style="font-size: 50px; color: #4f46e5; margin-bottom: 15px;"></i>
-        <h3>PDF फाइल निवडा</h3>
-        <p>फक्त रिस्पॉन्स शीट PDF इथे चालेल</p>
-        <input type="file" id="pdfFile" accept=".pdf" style="display:none" onchange="readPDF()">
-    </div>
-
+    <div id="status-msg"></div>
     <div class="loader" id="loader"></div>
 
     <div class="result-card" id="resultArea">
-        <h2 style="text-align: center; margin-bottom: 20px;">तुमचा निकाल (Result)</h2>
-        <div class="score-grid">
-            <div class="subject-score phy">
-                <p>Physics</p>
-                <h2 id="pScore">0</h2>
-            </div>
-            <div class="subject-score chem">
-                <p>Chemistry</p>
-                <h2 id="cScore">0</h2>
-            </div>
-            <div class="subject-score math">
-                <p>Maths</p>
-                <h2 id="mScore">0</h2>
-            </div>
+        <h2 style="text-align: center; color: #4f46e5;">तुमचा स्कोअर</h2>
+        <div class="score-row"><span>Physics:</span><b id="pScore">0</b></div>
+        <div class="score-row"><span>Chemistry:</span><b id="cScore">0</b></div>
+        <div class="score-row"><span>Mathematics:</span><b id="mScore">0</b></div>
+        <div class="score-row" style="font-size: 1.2rem; color: #10b981; border: none; margin-top: 10px;">
+            <span>Total:</span><b id="totalScore">0 / 200</b>
         </div>
-        <div style="text-align: center; margin-top: 30px; padding: 20px; background: #f1f5f9; border-radius: 15px;">
-            <p style="font-size: 1.1rem; font-weight: 600;">Total Score: <span id="totalScore" style="color: #4f46e5; font-size: 2rem;">0</span> / 200</p>
-        </div>
-        
-        <button onclick="window.location.href='college-predictor.html'" class="btn-primary-lg" style="width: 100%; margin-top: 20px; border: none; cursor: pointer;">
-            या स्कोरवर कॉलेज शोधा <i class="fas fa-arrow-right"></i>
-        </button>
     </div>
 </div>
 
 <script>
+    // १. Worker Path सेट करणे (हे विसरल्यास PDF लोड होत नाही)
     pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.worker.min.js';
 
-    async function readPDF() {
-        const file = document.getElementById("pdfFile").files[0];
-        if(!file) return;
+    const fileInput = document.getElementById('pdfFile');
+    const status = document.getElementById('status-msg');
 
-        document.getElementById("loader").style.display = "block";
-        document.getElementById("resultArea").style.display = "none";
+    fileInput.onchange = async (e) => {
+        const file = e.target.files[0];
+        if (!file) return;
+
+        status.innerText = "PDF वाचत आहे, कृपया थांबा...";
+        document.getElementById('loader').style.display = "block";
+        document.getElementById('resultArea').style.display = "none";
 
         const reader = new FileReader();
         reader.onload = async function() {
-            const typedarray = new Uint8Array(this.result);
-            const pdf = await pdfjsLib.getDocument(typedarray).promise;
-            let fullText = "";
+            try {
+                const typedarray = new Uint8Array(this.result);
+                const pdf = await pdfjsLib.getDocument(typedarray).promise;
+                let fullText = "";
 
-            for(let i=1; i<=pdf.numPages; i++) {
-                const page = await page = await pdf.getPage(i);
-                const content = await page.getTextContent();
-                fullText += content.items.map(s => s.str).join(" ");
+                // सर्व पानांमधील मजकूर काढणे
+                for(let i=1; i<=pdf.numPages; i++) {
+                    const page = await pdf.getPage(i);
+                    const content = await page.getTextContent();
+                    fullText += content.items.map(s => s.str).join(" ");
+                }
+
+                console.log("Extracted Text Length:", fullText.length); // Debug साठी
+                processCETData(fullText);
+
+            } catch (err) {
+                status.innerText = "Error: PDF वाचता आली नाही. कृपया खरी रिस्पॉन्स शीट वापरा.";
+                console.error(err);
+                document.getElementById('loader').style.display = "none";
             }
-            calculateMarks(fullText);
         };
         reader.readAsArrayBuffer(file);
-    }
+    };
 
-    function calculateMarks(text) {
-        // टीप: हा Regex MHT-CET च्या जनरल फॉरमॅटनुसार आहे. 
-        // जर PDF मध्ये "Correct Option" आणि "Chosen Option" शब्द असतील तरच हे काम करेल.
-        let regex = /(PHYSICS|CHEMISTRY|MATHS).*?Correct Option:\s*(\d+)\s*Chosen Option:\s*(\d+)/gs;
+    function processCETData(text) {
+        // CET च्या रिस्पॉन्स शीटमधील नेमका पॅटर्न शोधण्यासाठी सुधारित Regex
+        // टीप: हे 'Correct Option' आणि 'Chosen Option' वर आधारित आहे
+        const pRegex = /Physics.*?Correct Option\s*:\s*(\d+).*?Chosen Option\s*:\s*(\d+)/gis;
+        const cRegex = /Chemistry.*?Correct Option\s*:\s*(\d+).*?Chosen Option\s*:\s*(\d+)/gis;
+        const mRegex = /Mathematics.*?Correct Option\s*:\s*(\d+).*?Chosen Option\s*:\s*(\d+)/gis;
+
+        let scores = { p: 0, c: 0, m: 0 };
+
+        // Physics मोजणी
+        let m;
+        while ((m = pRegex.exec(text)) !== null) { if(m[1] === m[2]) scores.p++; }
         
-        let data = { PHYSICS: 0, CHEMISTRY: 0, MATHS: 0 };
-        let match;
+        // Chemistry मोजणी
+        while ((m = cRegex.exec(text)) !== null) { if(m[1] === m[2]) scores.c++; }
 
-        while ((match = regex.exec(text)) !== null) {
-            let sub = match[1];
-            if(match[2] === match[3]) { // Correct == Chosen
-                data[sub] += (sub === "MATHS") ? 2 : 1;
-            }
-        }
+        // Maths मोजणी (प्रत्येक प्रश्नाला २ गुण)
+        while ((m = mRegex.exec(text)) !== null) { if(m[1] === m[2]) scores.m += 2; }
 
-        document.getElementById("pScore").innerText = data.PHYSICS;
-        document.getElementById("cScore").innerText = data.CHEMISTRY;
-        document.getElementById("mScore").innerText = data.MATHS;
-        document.getElementById("totalScore").innerText = data.PHYSICS + data.CHEMISTRY + data.MATHS;
+        // रिझल्ट दाखवणे
+        document.getElementById('pScore').innerText = scores.p;
+        document.getElementById('cScore').innerText = scores.c;
+        document.getElementById('mScore').innerText = scores.m;
+        document.getElementById('totalScore').innerText = (scores.p + scores.c + scores.m) + " / 200";
 
-        document.getElementById("loader").style.display = "none";
-        document.getElementById("resultArea").style.display = "block";
-        
-        // लोकल स्टोरेजमध्ये स्कोअर सेव्ह करा जेणेकरून प्रेडिक्टरला वापरता येईल
-        localStorage.setItem('userScore', JSON.stringify(data));
+        document.getElementById('loader').style.display = "none";
+        document.getElementById('resultArea').style.display = "block";
+        status.innerText = "यशस्वीरित्या स्कोअर मोजला गेला!";
     }
 </script>
 
 </body>
-  </html>
-  
+</html>
